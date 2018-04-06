@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#009788</color>
+    <!--控制状态栏颜色-->
+    <color name="colorPrimaryDark">#009788</color>
+    <!--<color name="colorPrimaryDark">#00877A</color>-->
+    <color name="colorDark">#018E81</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="ToolBar">#009788</color>
+    <color name="ToolBarDark">#00877A</color>
+    <color name="WhiteText">#FFFFFF</color>
+    <color name="BlackText">#000000</color>
+    <color name="background_gradient_start">#000000</color>
+    <color name="background_gradient_end">#DDDDDD</color>
+    <color name="fastlane_background">#0096a6</color>
+    <color name="search_opaque">#ffaa3f</color>
+    <color name="selected_background">#ffaa3f</color>
+    <color name="default_background">#3d3d3d</color>
+    <color name="background_gray">#E8E8E8</color>
+    <color name="GrayDark">#8F8F8F</color>
+</resources>

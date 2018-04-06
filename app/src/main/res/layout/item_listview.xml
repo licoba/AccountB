@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_height="50dp">
+
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="0dp"
+        android:layout_marginLeft="15dp"
+        android:layout_weight="1"
+        android:layout_marginRight="6dp"
+        android:layout_height="wrap_content"
+        android:text="T"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20dp"
+        />
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_marginLeft="10dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="6"
+        android:singleLine="true"
+        android:textSize="15dp"
+        android:text="显示六个字符"
+        android:textColor="@color/BlackText"
+        />
+
+    <TextView
+        android:id="@+id/tv3"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="8"
+        android:singleLine="true"
+        android:textSize="15dp"
+        android:text="显示六个字符"
+        android:textColor="@color/GrayDark"
+        />
+
+
+</LinearLayout>

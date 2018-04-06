@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.dibage.accountb.activitys.AddAccountActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/ToolBar">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/toolbar_theme">
+
+                <!--<ImageView-->
+                <!--android:id="@+id/imgback"-->
+                <!--android:layout_width="26dp"-->
+                <!--android:layout_height="26dp"-->
+                <!--android:background="@mipmap/back"-->
+                <!--/>-->
+
+                <!--<TextView-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="@color/WhiteText"-->
+                <!--android:textSize="20dp"-->
+                <!--android:text="添加账号"/>-->
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnSubmit"
+                    android:background="@drawable/corners_bg"
+                    android:minHeight="36dp"
+                    android:minWidth="72dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="10dp"
+                    android:text="保存"
+                    android:textSize="16dp"
+                    />
+
+            </android.support.v7.widget.Toolbar>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/background_gray"
+                android:layout_height="2px">
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_gravity="center_vertical"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+                <TextView
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="3"
+                    android:textSize="16sp"
+                    android:text="名称"/>
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+                <EditText
+                    android:id="@+id/etDescription"
+                    android:layout_weight="8"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:hint="请输入名称"
+                    android:singleLine="true"
+                    android:textSize="16sp"
+                    android:background="@null"
+                    android:layout_height="wrap_content" />
+
+                <ImageButton
+                    android:minHeight="10dp"
+                    android:minWidth="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:src="@mipmap/cancel"
+                    android:background="@null"
+                    />
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/background_gray"
+                android:layout_height="2px">
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_gravity="center_vertical"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+                <TextView
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="3"
+                    android:textSize="16sp"
+                    android:text="账号"/>
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+                <EditText
+                    android:id="@+id/etUsername"
+                    android:layout_weight="8"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:hint="请输入账号"
+                    android:singleLine="true"
+                    android:textSize="16sp"
+                    android:background="@null"
+                    android:layout_height="wrap_content" />
+
+                <ImageButton
+                    android:minHeight="10dp"
+                    android:minWidth="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:src="@mipmap/cancel"
+                    android:background="@null"
+                    />
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/background_gray"
+                android:layout_height="2px">
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_gravity="center_vertical"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+                <TextView
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="3"
+                    android:textSize="16sp"
+                    android:text="密码"/>
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_weight="8"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:hint="请输入密码"
+                    android:singleLine="true"
+                    android:textSize="16sp"
+                    android:background="@null"
+                    android:layout_height="wrap_content" />
+
+                <ImageButton
+                    android:minHeight="10dp"
+                    android:minWidth="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:src="@mipmap/cancel"
+                    android:background="@null"
+                    />
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/background_gray"
+                android:layout_height="2px">
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_gravity="center_vertical"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+                <TextView
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="3"
+                    android:textSize="16sp"
+                    android:text="备注"/>
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+                <EditText
+                    android:id="@+id/etRemark"
+                    android:layout_weight="8"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:hint="(可不填)"
+                    android:singleLine="true"
+                    android:textSize="16sp"
+                    android:background="@null"
+                    android:layout_height="wrap_content" />
+
+                <ImageButton
+                    android:minHeight="10dp"
+                    android:minWidth="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:src="@mipmap/cancel"
+                    android:background="@null"
+                    />
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/background_gray"
+                android:layout_height="2px">
+
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
