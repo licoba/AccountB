@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private WaveSideBar sideBar;
     private ListView listView;
     private PopupWindow mPopWindow;
+    private LinearLayout ll_empty;
     List<Account> accountsList = new ArrayList<>();
 
 
@@ -73,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
 
         accountsList = qb.list();
         accountsList = AccountUtils.orderListAccount(accountsList);
+        if (accountsList.size()>0){
+            ll_empty.setVisibility(View.GONE);
+        }
 
         AccountAdapter accountAdapter = new AccountAdapter(context, R.layout.item_listview, accountsList);
         listView.setAdapter(accountAdapter);
@@ -144,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
         fabAddIdCard = findViewById(R.id.fabAddIdCard);
         sideBar = (WaveSideBar) findViewById(R.id.side_bar);
         listView = findViewById(R.id.listview);
+        ll_empty = findViewById(R.id.ll_empty);
     }
 
 
@@ -332,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
                     floatingActionMenu.close(true);
                     break;
                 case R.id.fabAddIdCard:
-                    UIUtils.toast(context, "添加照片");
+                    //UIUtils.toast(context, "添加照片");
                     intent = new Intent(context, AddPhotoActivity.class);
                     startActivity(intent);
                     floatingActionMenu.close(true);

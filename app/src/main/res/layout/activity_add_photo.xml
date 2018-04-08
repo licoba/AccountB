@@ -4,6 +4,363 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activitys.AddPhotoActivity">
+    tools:context="com.example.dibage.accountb.activitys.AddAccountActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/ToolBar">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/toolbar_theme">
+
+                <!--<ImageView-->
+                <!--android:id="@+id/imgback"-->
+                <!--android:layout_width="26dp"-->
+                <!--android:layout_height="26dp"-->
+                <!--android:background="@mipmap/back"-->
+                <!--/>-->
+
+                <!--<TextView-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="@color/WhiteText"-->
+                <!--android:textSize="20dp"-->
+                <!--android:text="添加账号"/>-->
+
+            </android.support.v7.widget.Toolbar>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/background_gray"
+                android:layout_height="2px">
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_gravity="center_vertical"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+                <TextView
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="3"
+                    android:textSize="16sp"
+                    android:text="名称"/>
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+                <EditText
+                    android:id="@+id/etDescription"
+                    android:layout_weight="8"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:hint="填写证件名称"
+                    android:singleLine="true"
+                    android:textSize="16sp"
+                    android:background="@null"
+                    android:layout_height="wrap_content" />
+
+                <ImageButton
+                    android:minHeight="10dp"
+                    android:minWidth="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:src="@mipmap/cancel"
+                    android:background="@null"
+                    />
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/background_gray"
+                android:layout_height="2px">
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_gravity="center_vertical"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+                <TextView
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="3"
+                    android:textSize="16sp"
+                    android:text="姓名"/>
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+                <EditText
+                    android:id="@+id/etUsername"
+                    android:layout_weight="8"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:hint="填写证件人姓名"
+                    android:singleLine="true"
+                    android:textSize="16sp"
+                    android:background="@null"
+                    android:layout_height="wrap_content" />
+
+                <ImageButton
+                    android:minHeight="10dp"
+                    android:minWidth="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:src="@mipmap/cancel"
+                    android:background="@null"
+                    />
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/background_gray"
+                android:layout_height="2px">
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_gravity="center_vertical"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+                <TextView
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="3"
+                    android:textSize="16sp"
+                    android:text="证号"/>
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_weight="8"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:hint="填写证件号"
+                    android:singleLine="true"
+                    android:textSize="16sp"
+                    android:background="@null"
+                    android:layout_height="wrap_content" />
+
+                <ImageButton
+                    android:minHeight="10dp"
+                    android:minWidth="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:src="@mipmap/cancel"
+                    android:background="@null"
+                    />
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/background_gray"
+                android:layout_height="2px">
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_gravity="center_vertical"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+                <TextView
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="3"
+                    android:textSize="16sp"
+                    android:text="备注"/>
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+                <EditText
+                    android:id="@+id/etRemark"
+                    android:layout_weight="8"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:hint="(选填、最多50字)"
+                    android:singleLine="true"
+                    android:textSize="16sp"
+                    android:background="@null"
+                    android:layout_height="wrap_content" />
+
+                <ImageButton
+                    android:minHeight="10dp"
+                    android:minWidth="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:src="@mipmap/cancel"
+                    android:background="@null"
+                    />
+                <LinearLayout
+                    android:layout_width="2px"
+                    android:background="@color/background_gray"
+                    android:layout_height="match_parent"></LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/background_gray"
+                android:layout_height="2px">
+
+
+            </LinearLayout>
+
+
+            <FrameLayout
+                android:id="@+id/fl_camera"
+                android:background="@drawable/corner_dashed"
+                android:layout_marginTop="25dp"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="110dp">
+              <LinearLayout
+                  android:padding="10dp"
+                  android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent">
+
+                  <ImageView
+                      android:scaleType="centerCrop"
+                      android:id="@+id/img_1"
+                      android:layout_width="0dp"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:src="@mipmap/ic_launcher"
+                      android:visibility="invisible"
+                      />
+
+                  <ImageView
+                      android:layout_marginLeft="10dp"
+                      android:scaleType="centerCrop"
+                      android:id="@+id/img_2"
+                      android:layout_width="0dp"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:src="@mipmap/ic_launcher"
+                      android:visibility="invisible"
+                      />
+                  <ImageView
+                      android:layout_marginLeft="10dp"
+                      android:scaleType="fitXY"
+                      android:id="@+id/img_3"
+                      android:layout_width="0dp"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:visibility="invisible"
+                      android:src="@mipmap/ic_launcher"
+                      />
+                  <ImageView
+                      android:layout_marginLeft="10dp"
+                      android:scaleType="fitXY"
+                      android:id="@+id/img_4"
+                      android:layout_width="0dp"
+                      android:layout_height="match_parent"
+                      android:visibility="invisible"
+                      android:layout_weight="1"
+                      android:src="@mipmap/ic_launcher"
+                      />
+              </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/img_photo"
+                    android:layout_marginTop="15dp"
+                    android:layout_gravity="center"
+                    android:layout_width="70dp"
+                    android:layout_height="52dp"
+                    android:src="@mipmap/camera"   />
+
+                <TextView
+                    android:id="@+id/tv_photo"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="拍摄证件照片"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/colorPrimary"
+                    />
+
+            </FrameLayout>
+
+            <Button
+                android:layout_marginTop="20dp"
+                android:id="@+id/btn_commit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/corners_bg"
+                android:text="确认无误，立即添加"
+                android:textSize="16sp"
+                android:textColor="@color/WhiteText"
+                />
+
+
+        </LinearLayout>
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

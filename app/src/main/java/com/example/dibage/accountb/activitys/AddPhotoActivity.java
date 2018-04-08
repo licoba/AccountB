@@ -1,16 +1,312 @@
 package com.example.dibage.accountb.activitys;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dibage.accountb.R;
+import com.example.dibage.accountb.utils.PhotoUtils;
+import com.example.dibage.accountb.utils.UIUtils;
+import com.nanchen.compresshelper.CompressHelper;
 
-public class AddPhotoActivity extends AppCompatActivity {
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import es.dmoral.toasty.Toasty;
+
+public class AddPhotoActivity extends AppCompatActivity implements View.OnClickListener {
+
+    //调用系统相册-选择图片
+    private static final int IMAGE = 1;
+
+    private Context context;
+    private Toolbar toolbar;
+    private PopupWindow mPopWindow;
+    private Button btn_commit;
+    private FrameLayout fl_camera;
+    private Button btn_from_album;
+    private Button btn_from_camera;
+    private ImageView imageView1;
+    private ImageView imageView2;
+    private ImageView imageView3;
+    private ImageView imageView4;
+    private ImageView img_photo;
+    private TextView tv_photo;
+    public MyClickListener myClickListener;
+    int count_photo = 0;//计数、总照片数
+    List<String> photoPathList = new ArrayList<>(4);//存储照片的路径
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_photo);
+        context = getApplicationContext();
+        toolbar = findViewById(R.id.toolbar);
+        fl_camera = findViewById(R.id.fl_camera);
+        btn_commit = findViewById(R.id.btn_commit);
+        imageView1 = findViewById(R.id.img_1);
+        imageView2 = findViewById(R.id.img_2);
+        imageView3 = findViewById(R.id.img_3);
+        imageView4 = findViewById(R.id.img_4);
+        tv_photo = findViewById(R.id.tv_photo);
+        img_photo = findViewById(R.id.img_photo);
 
+        btn_commit.setOnClickListener(this);
+
+        //替代ActionBar
+        setSupportActionBar(toolbar);
+        //显示返回按钮
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //设置返回键为可点击状态
+        getSupportActionBar().setHomeButtonEnabled(true);
+        //隐藏自带AppTitle
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setTitle("添加证件");
+        //toolbar.setOnMenuItemClickListener(onMenuItemClick);
+
+        //给toolbar的左上角的按钮注册点击监听
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //if (v.getId() == android.R.id.home)
+                //Toast.makeText(getApplicationContext(), "点击了返回箭头", Toast.LENGTH_LONG).show();
+                AddPhotoActivity.this.finish();
+            }
+        });
+
+        fl_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopupWindow();
+            }
+        });
+
+    }
+
+    public void showPopupWindow() {
+        LayoutInflater inflater = getLayoutInflater();
+        View contentView = inflater.from(AddPhotoActivity.this).inflate(R.layout.pop_camera_photo, null);
+        mPopWindow = new PopupWindow(contentView,
+                getWindowManager().getDefaultDisplay().getWidth() - 220, WindowManager.LayoutParams.WRAP_CONTENT, true);
+        mPopWindow.setContentView(contentView);
+        //显示popupWindow
+        View rootview = LayoutInflater.from(AddPhotoActivity.this).inflate(R.layout.activity_add_photo, null);
+        mPopWindow.showAtLocation(rootview, Gravity.CENTER, 0, 0);
+        //背景变暗
+        UIUtils.darkenBackgroud(AddPhotoActivity.this, 0.5f);
+        mPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                //在dismiss中恢复透明度
+                UIUtils.darkenBackgroud(AddPhotoActivity.this, 1f);
+            }
+        });
+        btn_from_album = contentView.findViewById(R.id.btn_from_album);
+        btn_from_camera = contentView.findViewById(R.id.btn_from_camera);
+        //myClickListener = new MyClickListener();
+        btn_from_album.setOnClickListener(this);
+        btn_from_camera.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_from_album:
+                mPopWindow.dismiss();
+                checkPermission();
+                //Toasty.success(context,"点击了Btn相册").show();
+                break;
+            case R.id.btn_from_camera:
+                Toasty.success(context, "点击了Btn相机").show();
+                break;
+            case R.id.btn_commit:
+                Toasty.success(context, "点击了Btn提交").show();
+                savePhoto(photoPathList);
+
+                Log.e("是否存在文件：","文件名："+context.fileList());
+                break;
+        }
+    }
+
+    //保存照片到程序的私有目录
+    private void savePhoto(List<String> photoPathList) {
+        try {
+
+            //得到File对象后压缩File
+            File file = new File(photoPathList.get(0));
+            file = CompressHelper.getDefault(this).compressToFile(file);
+            byte[] bytes = PhotoUtils.File2Bytes(file);
+
+//            //得到Bitmap陪对象
+//            Bitmap bitmap = BitmapFactory.decodeFile(photoPathList.get(0));
+//
+//            //转化为字节流
+//            byte[] bytes = PhotoUtils.Bitmap2Bytes(bitmap);
+//            //在私有目录下创建文件输出流，将照片写入到文件中
+            FileOutputStream fos = context.openFileOutput("photo1" ,MODE_PRIVATE);
+            //写入文件
+            fos.write(bytes);
+            //关闭输出流
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //检查用户是否给予了权限，如果给予了，打开系统相册；如果没有给予权限，则向用户申请授权
+    private void checkPermission() {
+        if (!(ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED)) { //权限没有被授予
+
+            //Toasty.success(context,"权限未拥有，需要申请权限").show();
+            /**3.申请授权
+             * @param
+             *  @param activity The target activity.（Activity|Fragment、）
+             * @param permissions The requested permissions.（权限字符串数组）
+             * @param requestCode Application specific request code to match with a result（int型申请码）
+             *    reported to {@link OnRequestPermissionsResultCallback#onRequestPermissionsResult(
+             *int, String[], int[])}.
+             * */
+            ActivityCompat.requestPermissions(AddPhotoActivity.this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    IMAGE);
+
+        } else {//权限被授予
+            //Toasty.success(context,"已经拥有权限").show();
+            Intent intent = new Intent(Intent.ACTION_PICK,
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, IMAGE);
+            //直接操作
+        }
+    }
+
+    //处理相册回调
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //获取图片路径
+        if (requestCode == IMAGE && resultCode == Activity.RESULT_OK && data != null) {
+            count_photo++;
+            Uri selectedImage = data.getData();
+            String[] filePathColumns = {MediaStore.Images.Media.DATA};
+            Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
+            c.moveToFirst();
+            int columnIndex = c.getColumnIndex(filePathColumns[0]);
+            String imagePath = c.getString(columnIndex);
+            photoPathList.add(imagePath);
+            showImage(imagePath);
+            c.close();
+        }
+    }
+
+    //显示图片
+    private void showImage(String imagePath) {
+        List<ImageView> ivList = new ArrayList<>();
+        ivList.add(imageView1);
+        ivList.add(imageView2);
+        ivList.add(imageView3);
+        ivList.add(imageView4);
+
+        if (count_photo > 0 && count_photo <= 3) {
+            tv_photo.setVisibility(View.INVISIBLE);//隐藏文本提示框
+            fl_camera.setOnClickListener(null);//移除监听
+            img_photo.setVisibility(View.INVISIBLE);//隐藏照相机图片
+            ivList.get(count_photo).setImageResource(R.mipmap.camera2);//设置后一位的图片
+            ivList.get(count_photo).setVisibility(View.VISIBLE);//设置可见
+            ivList.get(count_photo).setOnClickListener(new View.OnClickListener() {//注册监听
+                @Override
+                public void onClick(View view) {
+                    showPopupWindow();
+                }
+            });
+            ivList.get(count_photo - 1).setOnClickListener(null);//移除前一位的监听
+        }else if (count_photo >=3){
+            ivList.get(count_photo-1).setOnClickListener(null);//移除本位的监听
+        }
+
+        //Bitmap bm = BitmapFactory.decodeFile(imagePath);
+        //得到图片旋转角度
+        //int degree = PhotoUtils.getBitmapDegree(imagePath);
+        //将图片旋转过来
+        //bm = PhotoUtils.rotateBitmapByDegree(bm, degree);
+        for (int i = 0; i < count_photo; i++) {
+            Bitmap bm = BitmapFactory.decodeFile(photoPathList.get(i));
+            //得到图片旋转角度
+            int degree = PhotoUtils.getBitmapDegree(photoPathList.get(i));
+            //将图片旋转过来
+            bm = PhotoUtils.rotateBitmapByDegree(bm, degree);
+            ivList.get(i).setImageBitmap(bm);
+            ivList.get(i).setVisibility(View.VISIBLE);
+        }
+//        ((ImageView)findViewById(R.id.img_1)).setImageBitmap(bm);
+    }
+
+    /***
+     *
+     * 4.处理权限申请回调
+     */
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        if (requestCode == IMAGE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                //Toasty.success(context,"权限被授予").show();
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, IMAGE);
+
+            } else { // Permission Denied
+
+                Toasty.info(context, "此功能需要访问设备文件权限才能运行哦").show();
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
+    class MyClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.btn_from_album:
+                    //Toasty.success(context,"点击了Btn相册").show();
+                case R.id.btn_from_camera:
+                    Toasty.success(context, "点击了Btn相机").show();
+                case R.id.btn_commit:
+                    Toasty.success(context, "点击了Btn提交").show();
+            }
+        }
     }
 }
