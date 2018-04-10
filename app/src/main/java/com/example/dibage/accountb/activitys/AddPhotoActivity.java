@@ -191,11 +191,6 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void AddRecord() {
-        /**
-         * 1、获取DaoSession对象
-         * 2、通过DaoSession对象获取对应的dao方法
-         * 3、调用dao的insert方法向数据库插入记录
-         */
         String cardname = et_card_name.getText().toString();
         String username = et_user_name.getText().toString();
         String cardnumber = et_card_number.getText().toString();
