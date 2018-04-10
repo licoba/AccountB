@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -29,7 +30,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dibage.accountb.R;
+import com.example.dibage.accountb.applications.MyApplication;
+import com.example.dibage.accountb.dao.CardDao;
+import com.example.dibage.accountb.dao.DaoSession;
+import com.example.dibage.accountb.dao.PhotoDao;
+import com.example.dibage.accountb.entitys.Card;
+import com.example.dibage.accountb.entitys.Photo;
 import com.example.dibage.accountb.utils.PhotoUtils;
+import com.example.dibage.accountb.utils.SimpleUtils;
 import com.example.dibage.accountb.utils.UIUtils;
 import com.nanchen.compresshelper.CompressHelper;
 
@@ -60,14 +68,64 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
     private ImageView imageView4;
     private ImageView img_photo;
     private TextView tv_photo;
-    public MyClickListener myClickListener;
+
+    private EditText et_card_name;
+    private EditText et_user_name;
+    private EditText et_card_number;
+    private EditText et_remark;
+
+    DaoSession daoSession;
+    private PhotoDao photoDao;
+    private CardDao cardDao;
+
     int count_photo = 0;//计数、总照片数
-    List<String> photoPathList = new ArrayList<>(4);//存储照片的路径
+    List<String> photoPathList = new ArrayList<>(4);//选择的照片的绝对路径
+    List<String> privatePathList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_photo);
+
+        initFBI();
+        initData();
+        initView();
+        initEvent();
+
+    }
+
+    private void initData() {
+        daoSession = ((MyApplication) getApplication()).getDaoSession();
+        photoDao = daoSession.getPhotoDao();
+        cardDao = daoSession.getCardDao();
+    }
+
+    private void initEvent() {
+        btn_commit.setOnClickListener(this);
+        fl_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopupWindow();
+            }
+        });
+    }
+
+    private void initView() {
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setTitle("添加证件");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddPhotoActivity.this.finish();
+            }
+        });
+    }
+
+    private void initFBI() {
         context = getApplicationContext();
         toolbar = findViewById(R.id.toolbar);
         fl_camera = findViewById(R.id.fl_camera);
@@ -78,37 +136,10 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
         imageView4 = findViewById(R.id.img_4);
         tv_photo = findViewById(R.id.tv_photo);
         img_photo = findViewById(R.id.img_photo);
-
-        btn_commit.setOnClickListener(this);
-
-        //替代ActionBar
-        setSupportActionBar(toolbar);
-        //显示返回按钮
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //设置返回键为可点击状态
-        getSupportActionBar().setHomeButtonEnabled(true);
-        //隐藏自带AppTitle
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setTitle("添加证件");
-        //toolbar.setOnMenuItemClickListener(onMenuItemClick);
-
-        //给toolbar的左上角的按钮注册点击监听
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //if (v.getId() == android.R.id.home)
-                //Toast.makeText(getApplicationContext(), "点击了返回箭头", Toast.LENGTH_LONG).show();
-                AddPhotoActivity.this.finish();
-            }
-        });
-
-        fl_camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showPopupWindow();
-            }
-        });
-
+        et_card_name = findViewById(R.id.et_card_name);
+        et_user_name = findViewById(R.id.et_user_name);
+        et_card_number = findViewById(R.id.et_card_number);
+        et_remark = findViewById(R.id.et_remark);
     }
 
     public void showPopupWindow() {
@@ -143,42 +174,84 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
             case R.id.btn_from_album:
                 mPopWindow.dismiss();
                 checkPermission();
-                //Toasty.success(context,"点击了Btn相册").show();
                 break;
             case R.id.btn_from_camera:
                 Toasty.success(context, "点击了Btn相机").show();
                 break;
             case R.id.btn_commit:
-                Toasty.success(context, "点击了Btn提交").show();
-                savePhoto(photoPathList);
 
-                Log.e("是否存在文件：","文件名："+context.fileList());
+                if (validateData()) {//如果账号填写正确则向数据库添加数据
+                    if (count_photo > 0)
+                        savePhoto(photoPathList);
+                    AddRecord();
+                }
+                Log.e("是否存在文件：", "文件名：" + context.fileList());
                 break;
         }
     }
 
+    private void AddRecord() {
+        /**
+         * 1、获取DaoSession对象
+         * 2、通过DaoSession对象获取对应的dao方法
+         * 3、调用dao的insert方法向数据库插入记录
+         */
+        String cardname = et_card_name.getText().toString();
+        String username = et_user_name.getText().toString();
+        String cardnumber = et_card_number.getText().toString();
+        String remark = et_remark.getText().toString();
+
+        Card card = new Card(cardname, username, cardnumber, remark);
+        cardDao.insert(card);
+        if (count_photo > 0) {
+            for (int i = 0; i < count_photo; i++) {
+                Photo photo = new Photo();
+                photo.setCardId(card.getId());
+                photo.setPhoto_path(privatePathList.get(i));
+                photoDao.insert(photo);
+            }
+        }
+
+        Toasty.success(context, "保存完毕").show();
+    }
+
+    //验证填入的数据是否正确
+    private boolean validateData() {
+        if (et_card_name.getText().toString().trim().isEmpty()) {
+            Toasty.info(context, "请填写证件名称").show();
+            return false;
+        } else if (et_user_name.getText().toString().trim().isEmpty()) {
+            Toasty.info(context, "请填写证件持有人姓名").show();
+            return false;
+        } else if (et_card_number.getText().toString().trim().isEmpty()) {
+            Toasty.info(context, "请填写证件号").show();
+            return false;
+        }
+        return true;
+    }
+
     //保存照片到程序的私有目录
     private void savePhoto(List<String> photoPathList) {
-        try {
-
-            //得到File对象后压缩File
-            File file = new File(photoPathList.get(0));
-            file = CompressHelper.getDefault(this).compressToFile(file);
-            byte[] bytes = PhotoUtils.File2Bytes(file);
-
-//            //得到Bitmap陪对象
-//            Bitmap bitmap = BitmapFactory.decodeFile(photoPathList.get(0));
-//
-//            //转化为字节流
-//            byte[] bytes = PhotoUtils.Bitmap2Bytes(bitmap);
-//            //在私有目录下创建文件输出流，将照片写入到文件中
-            FileOutputStream fos = context.openFileOutput("photo1" ,MODE_PRIVATE);
-            //写入文件
-            fos.write(bytes);
-            //关闭输出流
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (int i = 0; i < count_photo; i++) {
+            try {
+                //得到File对象后压缩File
+                File file = new File(photoPathList.get(i));
+                file = CompressHelper.getDefault(this).compressToFile(file);
+                byte[] bytes = PhotoUtils.File2Bytes(file);
+                //文件被存储到/data/data/<package  name>/files/目录下，只允许本程序访问，其它程序没有访问权限
+                //随机生成一个文件名
+                String filename = SimpleUtils.getRandomFileName();
+//                String ssss = getApplicationContext().getFilesDir().getAbsolutePath();
+//                Log.e("私有文件存储的绝对路径：",ssss);
+                privatePathList.add(getFilesDir()+"/" + filename + ".jpg");
+                FileOutputStream fos = context.openFileOutput(filename+".jpg", MODE_PRIVATE);
+                //写入文件
+                fos.write(bytes);
+                //关闭输出流
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -248,8 +321,8 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
                 }
             });
             ivList.get(count_photo - 1).setOnClickListener(null);//移除前一位的监听
-        }else if (count_photo >=3){
-            ivList.get(count_photo-1).setOnClickListener(null);//移除本位的监听
+        } else if (count_photo >= 3) {
+            ivList.get(count_photo - 1).setOnClickListener(null);//移除本位的监听
         }
 
         //Bitmap bm = BitmapFactory.decodeFile(imagePath);
@@ -269,10 +342,8 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
 //        ((ImageView)findViewById(R.id.img_1)).setImageBitmap(bm);
     }
 
-    /***
-     *
-     * 4.处理权限申请回调
-     */
+    //4.处理权限申请回调
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -295,18 +366,4 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
-    class MyClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.btn_from_album:
-                    //Toasty.success(context,"点击了Btn相册").show();
-                case R.id.btn_from_camera:
-                    Toasty.success(context, "点击了Btn相机").show();
-                case R.id.btn_commit:
-                    Toasty.success(context, "点击了Btn提交").show();
-            }
-        }
-    }
 }

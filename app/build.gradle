@@ -40,7 +40,7 @@ dependencies {
     implementation 'org.greenrobot:greendao:3.2.2' // add library
     //配置greenDAO Gradle插件
     greendao {
-        schemaVersion 2
+        schemaVersion 1
         //greenDAO自动生成的类所在的包名
         daoPackage 'com.example.dibage.accountb.dao'
         //自动生成的所有资源会被保存到这个位置

@@ -147,7 +147,7 @@ public class AddAccountActivity extends AppCompatActivity {
         }
     };
 
-    //像数据库添加一条记录
+    //向数据库添加一条记录
     private void AddRecord(EditText et_description, EditText et_username, EditText et_password, EditText et_remarks) {
 
         String description = SimpleUtils.getStrings(et_description);

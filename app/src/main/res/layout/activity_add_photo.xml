@@ -76,7 +76,7 @@
                     android:background="@color/background_gray"
                     android:layout_height="match_parent"></LinearLayout>
                 <EditText
-                    android:id="@+id/etDescription"
+                    android:id="@+id/et_card_name"
                     android:layout_weight="8"
                     android:layout_width="0dp"
                     android:layout_marginLeft="10dp"
@@ -130,7 +130,7 @@
                     android:background="@color/background_gray"
                     android:layout_height="match_parent"></LinearLayout>
                 <EditText
-                    android:id="@+id/etUsername"
+                    android:id="@+id/et_user_name"
                     android:layout_weight="8"
                     android:layout_width="0dp"
                     android:layout_marginLeft="10dp"
@@ -184,11 +184,12 @@
                     android:background="@color/background_gray"
                     android:layout_height="match_parent"></LinearLayout>
                 <EditText
-                    android:id="@+id/etPassword"
+                    android:id="@+id/et_card_number"
                     android:layout_weight="8"
                     android:layout_width="0dp"
                     android:layout_marginLeft="10dp"
                     android:hint="填写证件号"
+                    android:maxLength="30"
                     android:singleLine="true"
                     android:textSize="16sp"
                     android:background="@null"
@@ -238,7 +239,7 @@
                     android:background="@color/background_gray"
                     android:layout_height="match_parent"></LinearLayout>
                 <EditText
-                    android:id="@+id/etRemark"
+                    android:id="@+id/et_remark"
                     android:layout_weight="8"
                     android:layout_width="0dp"
                     android:layout_marginLeft="10dp"
