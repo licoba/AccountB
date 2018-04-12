@@ -3,6 +3,7 @@ package com.example.dibage.accountb.activitys;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +18,7 @@ import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,8 +36,12 @@ import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
-public class AddAccountActivity extends AppCompatActivity {
+public class AddAccountActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private ImageButton btn_clear1;
+    private ImageButton btn_clear2;
+    private ImageButton btn_clear3;
+    private ImageButton btn_clear4;
 
 
     EditText et_description;
@@ -59,42 +65,42 @@ public class AddAccountActivity extends AppCompatActivity {
 
 
         initView();
+        initData();
+        initEvent();
 
-        daoSession = ((MyApplication)getApplication()).getDaoSession();
-        mAccountDao = daoSession.getAccountDao();
 
 
-        //替代ActionBar
+
+
         setSupportActionBar(toolbar);
-        //显示返回按钮
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //设置返回键为可点击状态
         getSupportActionBar().setHomeButtonEnabled(true);
-        //隐藏自带AppTitle
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setTitle("添加账号");
         //toolbar.setOnMenuItemClickListener(onMenuItemClick);
 
+
+
+    }
+
+    private void initData() {
+        daoSession = ((MyApplication)getApplication()).getDaoSession();
+        mAccountDao = daoSession.getAccountDao();
+    }
+
+    private void initEvent() {
+        btn_clear1.setOnClickListener(this);
+        btn_clear2.setOnClickListener(this);
+        btn_clear3.setOnClickListener(this);
+        btn_clear4.setOnClickListener(this);
         //给toolbar的左上角的按钮注册点击监听
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //if (v.getId() == android.R.id.home)
-                //Toast.makeText(getApplicationContext(), "点击了返回箭头", Toast.LENGTH_LONG).show();
                 AddAccountActivity.this.finish();
             }
         });
 
-//        toolbar.setOnMenuItemClickListener(onMenuClick);
-
-//        btn_Submit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                UIUtils.toast(AddAccountActivity.this, "提交按钮");
-//                Toasty.info(AddAccountActivity.this, "Here is some info for you.", Toast.LENGTH_SHORT, true).show();
-//            }
-//        });
-        btn_Submit.setOnClickListener(clickListener);
         btn_Submit.setOnClickListener(clickListener);
 
     }
@@ -105,6 +111,10 @@ public class AddAccountActivity extends AppCompatActivity {
         et_username = findViewById(R.id.etUsername);
         et_remarks = findViewById(R.id.etRemark);
         btn_Submit = findViewById(R.id.btnSubmit);
+        btn_clear1 = findViewById(R.id.btn_clear1);
+        btn_clear2 = findViewById(R.id.btn_clear2);
+        btn_clear3 = findViewById(R.id.btn_clear3);
+        btn_clear4 = findViewById(R.id.btn_clear4);
 
         toolbar = findViewById(R.id.toolbar);
         listView = findViewById(R.id.listview);
@@ -161,34 +171,21 @@ public class AddAccountActivity extends AppCompatActivity {
 
     }
 
-
-
-    //
-//    private android.support.v7.widget.Toolbar.OnMenuItemClickListener onMenuClick = new android.support.v7.widget.Toolbar.OnMenuItemClickListener() {
-//        @Override
-//        public boolean onMenuItemClick(MenuItem menuItem) {
-//
-//            UIUtils.toast(AddAccountActivity.this, "有响应");
-//
-//            String msg = "";
-//            switch (menuItem.getItemId()) {
-//                case R.id.action_submit:
-//                    msg += "点击了提交按钮";
-//                    break;
-//            }
-//
-//            if (!msg.equals("")) {
-//                UIUtils.toast(AddAccountActivity.this, msg);
-//            }
-//            return true;
-//        }
-//    };
-
-
-    //显示Menu
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.tb_submit, menu);
-//        return true;
-//    }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_clear1:
+                et_description.setText("");
+                break;
+            case R.id.btn_clear2:
+                et_username.setText("");
+                break;
+            case R.id.btn_clear3:
+                et_password.setText("");
+                break;
+            case R.id.btn_clear4:
+                et_remarks.setText("");
+                break;
+        }
+    }
 }

@@ -39,6 +39,7 @@ import com.example.dibage.accountb.entitys.Photo;
 import com.example.dibage.accountb.utils.PhotoUtils;
 import com.example.dibage.accountb.utils.SimpleUtils;
 import com.example.dibage.accountb.utils.UIUtils;
+import com.gjiazhe.wavesidebar.WaveSideBar;
 import com.nanchen.compresshelper.CompressHelper;
 
 import java.io.File;
@@ -73,6 +74,7 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
     private EditText et_user_name;
     private EditText et_card_number;
     private EditText et_remark;
+
 
     DaoSession daoSession;
     private PhotoDao photoDao;
@@ -140,6 +142,7 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
         et_user_name = findViewById(R.id.et_user_name);
         et_card_number = findViewById(R.id.et_card_number);
         et_remark = findViewById(R.id.et_remark);
+
     }
 
     public void showPopupWindow() {

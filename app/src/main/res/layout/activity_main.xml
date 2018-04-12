@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="24dp">
+                android:layout_marginRight="10dp">
 
                 <LinearLayout
                     android:id="@+id/ll_empty"
@@ -46,8 +46,9 @@
 
                     <ImageView
                         android:layout_gravity="center"
+                        android:scaleType="fitXY"
                         android:layout_width="80dp"
-                        android:layout_height="55dp"
+                        android:layout_height="65dp"
                         android:src="@mipmap/empty"
                         />
                     <TextView
@@ -65,25 +66,28 @@
                 <!--去除ListView侧边栏以及下拉效果-->
                 <ListView
                     android:id="@+id/listview"
+                    android:layout_marginRight="18dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:overScrollMode="never"
                     android:scrollbars="none">
 
                 </ListView>
+
+                <com.gjiazhe.wavesidebar.WaveSideBar
+                    android:id="@+id/side_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:sidebar_lazy_respond="false"
+                    app:sidebar_max_offset="80dp"
+                    android:layout_gravity="right"
+                    app:sidebar_position="right"
+                    app:sidebar_text_alignment="center"
+                    app:sidebar_text_color="@color/colorPrimary"
+                    app:sidebar_text_size="15sp" />
+
             </FrameLayout>
 
-            <com.gjiazhe.wavesidebar.WaveSideBar
-                android:id="@+id/side_bar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingRight="8dp"
-                app:sidebar_lazy_respond="false"
-                app:sidebar_max_offset="80dp"
-                app:sidebar_position="right"
-                app:sidebar_text_alignment="center"
-                app:sidebar_text_color="@color/colorPrimary"
-                app:sidebar_text_size="15sp" />
 
             <com.github.clans.fab.FloatingActionMenu
                 android:id="@+id/fabMenu"

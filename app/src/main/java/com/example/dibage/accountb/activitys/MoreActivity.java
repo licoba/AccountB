@@ -2,11 +2,13 @@ package com.example.dibage.accountb.activitys;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -40,16 +42,6 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
         initEvent();
         mFingerprintIdentify = new FingerprintIdentify(this);
 
-//        toolbar.setTitle("偏好设置");
-//        toolbar.setNavigationIcon(R.mipmap.back);
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                MoreActivity.this.finish();
-//            }
-//        });
-
-        //替代ActionBar
         setSupportActionBar(toolbar);
         //显示返回按钮
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -79,6 +71,13 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
                         Toasty.info(MoreActivity.this, "您的设备不支持指纹识别，无法使用此功能").show();
                     } else if (!mFingerprintIdentify.isRegisteredFingerprint()) {
                         Toasty.info(MoreActivity.this, "请在您的设备中录入指纹后再使用此功能").show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                switch_finger.setChecked(false);
+                            }
+                        },500);
+
                     } else {
                         //选中的处理
                         Toasty.success(MoreActivity.this, "指纹解锁已启用").show();
@@ -86,8 +85,10 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 } else {
                     //没有选中的处理
-                    Toasty.info(MoreActivity.this, "指纹解锁已关闭").show();
-                    SPUtils.put(MoreActivity.this, "finger_state", false);
+                    if((Boolean) SPUtils.get(MoreActivity.this, "finger_state", false)) {
+                        Toasty.info(MoreActivity.this, "指纹解锁已关闭").show();
+                        SPUtils.put(MoreActivity.this, "finger_state", false);
+                    }
                 }
 
             }
@@ -134,6 +135,8 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
                     startActivityForResult(intent,SETTING_PASSWORD);
                 }
                 break;
+
+
         }
     }
 

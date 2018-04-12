@@ -22,20 +22,6 @@
                 android:layout_height="wrap_content"
                 android:theme="@style/toolbar_theme">
 
-                <!--<ImageView-->
-                <!--android:id="@+id/imgback"-->
-                <!--android:layout_width="26dp"-->
-                <!--android:layout_height="26dp"-->
-                <!--android:background="@mipmap/back"-->
-                <!--/>-->
-
-                <!--<TextView-->
-                <!--android:layout_marginLeft="10dp"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textColor="@color/WhiteText"-->
-                <!--android:textSize="20dp"-->
-                <!--android:text="添加账号"/>-->
 
                 <Button
                     android:layout_width="wrap_content"
@@ -100,6 +86,7 @@
                     android:layout_height="wrap_content" />
 
                 <ImageButton
+                    android:id="@+id/btn_clear1"
                     android:minHeight="10dp"
                     android:minWidth="10dp"
                     android:layout_gravity="center_vertical"
@@ -154,6 +141,7 @@
                     android:layout_height="wrap_content" />
 
                 <ImageButton
+                    android:id="@+id/btn_clear2"
                     android:minHeight="10dp"
                     android:minWidth="10dp"
                     android:layout_gravity="center_vertical"
@@ -208,6 +196,7 @@
                     android:layout_height="wrap_content" />
 
                 <ImageButton
+                    android:id="@+id/btn_clear3"
                     android:minHeight="10dp"
                     android:minWidth="10dp"
                     android:layout_gravity="center_vertical"
@@ -262,6 +251,7 @@
                     android:layout_height="wrap_content" />
 
                 <ImageButton
+                    android:id="@+id/btn_clear4"
                     android:minHeight="10dp"
                     android:minWidth="10dp"
                     android:layout_gravity="center_vertical"
