@@ -29,4 +29,4 @@
 
 
 ### 扫码下载test版本（2018/04/08）
-![](https://i.imgur.com/rGdCmYs.png)
+![](https://1drv.ms/u/s!AuHYmik_58dNg38aium007OpRunI)
