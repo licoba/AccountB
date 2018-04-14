@@ -5,8 +5,10 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fabAddIdCard;
     private WaveSideBar sideBar;
     private ListView listView;
+    private Toolbar toolbar;
     private PopupWindow mPopWindow;
     private LinearLayout ll_empty;
     List<Account> accountsList = new ArrayList<>();
@@ -60,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
     DaoSession daoSession ;
     AccountDao mAccountDao;
 
+    private float alpha = 1.0f;//初始值设为1，为不变暗
+    private Handler mHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,9 +73,10 @@ public class MainActivity extends AppCompatActivity {
         initFBI();
         initData();
         initView();
+        initEvent();
+    }
 
-        accountAdapter = new AccountAdapter(context, R.layout.item_listview, accountsList);
-        listView.setAdapter(accountAdapter);
+    private void initEvent() {
         //监听Item的点击事件
         listView.setOnItemClickListener(new myItemClickListener());
         //监听ListView的触摸事件
@@ -85,8 +92,48 @@ public class MainActivity extends AppCompatActivity {
 
         listView.setOnItemLongClickListener(new myItemLongClickListener());
 
-       //accountAdapter.notifyDataSetChanged();
+        fabAddAccount.setOnClickListener(FablickListener);
+        fabAddIdCard.setOnClickListener(FablickListener);
 
+    }
+
+    private void initData() {
+
+        daoSession = ((MyApplication) getApplication()).getDaoSession();
+        mAccountDao = daoSession.getAccountDao();
+        //获取queryBuilder，通过queryBuilder来实现查询功能
+        //mAccountDao.queryBuilder()表示查询所有，
+        // orderAsc(AccountDao.Properties.Firstchar)表示按照首字母升序排序（#比A大，所以需要用函数重新排序）
+        qb = mAccountDao.queryBuilder().orderAsc(AccountDao.Properties.Firstchar, AccountDao.Properties.Username);
+        accountsList = qb.list();
+        accountsList = AccountUtils.orderListAccount(accountsList);
+        accountAdapter = new AccountAdapter(context, R.layout.item_listview, accountsList);
+        listView.setAdapter(accountAdapter);
+    }
+
+    private void initFBI() {
+        floatingActionMenu = findViewById(R.id.fabMenu);
+        fabAddAccount = findViewById(R.id.fabAddAcount);
+        fabAddIdCard = findViewById(R.id.fabAddIdCard);
+        sideBar = findViewById(R.id.side_bar);
+        listView = findViewById(R.id.listview);
+        ll_empty = findViewById(R.id.ll_empty);
+        toolbar = findViewById(R.id.toolbar);
+    }
+
+
+    public void initView() {
+        if (accountsList.size()>0){
+            ll_empty.setVisibility(View.GONE);
+            sideBar.setVisibility(View.VISIBLE);
+        }else {
+            sideBar.setVisibility(View.INVISIBLE);
+        }
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setTitle("账号册子");
+        toolbar.setOnMenuItemClickListener((android.support.v7.widget.Toolbar.OnMenuItemClickListener) onMenuItemClick);
         //自定义侧边索引
         sideBar.setIndexItems("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
                 "W", "X", "Y", "Z", "#");
@@ -110,52 +157,6 @@ public class MainActivity extends AppCompatActivity {
                     listView.setSelection(location);
             }
         });
-
-
-        //直接Toolbar toolbar系统会默认是android.widget.Toolbar，会报错。
-        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
-
-        //用setSupportActionBar设定，Toolbar即能取代原本的 actionbar 了
-        setSupportActionBar(toolbar);
-        //隐藏自带AppTitle
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setTitle("账号册子");
-        toolbar.setOnMenuItemClickListener((android.support.v7.widget.Toolbar.OnMenuItemClickListener) onMenuItemClick);
-        fabAddAccount.setOnClickListener(FablickListener);
-        fabAddIdCard.setOnClickListener(FablickListener);
-
-    }
-
-    private void initData() {
-        //获取dao实例
-
-        daoSession = ((MyApplication) getApplication()).getDaoSession();
-        mAccountDao = daoSession.getAccountDao();
-        //获取queryBuilder，通过queryBuilder来实现查询功能
-        //mAccountDao.queryBuilder()表示查询所有，
-        // orderAsc(AccountDao.Properties.Firstchar)表示按照首字母升序排序（#比A大，所以需要用函数重新排序）
-        qb = mAccountDao.queryBuilder().orderAsc(AccountDao.Properties.Firstchar, AccountDao.Properties.Username);
-        accountsList = qb.list();
-        accountsList = AccountUtils.orderListAccount(accountsList);
-    }
-
-    private void initFBI() {
-        floatingActionMenu = findViewById(R.id.fabMenu);
-        fabAddAccount = findViewById(R.id.fabAddAcount);
-        fabAddIdCard = findViewById(R.id.fabAddIdCard);
-        sideBar = findViewById(R.id.side_bar);
-        listView = findViewById(R.id.listview);
-        ll_empty = findViewById(R.id.ll_empty);
-    }
-
-
-    public void initView() {
-        if (accountsList.size()>0){
-            ll_empty.setVisibility(View.GONE);
-            sideBar.setVisibility(View.VISIBLE);
-        }else {
-            sideBar.setVisibility(View.INVISIBLE);
-        }
     }
 
 
@@ -163,6 +164,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         isPause = true; //记录页面已经被暂停
+        if (floatingActionMenu.isOpened())
+            floatingActionMenu.close(true);
+
     }
 
     @Override
@@ -196,7 +200,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-            Toasty.info(context, "长按").show();
             showPopupMenu(accountsList.get(i));
             return true;
         }
@@ -217,13 +220,47 @@ public class MainActivity extends AppCompatActivity {
         tv2.setText(account.getUsername());
         tv3.setText(account.getPassword());
         mPopWindow = new PopupWindow(contentView,
-                getWindowManager().getDefaultDisplay().getWidth() - 110, WindowManager.LayoutParams.WRAP_CONTENT, true);
+                getWindowManager().getDefaultDisplay().getWidth() - 200, WindowManager.LayoutParams.WRAP_CONTENT, true);
         mPopWindow.setContentView(contentView);
 
         //显示popupWindow
-        View rootview = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_main, null);
+        View rootview = LayoutInflater.from(MainActivity.this). inflate(R.layout.activity_main, null);
+        mPopWindow.setAnimationStyle(R.style.Popupwindow);
         mPopWindow.showAtLocation(rootview, Gravity.CENTER, 0, 0);
-        UIUtils.darkenBackgroud(MainActivity.this, 0.5f);
+        //UIUtils.darkenBackgroud(MainActivity.this, 0.5f);
+
+        mHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what){
+                    case 1:
+                        //backgroundAlpha((float)msg.obj);
+                        UIUtils.darkenBackgroud(MainActivity.this, (float)msg.obj);
+                        break;
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(alpha>0.5f){
+                    try {
+                        Thread.sleep(4);//每0.004s变暗0.01
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Message msg = mHandler.obtainMessage();
+                    msg.what = 1;
+                    alpha-=0.01f;
+                    msg.obj =alpha ;
+                    mHandler.sendMessage(msg);
+                }
+            }
+        }).start();
+
+
 
         LinearLayout layout1 = contentView.findViewById(R.id.layout1);
         LinearLayout layout2 = contentView.findViewById(R.id.layout2);
@@ -252,7 +289,23 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onDismiss() {
-                UIUtils.darkenBackgroud(MainActivity.this, 1f);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        while(alpha<1.0f){
+                            try {
+                                Thread.sleep(3);//每0.004s变暗0.01
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            Message msg = mHandler.obtainMessage();
+                            msg.what = 1;
+                            alpha+=0.01f;
+                            msg.obj =alpha ;
+                            mHandler.sendMessage(msg);
+                        }
+                    }
+                }).start();
             }
         });
     }
@@ -278,7 +331,9 @@ public class MainActivity extends AppCompatActivity {
         layout1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UIUtils.toast(context,"点击了layout1");
+                Intent intent = new Intent(MainActivity.this,EditAccountActivity.class);
+                startActivity(intent);
+                mPopWindow.dismiss();
             }
         });
 
@@ -327,21 +382,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-
-    //拦截Touch事件，当FloatingButton为开启状态时，关闭，并返回true，表示touch事件已经处理完毕
-    public class myTouchListener implements View.OnTouchListener {
-
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (floatingActionMenu.isOpened()) {
-                floatingActionMenu.close(true);
-                return true;
-            }
-            return false;
-        }
-    }
-
-
     private android.support.v7.widget.Toolbar.OnMenuItemClickListener onMenuItemClick = new android.support.v7.widget.Toolbar.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem menuItem) {
@@ -355,6 +395,10 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.action_setting:
                     intent = new Intent(context, MoreActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.action_card:
+                    intent = new Intent(context, CardActivity.class);
                     startActivity(intent);
                     break;
             }

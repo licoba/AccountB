@@ -2,8 +2,15 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
-    <item android:id="@+id/action_search"
+
+    <item android:id="@+id/action_card"
+        android:title="setting"
+        app:showAsAction="ifRoom"
+        android:icon="@mipmap/card"
         android:orderInCategory="1"
+        />
+    <item android:id="@+id/action_search"
+        android:orderInCategory="2"
         android:icon="@mipmap/search"
         android:title="search"
         app:showAsAction="ifRoom"></item>
@@ -12,6 +19,7 @@
         android:title="setting"
         app:showAsAction="ifRoom"
         android:icon="@mipmap/category"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
        />
+
 </menu>

@@ -33,8 +33,7 @@
             <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
+                android:layout_marginLeft="10dp">
 
                 <LinearLayout
                     android:id="@+id/ll_empty"
@@ -66,7 +65,7 @@
                 <!--去除ListView侧边栏以及下拉效果-->
                 <ListView
                     android:id="@+id/listview"
-                    android:layout_marginRight="18dp"
+                    android:paddingRight="32dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:overScrollMode="never"
@@ -76,7 +75,9 @@
 
                 <com.gjiazhe.wavesidebar.WaveSideBar
                     android:id="@+id/side_bar"
-                    android:layout_width="match_parent"
+                    android:layout_width="120dp"
+                    android:paddingRight="9dp"
+                    android:foregroundGravity="center"
                     android:layout_height="match_parent"
                     app:sidebar_lazy_respond="false"
                     app:sidebar_max_offset="80dp"

@@ -21,22 +21,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/toolbar_theme">
-
-                <!--<ImageView-->
-                <!--android:id="@+id/imgback"-->
-                <!--android:layout_width="26dp"-->
-                <!--android:layout_height="26dp"-->
-                <!--android:background="@mipmap/back"-->
-                <!--/>-->
-
-                <!--<TextView-->
-                <!--android:layout_marginLeft="10dp"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textColor="@color/WhiteText"-->
-                <!--android:textSize="20dp"-->
-                <!--android:text="添加账号"/>-->
-
             </android.support.v7.widget.Toolbar>
         </FrameLayout>
 

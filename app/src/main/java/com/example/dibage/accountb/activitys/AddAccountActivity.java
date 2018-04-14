@@ -9,17 +9,20 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,19 +46,18 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
     private ImageButton btn_clear3;
     private ImageButton btn_clear4;
 
-
     EditText et_description;
     EditText et_username;
     EditText et_password;
     EditText et_remarks;
     Button btn_Submit;
+    Button btn_getRandom;
     ListView listView;
 
     Toolbar toolbar;
-
-    //获取dao实例
     DaoSession daoSession ;
     AccountDao mAccountDao;
+    private PopupWindow mPopupWindow;
 
 
     @Override
@@ -63,23 +65,9 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_account);
 
-
         initView();
         initData();
         initEvent();
-
-
-
-
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setTitle("添加账号");
-        //toolbar.setOnMenuItemClickListener(onMenuItemClick);
-
-
 
     }
 
@@ -93,15 +81,8 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
         btn_clear2.setOnClickListener(this);
         btn_clear3.setOnClickListener(this);
         btn_clear4.setOnClickListener(this);
-        //给toolbar的左上角的按钮注册点击监听
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AddAccountActivity.this.finish();
-            }
-        });
-
         btn_Submit.setOnClickListener(clickListener);
+        btn_getRandom.setOnClickListener(this);
 
     }
 
@@ -118,6 +99,20 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
 
         toolbar = findViewById(R.id.toolbar);
         listView = findViewById(R.id.listview);
+        btn_getRandom = findViewById(R.id.btn_getRandom);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setTitle("添加账号");
+        //给toolbar的左上角的按钮注册点击监听
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddAccountActivity.this.finish();
+            }
+        });
 ;
 
     }
@@ -148,10 +143,10 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
                     if (VertifyState)
                     Toasty.success(AddAccountActivity.this, msg, Toast.LENGTH_SHORT, true).show();
                     else
-                        Toasty.error(AddAccountActivity.this, msg, Toast.LENGTH_SHORT, true).show();
+                        Toasty.warning(AddAccountActivity.this, msg, Toast.LENGTH_SHORT, true).show();
                     break;
                 default:
-                    Toasty.info(AddAccountActivity.this, msg, Toast.LENGTH_SHORT, true).show();
+                    Toasty.warning(AddAccountActivity.this, msg, Toast.LENGTH_SHORT, true).show();
 
             }
         }
@@ -164,7 +159,6 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
         String username = SimpleUtils.getStrings(et_username);
         String password = SimpleUtils.getStrings(et_password);
         String remarks = SimpleUtils.getStrings(et_remarks);
-
         String firstChar = AccountUtils.getFirstString(description);
         Account account = new Account(description,username,password,remarks,firstChar);
         mAccountDao.insert(account);
@@ -186,6 +180,19 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
             case R.id.btn_clear4:
                 et_remarks.setText("");
                 break;
+            case R.id.btn_getRandom:
+                showPopRandom();
+                break;
         }
+    }
+
+    private void showPopRandom() {
+        mPopupWindow = new PopupWindow();
+        LayoutInflater inflater = getLayoutInflater();
+        View contentView = inflater.from(AddAccountActivity.this).inflate(R.layout.pop_random, null);
+        View rootview = inflater.from(AddAccountActivity.this). inflate(R.layout.activity_add_account, null);
+        mPopupWindow = new PopupWindow(contentView,
+                getWindowManager().getDefaultDisplay().getWidth() - 200, WindowManager.LayoutParams.WRAP_CONTENT, true);
+        mPopupWindow.showAtLocation(rootview, Gravity.CENTER, 0, 0);
     }
 }

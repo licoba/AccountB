@@ -271,10 +271,13 @@
                 android:background="@color/background_gray"
                 android:layout_height="2px">
 
-
             </LinearLayout>
 
-
+            <Button
+                android:id="@+id/btn_getRandom"
+                android:layout_marginTop="20dp"
+                android:text="生成随机密码"
+                style="@style/style_btn" />
 
 
         </LinearLayout>

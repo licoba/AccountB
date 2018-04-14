@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginTop="@dimen/dp_10"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="5dp"
+    android:background="@drawable/corners_card"
+    android:orientation="vertical"
+    android:layout_height="100dp">
+
+    <LinearLayout
+    android:padding="5dp"
+    android:layout_weight="1"
+        android:layout_marginRight="@dimen/dp_10"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/accountb"
+        />
+
+    <TextView
+        android:id="@+id/card_name"
+        android:layout_weight="3"
+        android:layout_gravity="center_vertical"
+        android:gravity="center|left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:maxLength="10"
+        android:textSize="16sp"
+        android:textColor="@color/WhiteText"
+        android:text="银行卡（中国银行）"
+        />
+
+    <TextView
+        android:id="@+id/card_number"
+        android:layout_weight="1"
+        android:textSize="16sp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center|right"
+        android:textColor="@color/WhiteText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:maxLength="5"
+        android:text="*8071"
+        />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:padding="5dp"
+        android:gravity="right"
+        android:layout_marginRight="@dimen/dp_10"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+        <TextView
+            android:id="@+id/username"
+            android:textSize="16sp"
+            android:layout_gravity="right"
+            android:gravity="center|right"
+            android:textColor="@color/WhiteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="用户名"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

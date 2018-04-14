@@ -35,7 +35,7 @@ public class UIUtils {
         }
     }
 
-    //这样写效率不高，代码重复。优化之后：
+    //bgcolor：0为黑，1为无改变
 
     public static void darkenBackgroud(Activity context,Float bgcolor) {
         WindowManager.LayoutParams lp = context.getWindow().getAttributes();

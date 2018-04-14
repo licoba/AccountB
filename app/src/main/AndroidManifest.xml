@@ -25,16 +25,12 @@
         android:roundIcon="@mipmap/accountb"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activitys.MainActivity" >
-
-        </activity>
+        <activity android:name=".activitys.MainActivity" />
         <activity
             android:name=".activitys.AddAccountActivity"
             android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity android:name=".activitys.MoreActivity" />
-        <activity android:name=".activitys.ValidateActivity">
-
-        </activity>
+        <activity android:name=".activitys.ValidateActivity" />
         <activity
             android:name=".activitys.SearchActivity"
             android:windowSoftInputMode="stateVisible|adjustPan" />
@@ -44,9 +40,12 @@
         <activity android:name=".activitys.GuideActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activitys.CardActivity" />
+        <activity android:name=".activitys.EditAccountActivity"></activity>
     </application>
 
 </manifest>
