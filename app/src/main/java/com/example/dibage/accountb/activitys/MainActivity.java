@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private Toolbar toolbar;
     private PopupWindow mPopWindow;
+    private PopupWindow mPopTip;
     private LinearLayout ll_empty;
     List<Account> accountsList = new ArrayList<>();
     QueryBuilder<Account> qb;
@@ -94,6 +96,20 @@ public class MainActivity extends AppCompatActivity {
 
         fabAddAccount.setOnClickListener(FablickListener);
         fabAddIdCard.setOnClickListener(FablickListener);
+
+        //背景变暗的处理
+        mHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what){
+                    case 1:
+                        //backgroundAlpha((float)msg.obj);
+                        UIUtils.darkenBackgroud(MainActivity.this, (float)msg.obj);
+                        break;
+                }
+            }
+        };
 
     }
 
@@ -210,15 +226,18 @@ public class MainActivity extends AppCompatActivity {
         TextView tv1;
         TextView tv2;
         TextView tv3;
+        TextView tv4;
         LayoutInflater inflater = getLayoutInflater();
         View contentView = inflater.from(MainActivity.this).inflate(R.layout.pop_detail, null);
         tv1 = contentView.findViewById(R.id.tv_description);
         tv2 = contentView.findViewById(R.id.tv_username);
         tv3 = contentView.findViewById(R.id.tv_password);
+        tv4 = contentView.findViewById(R.id.tv_remarks);
 
         tv1.setText(account.getDescription());
         tv2.setText(account.getUsername());
         tv3.setText(account.getPassword());
+        tv4.setText(account.getRemark());
         mPopWindow = new PopupWindow(contentView,
                 getWindowManager().getDefaultDisplay().getWidth() - 200, WindowManager.LayoutParams.WRAP_CONTENT, true);
         mPopWindow.setContentView(contentView);
@@ -229,41 +248,11 @@ public class MainActivity extends AppCompatActivity {
         mPopWindow.showAtLocation(rootview, Gravity.CENTER, 0, 0);
         //UIUtils.darkenBackgroud(MainActivity.this, 0.5f);
 
-        mHandler = new Handler(){
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                switch (msg.what){
-                    case 1:
-                        //backgroundAlpha((float)msg.obj);
-                        UIUtils.darkenBackgroud(MainActivity.this, (float)msg.obj);
-                        break;
-                }
-            }
-        };
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while(alpha>0.5f){
-                    try {
-                        Thread.sleep(4);//每0.004s变暗0.01
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    Message msg = mHandler.obtainMessage();
-                    msg.what = 1;
-                    alpha-=0.01f;
-                    msg.obj =alpha ;
-                    mHandler.sendMessage(msg);
-                }
-            }
-        }).start();
-
-
+        darkWindow();
 
         LinearLayout layout1 = contentView.findViewById(R.id.layout1);
         LinearLayout layout2 = contentView.findViewById(R.id.layout2);
+        LinearLayout layout3 = contentView.findViewById(R.id.layout3);
 
         layout1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -289,23 +278,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onDismiss() {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        while(alpha<1.0f){
-                            try {
-                                Thread.sleep(3);//每0.004s变暗0.01
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            Message msg = mHandler.obtainMessage();
-                            msg.what = 1;
-                            alpha+=0.01f;
-                            msg.obj =alpha ;
-                            mHandler.sendMessage(msg);
-                        }
-                    }
-                }).start();
+                brightWindow();
+
             }
         });
     }
@@ -316,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
         View contentView = inflater.from(MainActivity.this).inflate(R.layout.pop_menu, null);
 
         mPopWindow = new PopupWindow(contentView,
-                getWindowManager().getDefaultDisplay().getWidth() - 220, WindowManager.LayoutParams.WRAP_CONTENT, true);
+                getWindowManager().getDefaultDisplay().getWidth() - 250, WindowManager.LayoutParams.WRAP_CONTENT, true);
         mPopWindow.setContentView(contentView);
 
         //显示popupWindow
@@ -328,19 +302,25 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout layout2 = contentView.findViewById(R.id.layout2);
         LinearLayout layout3 = contentView.findViewById(R.id.layout3);
 
+        //修改账号
         layout1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this,EditAccountActivity.class);
+                intent.putExtra("account_data",account);
                 startActivity(intent);
                 mPopWindow.dismiss();
             }
         });
 
+        //删除账号
         layout2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UIUtils.toast(context,"点击了layout2");
+//                mAccountDao.delete(account);
+//                accountAdapter.notifyDataSetChanged();
+                mPopWindow.dismiss();
+                showPopTip(account);
             }
         });
 
@@ -358,6 +338,59 @@ public class MainActivity extends AppCompatActivity {
                 UIUtils.darkenBackgroud(MainActivity.this, 1f);
             }
         });
+    }
+
+    //删除提示框
+    private void showPopTip(final Account account) {
+        mPopTip = new PopupWindow();
+        LayoutInflater inflater = getLayoutInflater();
+        View contentView = inflater.from(MainActivity.this).inflate(R.layout.pop_tip, null);
+        View rootview = inflater.from(MainActivity.this). inflate(R.layout.activity_main, null);
+        mPopTip = new PopupWindow(contentView,
+                getWindowManager().getDefaultDisplay().getWidth() - 200, WindowManager.LayoutParams.WRAP_CONTENT, true);
+        mPopTip.showAtLocation(rootview, Gravity.CENTER, 0, 0);
+        TextView pop_title = contentView.findViewById(R.id.pop_title);
+        TextView pop_message = contentView.findViewById(R.id.pop_message);
+        Button btn_cancel = contentView.findViewById(R.id.btn_cancel);
+        Button btn_submit = contentView.findViewById(R.id.btn_submit);
+        pop_title.setText("删除警告");
+        pop_message.setText("账号被删除之后将无法被找回，确定删除该账号？");
+        darkWindow();
+
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPopTip.dismiss();
+            }
+        });
+
+        btn_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAccountDao.delete(account);
+                accountsList.clear();
+                accountsList.addAll(qb.list());
+                accountsList = AccountUtils.orderListAccount(accountsList);
+                accountAdapter.notifyDataSetChanged();
+                mPopTip.dismiss();
+                if (accountsList.size()>0){
+                    ll_empty.setVisibility(View.INVISIBLE);
+                    sideBar.setVisibility(View.VISIBLE);
+                }else {
+                    ll_empty.setVisibility(View.VISIBLE);
+                    sideBar.setVisibility(View.INVISIBLE);
+                }
+                Toasty.success(context,"删除成功",Toast.LENGTH_SHORT,false).show();
+            }
+        });
+        mPopTip.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                brightWindow();
+            }
+        });
+
+
     }
 
 
@@ -414,6 +447,48 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar, menu);
         return true;
+    }
+
+
+
+    private void brightWindow() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(alpha<1.0f){
+                    try {
+                        Thread.sleep(3);//每0.004s变暗0.01
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Message msg = mHandler.obtainMessage();
+                    msg.what = 1;
+                    alpha+=0.01f;
+                    msg.obj =alpha ;
+                    mHandler.sendMessage(msg);
+                }
+            }
+        }).start();
+    }
+
+    private void darkWindow() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(alpha>0.5f){
+                    try {
+                        Thread.sleep(3);//每0.004s变暗0.01
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Message msg = mHandler.obtainMessage();
+                    msg.what = 1;
+                    alpha-=0.01f;
+                    msg.obj =alpha ;
+                    mHandler.sendMessage(msg);
+                }
+            }
+        }).start();
     }
 
 

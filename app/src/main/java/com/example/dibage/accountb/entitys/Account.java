@@ -5,6 +5,8 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.io.Serializable;
+
 /**
  * Created by dibage on 2018/3/27.
  * 账户信息实体类
@@ -12,7 +14,8 @@ import org.greenrobot.greendao.annotation.Generated;
 
 //注解实体类Account
 @Entity
-public class Account {
+public class Account implements Serializable {
+    private static final long serialVersionUID = 1L;
     //ID主键自增
     @Id(autoincrement = true)
     private Long id;

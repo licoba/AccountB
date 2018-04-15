@@ -7,6 +7,8 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -15,77 +17,105 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textSize="18sp"
             android:text="生成随机密码" />
 
         <TextView
             android:id="@+id/tv_length"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="[20]" />
+            android:layout_weight="4"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimary"
+            android:text="[12]" />
     </LinearLayout>
 
     <TextView
+        android:layout_marginLeft="@dimen/dp_10"
         android:id="@+id/tv_pwd_random"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="15sp"
         android:text="这里是随机密码" />
 
     <SeekBar
         android:id="@+id/seekBar"
+        android:layout_marginTop="10dp"
         style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:max="16"
-        android:progress="3" />
+        android:progress="8" />
 
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <CheckBox
             android:id="@+id/checkBox1"
+            android:checked="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="包含大写字母" />
 
         <CheckBox
             android:id="@+id/checkBox2"
+            android:checked="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="包含小写字母" />
 
         <CheckBox
             android:id="@+id/checkBox3"
+            android:checked="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="包含特殊字符" />
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="@dimen/dp_10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Button
+            android:minHeight="26dp"
+            android:minWidth="@dimen/dp_40"
+            android:background="@null"
+            android:textSize="16sp"
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:textColor="@android:color/darker_gray"
+            android:layout_weight="6"
             android:text="取消" />
 
         <Button
+            android:minHeight="26dp"
+            android:minWidth="@dimen/dp_40"
+            android:background="@null"
             android:id="@+id/btn_refresh"
+            android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/colorPrimary"
             android:text="刷新" />
 
         <Button
+            android:minHeight="26dp"
+            android:minWidth="@dimen/dp_40"
+            android:background="@null"
             android:id="@+id/btn_copy"
+            android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
             android:layout_weight="1"
             android:text="复制" />
     </LinearLayout>

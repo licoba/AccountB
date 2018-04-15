@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginTop="1dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
@@ -94,6 +94,47 @@
             android:layout_marginTop="3dp"
             android:layout_weight="0.5"
             android:src="@mipmap/copy" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout3"
+        android:clickable="true"
+        android:background="@drawable/touch_layout"
+
+        android:paddingBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="备注："
+            android:textSize="18dp" />
+
+
+        <TextView
+            android:id="@+id/tv_remarks"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="1"
+            android:textSize="18dp" />
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="0.5"
+       />
 
     </LinearLayout>
 </LinearLayout>

@@ -5,6 +5,8 @@
     android:orientation="vertical"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
+    android:paddingTop="@dimen/dp_4"
+    android:paddingBottom="@dimen/dp_4"
     android:background="@drawable/popwindow_normal"
 
     >
@@ -23,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:text="修改账号"
-            android:textSize="17dp" />
+            android:textSize="17sp" />
 
 
     </LinearLayout>
@@ -46,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:text="删除该账号"
-            android:textSize="17dp" />
+            android:textSize="17sp" />
 
 
     </LinearLayout>
@@ -68,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:text="复制内容并新建"
-            android:textSize="17dp" />
+            android:textSize="17sp" />
 
 
     </LinearLayout>
