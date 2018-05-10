@@ -1,13 +1,18 @@
 package com.example.dibage.accountb.activitys;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.dibage.accountb.R;
 import com.example.dibage.accountb.adapters.RecycleAdapter;
 import com.example.dibage.accountb.applications.MyApplication;
@@ -28,10 +33,12 @@ public class CardActivity extends AppCompatActivity {
     private LinearLayout ll_empty;
     private RecyclerView recyclerView;
     private RecycleAdapter mAdapter;
+    private ImageView btn_add;
     DaoSession daoSession ;
     CardDao cardDao;
     QueryBuilder<Card> qb;
     List<Card> cardList = new ArrayList<>();
+    public static boolean isUpdate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +53,27 @@ public class CardActivity extends AppCompatActivity {
     private void initData() {
         daoSession = ((MyApplication)getApplication()).getDaoSession();
         cardDao = daoSession.getCardDao();
-        qb = cardDao.queryBuilder();
-        cardList = qb.list();
+        qb = cardDao.queryBuilder().orderDesc(CardDao.Properties.Id);
+        cardList.clear();
+        cardList.addAll(qb.list());
     }
 
     private void initEvent() {
+        btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CardActivity.this, AddPhotoActivity.class);
+                intent.putExtra("fromAty","CardActivity");
+                startActivity(intent);
+            }
+        });
+
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                startActivity(new Intent(CardActivity.this,CardDetailActivity.class));
+            }
+        });
 
     }
 
@@ -84,6 +107,16 @@ public class CardActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         recyclerView = findViewById(R.id.recyclerView);
         ll_empty = findViewById(R.id.ll_empty);
+        btn_add= findViewById(R.id.btn_add);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(isUpdate){
+            initData();
+            mAdapter.notifyDataSetChanged();
+        }
     }
 }

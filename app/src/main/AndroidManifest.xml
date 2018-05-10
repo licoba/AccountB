@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.dibage.accountb">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -20,9 +18,8 @@
     <application
         android:name=".applications.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/accountb"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/accountb"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activitys.MainActivity" />
@@ -45,7 +42,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activitys.CardActivity" />
-        <activity android:name=".activitys.EditAccountActivity"></activity>
+        <activity android:name=".activitys.EditAccountActivity" />
+        <activity android:name=".activitys.CardDetailActivity"></activity>
     </application>
 
 </manifest>

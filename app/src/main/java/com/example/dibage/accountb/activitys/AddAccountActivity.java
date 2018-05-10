@@ -79,6 +79,7 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
     private Button btn_cancel;
     private Button btn_copy;
 
+
     private Handler mHandler;
     private float alpha = 1.0f;//初始值设为1，为不变暗
 
@@ -97,6 +98,7 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
     private void initData() {
         daoSession = ((MyApplication)getApplication()).getDaoSession();
         mAccountDao = daoSession.getAccountDao();
+
     }
 
     private void initEvent() {

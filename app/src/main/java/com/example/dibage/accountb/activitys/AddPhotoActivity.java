@@ -55,6 +55,7 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
 
     //调用系统相册-选择图片
     private static final int IMAGE = 1;
+    String fromAty = "";
 
     private Context context;
     private Toolbar toolbar;
@@ -100,6 +101,7 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
         daoSession = ((MyApplication) getApplication()).getDaoSession();
         photoDao = daoSession.getPhotoDao();
         cardDao = daoSession.getCardDao();
+        fromAty = getIntent().getStringExtra("fromAty");
     }
 
     private void initEvent() {
@@ -210,7 +212,13 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
             }
         }
 
-        Toasty.success(context, "保存完毕").show();
+        if(fromAty.equals("MainActivity")) {
+            Toasty.success(context, "保存成功，请前往证件夹查看").show();
+        }else if(fromAty.equals("CardActivity")){
+            Toasty.success(context, "保存成功").show();
+        }
+        CardActivity.isUpdate = true;
+        AddPhotoActivity.this.finish();
     }
 
     //验证填入的数据是否正确

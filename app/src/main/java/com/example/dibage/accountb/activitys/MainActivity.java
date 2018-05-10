@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.example.dibage.accountb.R;
 import com.example.dibage.accountb.adapters.AccountAdapter;
 import com.example.dibage.accountb.applications.MyApplication;
+import com.example.dibage.accountb.commonView.PopWindowTip;
 import com.example.dibage.accountb.dao.AccountDao;
 import com.example.dibage.accountb.dao.DaoSession;
 import com.example.dibage.accountb.entitys.Account;
@@ -61,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout ll_empty;
     List<Account> accountsList = new ArrayList<>();
     QueryBuilder<Account> qb;
-    AccountAdapter accountAdapter ;
-    DaoSession daoSession ;
+    AccountAdapter accountAdapter;
+    DaoSession daoSession;
     AccountDao mAccountDao;
 
     private float alpha = 1.0f;//初始值设为1，为不变暗
@@ -98,14 +99,13 @@ public class MainActivity extends AppCompatActivity {
         fabAddIdCard.setOnClickListener(FablickListener);
 
         //背景变暗的处理
-        mHandler = new Handler(){
+        mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                switch (msg.what){
+                switch (msg.what) {
                     case 1:
-                        //backgroundAlpha((float)msg.obj);
-                        UIUtils.darkenBackgroud(MainActivity.this, (float)msg.obj);
+                        UIUtils.darkenBackgroud(MainActivity.this, (float) msg.obj);
                         break;
                 }
             }
@@ -139,10 +139,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void initView() {
-        if (accountsList.size()>0){
+        if (accountsList.size() > 0) {
             ll_empty.setVisibility(View.GONE);
             sideBar.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             sideBar.setVisibility(View.INVISIBLE);
         }
 
@@ -194,10 +194,10 @@ public class MainActivity extends AppCompatActivity {
             //accountAdapter.notifyDataSetChanged();不起作用，不知道为什么
             accountAdapter = new AccountAdapter(context, R.layout.item_listview, accountsList);
             listView.setAdapter(accountAdapter);
-            if (accountsList.size()>0){
+            if (accountsList.size() > 0) {
                 ll_empty.setVisibility(View.GONE);
                 sideBar.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 sideBar.setVisibility(View.INVISIBLE);
             }
         }
@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             Account account = (Account) adapterView.getItemAtPosition(i);
-                showPopupWindow(account);
+            showPopupWindow(account);
         }
     }
 
@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
         mPopWindow.setContentView(contentView);
 
         //显示popupWindow
-        View rootview = LayoutInflater.from(MainActivity.this). inflate(R.layout.activity_main, null);
+        View rootview = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_main, null);
         mPopWindow.setAnimationStyle(R.style.Popupwindow);
         mPopWindow.showAtLocation(rootview, Gravity.CENTER, 0, 0);
         //UIUtils.darkenBackgroud(MainActivity.this, 0.5f);
@@ -306,8 +306,8 @@ public class MainActivity extends AppCompatActivity {
         layout1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,EditAccountActivity.class);
-                intent.putExtra("account_data",account);
+                Intent intent = new Intent(MainActivity.this, EditAccountActivity.class);
+                intent.putExtra("account_data", account);
                 startActivity(intent);
                 mPopWindow.dismiss();
             }
@@ -327,7 +327,7 @@ public class MainActivity extends AppCompatActivity {
         layout3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UIUtils.toast(context,"点击了layout3");
+                UIUtils.toast(context, "点击了layout3");
             }
         });
 
@@ -342,54 +342,30 @@ public class MainActivity extends AppCompatActivity {
 
     //删除提示框
     private void showPopTip(final Account account) {
-        mPopTip = new PopupWindow();
-        LayoutInflater inflater = getLayoutInflater();
-        View contentView = inflater.from(MainActivity.this).inflate(R.layout.pop_tip, null);
-        View rootview = inflater.from(MainActivity.this). inflate(R.layout.activity_main, null);
-        mPopTip = new PopupWindow(contentView,
-                getWindowManager().getDefaultDisplay().getWidth() - 200, WindowManager.LayoutParams.WRAP_CONTENT, true);
-        mPopTip.showAtLocation(rootview, Gravity.CENTER, 0, 0);
-        TextView pop_title = contentView.findViewById(R.id.pop_title);
-        TextView pop_message = contentView.findViewById(R.id.pop_message);
-        Button btn_cancel = contentView.findViewById(R.id.btn_cancel);
-        Button btn_submit = contentView.findViewById(R.id.btn_submit);
-        pop_title.setText("删除警告");
-        pop_message.setText("账号被删除之后将无法被找回，确定删除该账号？");
-        darkWindow();
-
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
+        PopWindowTip popTip = new PopWindowTip(MainActivity.this){
             @Override
-            public void onClick(View v) {
-                mPopTip.dismiss();
+            protected void clickCancel() {
+
             }
-        });
 
-        btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void clickConfirm() {
                 mAccountDao.delete(account);
                 accountsList.clear();
                 accountsList.addAll(qb.list());
                 accountsList = AccountUtils.orderListAccount(accountsList);
                 accountAdapter.notifyDataSetChanged();
-                mPopTip.dismiss();
-                if (accountsList.size()>0){
+                if (accountsList.size() > 0) {
                     ll_empty.setVisibility(View.INVISIBLE);
                     sideBar.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     ll_empty.setVisibility(View.VISIBLE);
                     sideBar.setVisibility(View.INVISIBLE);
                 }
-                Toasty.success(context,"删除成功",Toast.LENGTH_SHORT,false).show();
+                Toasty.success(context, "删除成功", Toast.LENGTH_SHORT, false).show();
             }
-        });
-        mPopTip.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                brightWindow();
-            }
-        });
-
+        };
+        popTip.setTitleAndContent("删除警告", "账号被删除之后将无法被找回，确定删除该账号？");
 
     }
 
@@ -407,6 +383,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.fabAddIdCard:
                     intent = new Intent(context, AddPhotoActivity.class);
+                    intent.putExtra("fromAty", "MainActivity");
                     startActivity(intent);
                     floatingActionMenu.close(true);
                     break;
@@ -419,10 +396,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onMenuItemClick(MenuItem menuItem) {
             String msg = "";
-            Intent intent ;
+            Intent intent;
             switch (menuItem.getItemId()) {
                 case R.id.action_search:
-                    intent = new Intent(context,SearchActivity.class);
+                    intent = new Intent(context, SearchActivity.class);
                     startActivity(intent);
 
                     break;
@@ -443,6 +420,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar, menu);
@@ -450,12 +428,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     private void brightWindow() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while(alpha<1.0f){
+                while (alpha < 1.0f) {
                     try {
                         Thread.sleep(3);//每0.004s变暗0.01
                     } catch (InterruptedException e) {
@@ -463,8 +440,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                     Message msg = mHandler.obtainMessage();
                     msg.what = 1;
-                    alpha+=0.01f;
-                    msg.obj =alpha ;
+                    alpha += 0.01f;
+                    msg.obj = alpha;
                     mHandler.sendMessage(msg);
                 }
             }
@@ -475,7 +452,7 @@ public class MainActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while(alpha>0.5f){
+                while (alpha > 0.5f) {
                     try {
                         Thread.sleep(3);//每0.004s变暗0.01
                     } catch (InterruptedException e) {
@@ -483,8 +460,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                     Message msg = mHandler.obtainMessage();
                     msg.what = 1;
-                    alpha-=0.01f;
-                    msg.obj =alpha ;
+                    alpha -= 0.01f;
+                    msg.obj = alpha;
                     mHandler.sendMessage(msg);
                 }
             }

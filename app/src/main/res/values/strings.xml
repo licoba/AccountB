@@ -21,4 +21,6 @@
     <string name="video_error_unknown_error">Failed to load video</string>
     <string name="error_fragment_message">An error occurred</string>
     <string name="dismiss_error">Dismiss</string>
+    <string name="generate_backup_tip">备份文件将会用当前的保护密码进行加密处理。日后恢复该备份时需要验证此密码，请牢记！</string>
+    <string name="generate_backup">生成备份文件</string>
 </resources>

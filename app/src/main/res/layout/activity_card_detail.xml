@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activitys.CardDetailActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_gray"
+        android:orientation="vertical">
+
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/ToolBar">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/toolbar_theme">
+            </android.support.v7.widget.Toolbar>
+
+            <ImageView
+                android:id="@+id/btn_add"
+                android:clickable="true"
+                android:layout_marginRight="13dp"
+                android:layout_gravity="right|center_vertical"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/edit"
+                />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="50dp">
+                <TextView
+                    android:text="名称"
+                    style="@style/detail_lefttext" />
+
+                <TextView
+                    android:text="名称"
+                    style="@style/detail_righttext" />
+
+            </LinearLayout>
+            <View
+                android:background="@color/gray_view"
+                android:layout_width="match_parent"
+                android:layout_height="2px"></View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="50dp">
+                <TextView
+                    android:text="姓名"
+                    style="@style/detail_lefttext" />
+
+                <TextView
+                    android:text="名称"
+                    style="@style/detail_righttext" />
+
+            </LinearLayout>
+            <View
+                android:background="@color/gray_view"
+                android:layout_width="match_parent"
+                android:layout_height="2px"></View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="50dp">
+                <TextView
+                    android:text="证号"
+                    style="@style/detail_lefttext" />
+
+                <TextView
+                    android:text="名称"
+                    style="@style/detail_righttext" />
+
+            </LinearLayout>
+            <View
+                android:background="@color/gray_view"
+                android:layout_width="match_parent"
+                android:layout_height="2px"></View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="50dp">
+                <TextView
+                    android:text="备注"
+                    style="@style/detail_lefttext" />
+
+                <TextView
+                    android:text="名称"
+                    style="@style/detail_righttext" />
+
+            </LinearLayout>
+            <View
+                android:background="@color/gray_view"
+                android:layout_width="match_parent"
+                android:layout_height="2px"></View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="90dp">
+                <TextView
+                    android:text="证件照片"
+                    style="@style/detail_lefttext" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/accountb"
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/accountb"
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/accountb"
+                    />
+
+
+            </LinearLayout>
+            <View
+                android:background="@color/gray_view"
+                android:layout_width="match_parent"
+                android:layout_height="2px"></View>
+
+
+
+
+
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

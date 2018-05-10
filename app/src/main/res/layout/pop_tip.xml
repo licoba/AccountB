@@ -7,9 +7,9 @@
     android:layout_height="wrap_content">
 
     <TextView
+        android:id="@+id/pop_title"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="@dimen/dp_10"
-        android:id="@+id/pop_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="弹窗标题"
@@ -23,10 +23,11 @@
         android:layout_marginRight="18dp"
         android:id="@+id/pop_message"
         android:layout_marginTop="12dp"
+        android:gravity="left"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="删除账号后将无法找回，确定删除该账号？"
-        android:textSize="17sp"
+        android:textSize="16sp"
 
         />
 

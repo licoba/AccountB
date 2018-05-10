@@ -22,8 +22,16 @@ public class RecycleAdapter extends BaseQuickAdapter<Card, BaseViewHolder>  {
 
     @Override
     protected void convert(BaseViewHolder helper, Card card) {
+
+        String cardnum = card.getCard_number();
+        if(card.getCard_number().length()>4){   //显示：*号加后四位，例如：*451X
+            cardnum = cardnum.substring(cardnum.length()-4,card.getCard_number().length());
+            cardnum = "＊"+cardnum;
+        }
+
         helper.setText(R.id.card_name,card.getCard_name())
-                .setText(R.id.card_number,card.getCard_number())
+                .setText(R.id.card_number,cardnum)
                 .setText(R.id.username,card.getUsername());
+
     }
 }

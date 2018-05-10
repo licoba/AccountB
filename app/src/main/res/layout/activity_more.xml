@@ -26,9 +26,9 @@
                 <!--/>-->
 
             <Button
-                android:minHeight="36dp"
-                android:minWidth="72dp"
-                android:id="@+id/btnSubmit"
+                android:minHeight="34dp"
+                android:minWidth="68dp"
+                android:id="@+id/btnShare"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -71,6 +71,7 @@
                 android:layout_marginRight="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="false"
                 android:layout_weight="1"
                  />
 
@@ -101,6 +102,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_create_backup"
             android:layout_width="match_parent"
             android:layout_marginTop="10dp"
             android:layout_height="50dp"
@@ -123,7 +125,9 @@
             android:layout_width="match_parent"
             android:layout_height="2px"
             android:background="@color/background_gray"></LinearLayout>
+
         <LinearLayout
+            android:id="@+id/ll_recovery"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/WhiteText"
@@ -146,6 +150,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_developing"
             android:layout_width="match_parent"
             android:layout_marginTop="10dp"
             android:layout_height="50dp"
@@ -158,7 +163,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:textSize="16dp"
-                android:text="新功能实验室"
+                android:text="开发中的功能"
                 />
 
         </LinearLayout>

@@ -59,13 +59,12 @@ public class SettingPasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(checkPassword()) {
-                    Toasty.success(context, "设置成功").show();
+
                     String key = "dibage";//密钥，进行解密和加密
                     String pwd_encrypt = AESUtil.aes(et_pwd.getText().toString().trim(),key, Cipher.ENCRYPT_MODE);
                     SPUtils.put(context,"pwd_encrypt",pwd_encrypt);
                     SPUtils.put(context,"is_setting_pwd",true);
-
-                    //Intent intent = new Intent();
+                    Toasty.success(context, "设置成功").show();
                     setResult(RESULT_OK);
                     SettingPasswordActivity.this.finish();
 

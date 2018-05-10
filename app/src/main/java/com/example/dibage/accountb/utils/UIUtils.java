@@ -1,14 +1,21 @@
 package com.example.dibage.accountb.utils;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
-
+import com.example.dibage.accountb.activitys.MoreActivity;
 
 
 public class UIUtils {
@@ -43,6 +50,28 @@ public class UIUtils {
         context.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         context.getWindow().setAttributes(lp);
     }
+
+
+    /**
+     * 设置toolbar的标题，以及返回事件的监听
+     * @param aty 用来显示toolbar的Activity
+     * @param toolbar toolbar对象
+     * @param title toolbar的标题
+     */
+    public static  void setToolbar(final AppCompatActivity aty, Toolbar toolbar, String title){
+        aty.setSupportActionBar(toolbar);
+        aty.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        aty.getSupportActionBar().setHomeButtonEnabled(true);
+        aty.getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setTitle(title);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                aty.finish();
+            }
+        });
+    }
+
 
 
 }

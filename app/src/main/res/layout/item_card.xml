@@ -18,35 +18,35 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:layout_weight="1"
-        android:layout_gravity="center_vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/accountb"
+        android:layout_marginLeft="16dp"
+        android:layout_gravity="center_vertical|left"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@mipmap/credit_card"
         />
 
     <TextView
+        android:layout_marginLeft="16dp"
         android:id="@+id/card_name"
-        android:layout_weight="3"
-        android:layout_gravity="center_vertical"
-        android:gravity="center|left"
+        android:layout_gravity="center_vertical|left"
+        android:gravity="center_vertical|left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:maxLength="10"
-        android:textSize="16sp"
+        android:textSize="17sp"
         android:textColor="@color/WhiteText"
         android:text="银行卡（中国银行）"
         />
 
     <TextView
+        android:layout_marginLeft="16dp"
         android:id="@+id/card_number"
-        android:layout_weight="1"
-        android:textSize="16sp"
-        android:layout_gravity="center_vertical"
+        android:textSize="17sp"
+        android:layout_gravity="center_vertical|right"
         android:gravity="center|right"
         android:textColor="@color/WhiteText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:maxLength="5"
@@ -58,7 +58,7 @@
     <LinearLayout
         android:layout_weight="1"
         android:padding="5dp"
-        android:gravity="right"
+        android:gravity="center_vertical"
         android:layout_marginRight="@dimen/dp_10"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -68,14 +68,36 @@
 
         <TextView
             android:id="@+id/username"
+            android:layout_marginLeft="20dp"
             android:textSize="16sp"
-            android:layout_gravity="right"
-            android:gravity="center|right"
+            android:gravity="center|left"
             android:textColor="@color/WhiteText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="用户名"
+            />
+
+        <TextView
+            android:textSize="13sp"
+            android:layout_marginTop="1dp"
+            android:gravity="center"
+            android:textColor="@color/WhiteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="（持有人）"
+            />
+
+        <TextView
+            android:textSize="13sp"
+            android:layout_marginTop="3dp"
+            android:gravity="center|right"
+            android:textColor="@color/background_gray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="详情 >"
             />
 
     </LinearLayout>

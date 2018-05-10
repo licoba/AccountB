@@ -13,6 +13,7 @@ import java.util.Random;
 
 public class SimpleUtils {
 
+    public static String DEFAULT_KEY = "dibage";
     public static boolean isNotNull(EditText et) {
 
 
@@ -31,18 +32,20 @@ public class SimpleUtils {
     //获取一个完全随机  并且唯一的文件名
     public static  String getRandomFileName(){
         SimpleDateFormat simpleDateFormat;
-
         simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-
         Date date = new Date();
-
         String str = simpleDateFormat.format(date);
-
         Random random = new Random();
-
         int rannum = (int) (random.nextDouble() * (99999 - 10000 + 1)) + 10000;// 获取5位随机数
-
         return rannum + str;// 当前时间
+    }
+
+    public static  String getNameByDate(){
+        SimpleDateFormat simpleDateFormat;
+        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        String str = simpleDateFormat.format(date);
+        return "backup_" + str;// 当前时间
     }
 
 
