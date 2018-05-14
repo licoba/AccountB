@@ -34,23 +34,15 @@ public class SettingPasswordActivity extends AppCompatActivity {
         et_pwd_again = findViewById(R.id.et_pwd_again);
         btn_submit = findViewById(R.id.btn_submit);
 
-        //替代ActionBar
         setSupportActionBar(toolbar);
-        //显示返回按钮
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //设置返回键为可点击状态
         getSupportActionBar().setHomeButtonEnabled(true);
-        //隐藏自带AppTitle
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setTitle("设置保护密码");
-        //toolbar.setOnMenuItemClickListener(onMenuItemClick);
 
-        //给toolbar的左上角的按钮注册点击监听
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //if (v.getId() == android.R.id.home)
-                //Toast.makeText(getApplicationContext(), "点击了返回箭头", Toast.LENGTH_LONG).show();
                 SettingPasswordActivity.this.finish();
             }
         });
@@ -59,7 +51,6 @@ public class SettingPasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(checkPassword()) {
-
                     String key = "dibage";//密钥，进行解密和加密
                     String pwd_encrypt = AESUtil.aes(et_pwd.getText().toString().trim(),key, Cipher.ENCRYPT_MODE);
                     SPUtils.put(context,"pwd_encrypt",pwd_encrypt);
@@ -67,7 +58,6 @@ public class SettingPasswordActivity extends AppCompatActivity {
                     Toasty.success(context, "设置成功").show();
                     setResult(RESULT_OK);
                     SettingPasswordActivity.this.finish();
-
                 }
             }
 

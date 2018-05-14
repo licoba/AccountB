@@ -13,47 +13,6 @@ import java.util.List;
 
 public class FileUtils {
 
-    /**
-     * 遍历获取某目录下制定类型的所有文件
-     *
-     * @param filePath
-     * @param type
-     * @return
-     */
-    public List<String> getFileDir(String filePath, String type) {
-        List<String> picList = new ArrayList<String>();
-        try {
-            File f = new File(filePath);
-            File[] files = f.listFiles();// 列出所有文件
-            // 将所有的文件存入ArrayList中,并过滤所有图片格式的文件
-            for (int i = 0; i < files.length; i++) {
-                File file = files[i];
-                if (checkIsImageFile(file.getPath(), type)) {
-                    picList.add(file.getPath());
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        // 返回得到的图片列表
-        return picList;
-    }
-
-    // 检查扩展名，得到图片格式的文件
-    private boolean checkIsImageFile(String fName, String type) {
-        boolean isImageFile = false;
-        // 获取扩展名
-        String FileEnd = fName.substring(fName.lastIndexOf(".") + 1,
-                fName.length()).toLowerCase();
-        if (FileEnd.equals(type)) {
-            isImageFile = true;
-        } else {
-            isImageFile = false;
-        }
-
-        return isImageFile;
-
-    }
 
     /**
      * 如果文件不存在，就创建文件
@@ -131,6 +90,10 @@ public class FileUtils {
 
     }
 
+
+
+
+
     /**
      * 从文件中读取数据，返回类型是字符串String类型
      *
@@ -141,7 +104,6 @@ public class FileUtils {
     public static String readString(String file, String charset) {
         byte[] data = readBytes(file);
         String ret = null;
-
         try {
             ret = new String(data, charset);
         } catch (Exception e) {
@@ -152,6 +114,12 @@ public class FileUtils {
 
     }
 
+    /**
+     * 存储文件
+     * @param path 文件路径
+     * @param data 以字符串形式来存储数据
+     * @return
+     */
     public static boolean saveData(String path, String data) {
         File file = new File(path);
         try {
@@ -165,6 +133,47 @@ public class FileUtils {
             return false;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    /**
+     * 通过路径和后缀名来获取文件
+     * @param path
+     * @param type
+     * @return
+     */
+    public static List<String> getDataByType(String path,String type){
+        List<String> resultList = new ArrayList<String>();
+        File[] files = new File(path).listFiles();//获取路径下所有文件
+        if(files!=null) {
+            for (int i = 0; i < files.length; i++) {
+                File file = files[i];
+                if (file.isFile()) {
+                    if (file.getPath().substring(file.getPath().length() - type.length()).equals(type))  //判断扩展名
+                        resultList.add(file.getPath());
+                }
+            }
+        }
+        return resultList;
+    }
+
+
+    /**
+     * 根据路径删除文件
+     * @param filename
+     * @return
+     */
+    public static boolean deleteFile(String filename){
+        File file = new File(filename);
+        if (file.exists() && file.isFile()) {
+            if (file.delete()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
             return false;
         }
     }

@@ -50,13 +50,15 @@ import es.dmoral.toasty.Toasty;
 
 public class MoreActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MoreActivity";
+    public static final int RECORVRY_DATA = 3;//导入账号
     private Toolbar toolbar;
     private Switch switch_finger;
     private FingerprintIdentify mFingerprintIdentify;
     private LinearLayout ll_settingpassword;
     private LinearLayout ll_developing;
     private LinearLayout ll_create_backup;
-    private final int SETTING_PASSWORD = 1;
+    private final int SETTING_PASSWORD = 1;//设置密码
+    private final int MODIFY_PASSWORD = 2;//修改密码
     private TextView tv_set_pwd;
     private boolean is_setting_pwd;
     private boolean is_setting_finger;
@@ -70,6 +72,7 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
     PopWindowTip popWindowTip;
     PopWindowTip popWindowTip2;
     private LinearLayout ll_recovery;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +98,7 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
                     Toasty.success(MoreActivity.this, "指纹解锁已启用").show();
                     SPUtils.put(MoreActivity.this, "finger_state", true);
                 }
-            } else if(!isChecked){
+            } else if (!isChecked) {
                 popWindowTip = new PopWindowTip(MoreActivity.this) {
                     @Override
                     protected void clickCancel() {
@@ -104,6 +107,7 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
                         switch_finger.setOnCheckedChangeListener(new MyCheckListener());
 
                     }
+
                     @Override
                     public void clickConfirm() {
                         if ((Boolean) SPUtils.get(MoreActivity.this, "finger_state", false)) {
@@ -169,14 +173,13 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()) {
+            //设置、修改保护密码
             case R.id.ll_settingpassword:
-                is_setting_pwd = (boolean) SPUtils.get(context, "isSetPassword", false);
-                if (is_setting_pwd) {
+                is_setting_pwd = (boolean) SPUtils.get(context, "is_setting_pwd", false);
+                if (is_setting_pwd) {//设置过密码则跳转到修改密码界面
                     intent = new Intent(MoreActivity.this, ModifyPasswordActivity.class);
                     startActivity(intent);
                 } else {//没有设置过密码则跳转到设置密码页面
-                    byte[] bs = new byte[10000];
-                    //String aesStr = AESUtil.aes(bs, "dibage", Cipher.ENCRYPT_MODE);
                     intent = new Intent(MoreActivity.this, SettingPasswordActivity.class);
                     startActivityForResult(intent, SETTING_PASSWORD);
                 }
@@ -200,12 +203,13 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
                 //首先，检查权限，然后检查是否 设置保护密码和是否有数据
                 //全部通过的话再弹出PopWindow
                 checkPermissions();
-                if (permission_state){
+                if (permission_state) {
                     if (checkPwdData()) {
                         popWindowTip = new PopWindowTip(MoreActivity.this) {
                             @Override
                             protected void clickCancel() {
                             }
+
                             @Override
                             public void clickConfirm() {
                                 generateBackup();
@@ -218,8 +222,18 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.ll_recovery: //备份文件恢复
+                checkPermissions();
+                if (permission_state) {
+                    intent = new Intent(MoreActivity.this, RecorveyActivity.class);
+                    startActivityForResult(intent, RECORVRY_DATA);
+                }
                 break;
         }
+    }
+
+    //从备份文件中恢复数据
+    private void recorveyData() {
+
     }
 
     //检查是否 设置保护密码 和 是否有数据
@@ -250,7 +264,6 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
             case 1:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     permission_state = true;
-
                 } else {//用户点击拒绝
                     permission_state = false;
                     Toasty.warning(context, "需要访问文件权限才能进行操作").show();
@@ -299,11 +312,17 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SETTING_PASSWORD && resultCode == RESULT_OK) {
-            is_setting_pwd = true;
-            tv_set_pwd.setText("修改保护密码");
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case SETTING_PASSWORD:
+                    is_setting_pwd = true;
+                    tv_set_pwd.setText("修改保护密码");
+                break;
+                case RECORVRY_DATA://备份文件导入完成
+                    this.finish();
+                    break;
+            }
         }
     }
 }

@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     defaultConfig {
         applicationId "com.example.dibage.accountb"
-        minSdkVersion 22
-        targetSdkVersion 26
+        minSdkVersion 19
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -59,13 +59,15 @@ dependencies {
 
     implementation 'com.wei.android.lib:fingerprintidentify:1.2.1'//指纹识别模块
 
-    implementation 'com.gcssloop.util:encrypt:1.0.0@aar'//加密解密工具类
+    implementation 'com.gcssloop.util:encrypt:1.0.2'//加密解密工具类
 
     implementation 'com.github.nanchen2251:CompressHelper:1.0.5'//图片/文件压缩工具类
 
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'//RecyclerView适配器
 
     implementation 'com.android.support:recyclerview-v7:26.1.0'
+
+    implementation 'com.yanzhenjie:recyclerview-swipe:1.1.4'//侧滑删除
 
     implementation 'com.google.code.gson:gson:2.8.2'
 }

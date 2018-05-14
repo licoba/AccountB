@@ -22,7 +22,7 @@ public class Account implements Serializable {
     @NotNull
     private String description;//名称
     @NotNull
-    private String  username;//用户名
+    private String username;//用户名
     @NotNull
     private String password;//密码
     private String remark;//描述
@@ -42,7 +42,7 @@ public class Account implements Serializable {
 
     @Generated(hash = 1413604925)
     public Account(Long id, @NotNull String description, @NotNull String username,
-            @NotNull String password, String remark, String firstchar) {
+                   @NotNull String password, String remark, String firstchar) {
         this.id = id;
         this.description = description;
         this.username = username;
@@ -51,7 +51,7 @@ public class Account implements Serializable {
         this.firstchar = firstchar;
     }
 
-    public Account( @NotNull String description, @NotNull String username,
+    public Account(@NotNull String description, @NotNull String username,
                    @NotNull String password, String remark) {
         this.description = description;
         this.username = username;
@@ -59,8 +59,8 @@ public class Account implements Serializable {
         this.remark = remark;
     }
 
-    public Account( @NotNull String description, @NotNull String username,
-                    @NotNull String password, String remark,@NotNull String firstchar) {
+    public Account(@NotNull String description, @NotNull String username,
+                   @NotNull String password, String remark, @NotNull String firstchar) {
         this.description = description;
         this.username = username;
         this.password = password;
@@ -71,33 +71,43 @@ public class Account implements Serializable {
     @Generated(hash = 882125521)
     public Account() {
     }
+
     public Long getId() {
         return this.id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getDescription() {
         return this.description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
+
     public String getUsername() {
         return this.username;
     }
+
     public void setUsername(String username) {
         this.username = username;
     }
+
     public String getPassword() {
         return this.password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
+
     public String getRemark() {
         return this.remark;
     }
+
     public void setRemark(String remark) {
         this.remark = remark;
     }

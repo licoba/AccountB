@@ -47,8 +47,11 @@ import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
+import static com.example.dibage.accountb.activitys.MoreActivity.RECORVRY_DATA;
+
 public class MainActivity extends AppCompatActivity {
     final String TAG = "MainActivity";
+    public static final int ADD_ACCOUNT = 1;
     Context context = MainActivity.this;
     static boolean isPause = false;
     private FloatingActionMenu floatingActionMenu;
@@ -60,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private PopupWindow mPopWindow;
     private PopupWindow mPopTip;
     private LinearLayout ll_empty;
-    List<Account> accountsList = new ArrayList<>();
+    List<Account> accountsList;
     QueryBuilder<Account> qb;
     AccountAdapter accountAdapter;
     DaoSession daoSession;
@@ -94,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         listView.setOnItemLongClickListener(new myItemLongClickListener());
-
         fabAddAccount.setOnClickListener(FablickListener);
         fabAddIdCard.setOnClickListener(FablickListener);
 
@@ -114,17 +116,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData() {
-
         daoSession = ((MyApplication) getApplication()).getDaoSession();
         mAccountDao = daoSession.getAccountDao();
         //获取queryBuilder，通过queryBuilder来实现查询功能
         //mAccountDao.queryBuilder()表示查询所有，
         // orderAsc(AccountDao.Properties.Firstchar)表示按照首字母升序排序（#比A大，所以需要用函数重新排序）
         qb = mAccountDao.queryBuilder().orderAsc(AccountDao.Properties.Firstchar, AccountDao.Properties.Username);
-        accountsList = qb.list();
-        accountsList = AccountUtils.orderListAccount(accountsList);
+        accountsList = new ArrayList<>();
+        accountsList.clear();
+        accountsList.addAll(AccountUtils.orderListAccount(qb.list()));
         accountAdapter = new AccountAdapter(context, R.layout.item_listview, accountsList);
         listView.setAdapter(accountAdapter);
+        accountAdapter.notifyDataSetChanged();
+
     }
 
     private void initFBI() {
@@ -139,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void initView() {
+
         if (accountsList.size() > 0) {
             ll_empty.setVisibility(View.GONE);
             sideBar.setVisibility(View.VISIBLE);
@@ -186,14 +191,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume() {//每次onResume都会刷新一次数据
         super.onResume();
         if (isPause) { //判断是否暂停
             isPause = false;
             initData();
-            //accountAdapter.notifyDataSetChanged();不起作用，不知道为什么
-            accountAdapter = new AccountAdapter(context, R.layout.item_listview, accountsList);
-            listView.setAdapter(accountAdapter);
+
             if (accountsList.size() > 0) {
                 ll_empty.setVisibility(View.GONE);
                 sideBar.setVisibility(View.VISIBLE);
@@ -378,7 +381,7 @@ public class MainActivity extends AppCompatActivity {
             switch (v.getId()) {
                 case R.id.fabAddAcount:
                     intent = new Intent(context, AddAccountActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent,ADD_ACCOUNT);
                     floatingActionMenu.close(true);
                     break;
                 case R.id.fabAddIdCard:
@@ -405,7 +408,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.action_setting:
                     intent = new Intent(context, MoreActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent,RECORVRY_DATA);
                     break;
                 case R.id.action_card:
                     intent = new Intent(context, CardActivity.class);
@@ -468,5 +471,18 @@ public class MainActivity extends AppCompatActivity {
         }).start();
     }
 
-
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == RESULT_OK) {
+//            switch (requestCode) {
+//                case RECORVRY_DATA://备份文件导入完成，刷新数据
+//
+//                    break;
+//                case ADD_ACCOUNT://添加账号完成
+//                    initData();
+//                    break;
+//            }
+//        }
+//    }
 }

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/bg_poptip"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/pop_title"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="请输入密码"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        />
+
+    <EditText
+        android:id="@+id/et_pwd"
+        android:layout_marginTop="20dp"
+        android:gravity="left"
+        android:background="@null"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+
+        />
+    <View
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/colorPrimary"
+        ></View>
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:text="密码是备份此文件时使用的保护密码"
+        android:textColor="@android:color/darker_gray"
+        />
+    <TextView
+        android:id="@+id/tv_warning"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:text="注意：此操作将会清空当前账号的数据！"
+        android:textColor="@color/colorPrimary"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="right"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="5dp"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_16"
+            android:text="取消"
+            android:textColor="@android:color/darker_gray"
+            android:background="@null"
+            android:minHeight="26dp"
+            android:minWidth="@dimen/dp_40"
+            />
+
+
+        <Button
+
+            android:id="@+id/btn_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_16"
+            android:text="确定"
+            android:textColor="@color/colorPrimary"
+            android:background="@null"
+            android:minHeight="26dp"
+            android:minWidth="@dimen/dp_40"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
