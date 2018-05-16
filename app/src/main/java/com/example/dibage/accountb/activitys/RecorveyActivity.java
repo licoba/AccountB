@@ -79,10 +79,12 @@ public class RecorveyActivity extends AppCompatActivity {
     String op_filepath = "";//定义全局，表示操作文件的路径
     private AlertDialog dialog;
     private AlertDialog dialog_pwd;
+    private AlertDialog dialog_rename;
     private EditText et_pwd;
     DaoSession daoSession;
     AccountDao mAccountDao;
     private String content;
+    private EditText et_filename;
 
 
     @Override
@@ -111,13 +113,79 @@ public class RecorveyActivity extends AppCompatActivity {
                         break;
                     case R.id.layout3://发送该文件
                         dialog.dismiss();
+                        FileUtils.shareFile(context,new File(op_filepath));
                         break;
                     case R.id.layout4://重命名文件
                         dialog.dismiss();
+                        renameFile();
                         break;
                 }
             }
         };
+    }
+
+    //重命名文件
+    private void renameFile() {
+        showRenameDialog();
+    }
+
+    //重命名文件的dialog
+    private void showRenameDialog() {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.dialog_rename, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setView(view);
+        dialog_rename = builder.create();
+        dialog_rename.show();
+        // 将对话框的大小按屏幕大小的百分比设置
+        dialog_rename.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager windowManager = getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = dialog_rename.getWindow().getAttributes();
+        lp.width = (int) (display.getWidth() * 0.75); //设置宽度
+        dialog_rename.getWindow().setAttributes(lp);
+
+        et_filename = view.findViewById(R.id.et_filename);
+        et_filename.setText(FileUtils.getFileName(op_filepath));
+        et_filename.setSelection(et_filename.getText().length());
+        InputMethodManager inputManager = (InputMethodManager) et_filename
+                .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.showSoftInput(et_filename, 0);
+        //必须要延迟启动软键盘，如果布局还未绘制完成，则showSoftInput()方法不起作用。
+        getWindow().getDecorView().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    et_filename.requestFocus();
+                    imm.showSoftInput(et_filename, 0);
+                }
+            }
+        }, 150);
+
+        Button btn_cancel = view.findViewById(R.id.btn_cancel);
+        Button btn_confirm = view.findViewById(R.id.btn_confirm);
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog_rename.dismiss();
+            }
+        });
+        btn_confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (et_filename.getText().toString().isEmpty()){
+                    Toasty.warning(context,"请输入文件名").show();
+                }else {
+                    FileUtils.renameFile(op_filepath,et_filename.getText().toString().trim());
+                    dialog_rename.dismiss();
+                    Toasty.success(context,"命名成功").show();
+                    initData();
+                    mAdapter.notifyDataSetChanged();
+                    updateUI();
+                }
+            }
+        });
     }
 
     //合并导入
@@ -299,7 +367,7 @@ public class RecorveyActivity extends AppCompatActivity {
 
     private void initData() {
         context = this;
-
+        recordList.clear();
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/账号册子/";
         List<String> backups_paths = FileUtils.getDataByType(path, ".bkp");
         for (int i = 0; i < backups_paths.size(); i++) {

@@ -109,6 +109,13 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
                     }
 
                     @Override
+                    protected void dismissTodo() {
+                        switch_finger.setOnCheckedChangeListener(null);
+                        switch_finger.setChecked(true);
+                        switch_finger.setOnCheckedChangeListener(new MyCheckListener());
+                    }
+
+                    @Override
                     public void clickConfirm() {
                         if ((Boolean) SPUtils.get(MoreActivity.this, "finger_state", false)) {
                             Toasty.info(MoreActivity.this, "指纹解锁已关闭").show();
@@ -117,6 +124,9 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 };
                 popWindowTip.setTitleAndContent("指纹解锁", "确定关闭指纹解锁功能？");
+                popWindowTip.setOutside(false);
+                popWindowTip.update();
+
             }
         }
 
@@ -196,7 +206,6 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.ll_developing:
                 intent = new Intent(MoreActivity.this, ModifyPasswordActivity.class);
                 startActivity(intent);
-
                 break;
 
             case R.id.ll_create_backup: //生成备份文件
@@ -208,6 +217,11 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
                         popWindowTip = new PopWindowTip(MoreActivity.this) {
                             @Override
                             protected void clickCancel() {
+                            }
+
+                            @Override
+                            protected void dismissTodo() {
+
                             }
 
                             @Override
@@ -290,6 +304,11 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
             popWindowTip2 = new PopWindowTip(MoreActivity.this) {
                 @Override
                 protected void clickCancel() {
+                }
+
+                @Override
+                protected void dismissTodo() {
+
                 }
 
                 @Override

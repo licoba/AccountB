@@ -352,6 +352,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
+            protected void dismissTodo() {
+
+            }
+
+            @Override
             public void clickConfirm() {
                 mAccountDao.delete(account);
                 accountsList.clear();

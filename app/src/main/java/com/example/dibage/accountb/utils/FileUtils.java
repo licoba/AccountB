@@ -1,6 +1,11 @@
 package com.example.dibage.accountb.utils;
 
+import android.content.Context;
+import android.content.Intent;
+import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 
 import java.io.File;
@@ -176,5 +181,61 @@ public class FileUtils {
         } else {
             return false;
         }
+    }
+
+    // 調用系統方法分享文件
+    public static void shareFile(Context context, File file) {
+        if (null != file && file.exists()) {
+            Intent share = new Intent(Intent.ACTION_SEND);
+            Uri uri = FileProvider.getUriForFile(context, "com.example.dibage.accountb.fileprovider", file);
+            share.putExtra(Intent.EXTRA_STREAM, uri);
+            share.setType("*/*");//此处可发送多种文件
+            share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            context.startActivity(Intent.createChooser(share, "分享文件"));
+        }
+    }
+
+    // 根据文件后缀名获得对应的MIME类型。
+    private static String getMimeType(String filePath) {
+        MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+        String mime = "*/*";
+        if (filePath != null) {
+            try {
+                mmr.setDataSource(filePath);
+                mime = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_MIMETYPE);
+            } catch (IllegalStateException e) {
+                return mime;
+            } catch (IllegalArgumentException e) {
+                return mime;
+            } catch (RuntimeException e) {
+                return mime;
+            }
+        }
+        return mime;
+    }
+
+    /**
+     * 获取文件名称
+     * @param pathandname 文件的路径
+     * @return
+     */
+    public static  String   getFileName(String pathandname){
+        int start=pathandname.lastIndexOf("/");
+        int end=pathandname.lastIndexOf(".");
+        if(start!=-1 && end!=-1){
+            return pathandname.substring(start+1,end);
+        }else{
+            return null;
+        }
+    }
+
+
+    public static void renameFile(String filePath,String reName ){
+        File file = new File(filePath);
+        //前面路径必须一样才能修改成功
+        String path = filePath.substring(0, filePath.lastIndexOf("/")+1)+reName+filePath.substring(filePath.lastIndexOf("."), filePath.length());
+        File newFile = new File(path);
+        file.renameTo(newFile);
     }
 }

@@ -3,6 +3,7 @@ package com.example.dibage.accountb.commonView;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,23 @@ public abstract class PopWindowTip {
 
     public void dismiss() {
         mPopTip.dismiss();
+    }
+
+
+    public void setOutside(boolean state){
+        mPopTip.setOutsideTouchable(state);
+    }
+
+    public void setFocus(boolean state){
+        mPopTip.setFocusable(state);
+    }
+
+    public void setBackGround(){
+        mPopTip.setBackgroundDrawable(new BitmapDrawable());
+    }
+
+    public void update(){
+        mPopTip.update();
     }
 
 
@@ -112,12 +130,16 @@ public abstract class PopWindowTip {
             @Override
             public void onDismiss() {
                 UIUtils.darkenBackgroud(activity, 1.0f);
+                dismissTodo();
             }
         });
 
     }
 
+    protected abstract void dismissTodo();
+
     public abstract void clickConfirm();
+    
 
 
 }
