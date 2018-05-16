@@ -387,7 +387,7 @@ public class RecorveyActivity extends AppCompatActivity {
             record.setNumber(accountsList.size());
             recordList.add(record);
 
-            Log.e(TAG, "一个备份文件中所含数据的条数：" + accountsList.size());
+//            Log.e(TAG, "一个备份文件中所含数据的条数：" + accountsList.size());
 
         }
     }

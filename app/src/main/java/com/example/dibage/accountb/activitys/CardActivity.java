@@ -71,7 +71,9 @@ public class CardActivity extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(CardActivity.this,CardDetailActivity.class));
+                Intent intent = new Intent(CardActivity.this,CardDetailActivity.class);
+                intent.putExtra("card",cardList.get(position));
+                startActivity(intent);
             }
         });
 

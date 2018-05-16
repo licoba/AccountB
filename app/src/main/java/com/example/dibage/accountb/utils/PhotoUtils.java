@@ -1,6 +1,7 @@
 package com.example.dibage.accountb.utils;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.util.Log;
@@ -81,6 +82,15 @@ public class PhotoUtils {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
         return baos.toByteArray();
+    }
+
+    //将Bitmap进行压缩处理
+    public static Bitmap compressBitmap(Bitmap bm,int quality){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, quality, baos);
+        byte[] bytes = baos.toByteArray();
+        bm = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        return bm;
     }
 
 

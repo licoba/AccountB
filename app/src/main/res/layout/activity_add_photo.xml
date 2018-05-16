@@ -325,7 +325,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="拍摄证件照片"
+                    android:text="添加证件照片"
                     android:textSize="16sp"
                     android:layout_gravity="center_horizontal"
                     android:textColor="@color/colorPrimary"

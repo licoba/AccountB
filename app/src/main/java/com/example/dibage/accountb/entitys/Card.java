@@ -5,6 +5,7 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToMany;
 
+import java.io.Serializable;
 import java.util.List;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
@@ -14,7 +15,9 @@ import com.example.dibage.accountb.dao.CardDao;
 
 //实体类：证件 Card
 @Entity
-public class Card {
+public class Card implements Serializable {
+
+    private static final long serialVersionUID = 2L;
     //ID主键自增
     @Id(autoincrement = true)
     private Long id;
@@ -25,7 +28,7 @@ public class Card {
     @NotNull
     private String card_number;//卡号
     private String remark;//备注
-    //cardId为photo类中定义的一个属性
+    //cardId为photo类中定义的一个属性,作为外键引用进来
     @ToMany(referencedJoinProperty = "cardId")
     private List<Photo> photoList;
     /** Used to resolve relations */

@@ -72,6 +72,8 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
     PopWindowTip popWindowTip;
     PopWindowTip popWindowTip2;
     private LinearLayout ll_recovery;
+    private LinearLayout ll_course;
+    private LinearLayout ll_support;
 
 
     @Override
@@ -163,7 +165,8 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
         ll_recovery.setOnClickListener(this);
         mFingerprintIdentify = new FingerprintIdentify(this);
         switch_finger.setOnCheckedChangeListener(new MyCheckListener());
-
+        ll_course.setOnClickListener(this);
+        ll_support.setOnClickListener(this);
     }
 
     private void initFBI() {
@@ -175,6 +178,9 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
         ll_developing = findViewById(R.id.ll_developing);
         ll_create_backup = findViewById(R.id.ll_create_backup);
         ll_recovery = findViewById(R.id.ll_recovery);
+        ll_course = findViewById(R.id.ll_course);
+        ll_support = findViewById(R.id.ll_support);
+
 
     }
 
@@ -204,9 +210,17 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.ll_developing:
-                intent = new Intent(MoreActivity.this, ModifyPasswordActivity.class);
-                startActivity(intent);
+//                intent = new Intent(MoreActivity.this, ModifyPasswordActivity.class);
+//                startActivity(intent);
+                Toasty.success(context,"后续会增加文件导出txt,文件导出excel等功能，敬请期待。",Toast.LENGTH_SHORT,false).show();
                 break;
+            case R.id.ll_course:
+                Toasty.success(context,"教程还没写。",Toast.LENGTH_SHORT,false).show();
+                break;
+            case R.id.ll_support:
+                Toasty.success(context,"谢谢你的支持。",Toast.LENGTH_SHORT,false).show();
+                break;
+
 
             case R.id.ll_create_backup: //生成备份文件
                 //首先，检查权限，然后检查是否 设置保护密码和是否有数据

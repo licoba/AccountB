@@ -26,7 +26,7 @@
             </android.support.v7.widget.Toolbar>
 
             <ImageView
-                android:id="@+id/btn_add"
+                android:id="@+id/btn_edit"
                 android:clickable="true"
                 android:layout_marginRight="13dp"
                 android:layout_gravity="right|center_vertical"
@@ -51,6 +51,7 @@
 
                 <TextView
                     android:text="名称"
+                    android:id="@+id/tv_cardname"
                     style="@style/detail_righttext" />
 
             </LinearLayout>
@@ -68,7 +69,8 @@
                     style="@style/detail_lefttext" />
 
                 <TextView
-                    android:text="名称"
+                    android:text="姓名"
+                    android:id="@+id/tv_username"
                     style="@style/detail_righttext" />
 
             </LinearLayout>
@@ -87,6 +89,7 @@
 
                 <TextView
                     android:text="名称"
+                    android:id="@+id/tv_cardnumber"
                     style="@style/detail_righttext" />
 
             </LinearLayout>
@@ -105,6 +108,7 @@
 
                 <TextView
                     android:text="名称"
+                    android:id="@+id/tv_remark"
                     style="@style/detail_righttext" />
 
             </LinearLayout>
@@ -116,39 +120,27 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:gravity="center_vertical"
-                android:layout_height="90dp">
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
                 <TextView
                     android:text="证件照片"
                     style="@style/detail_lefttext" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/accountb"
-                    />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/accountb"
-                    />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/accountb"
-                    />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_marginTop="@dimen/sp_16"
+                    android:layout_marginLeft="@dimen/sp_16"
+                    android:layout_marginRight="@dimen/sp_16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
+                </android.support.v7.widget.RecyclerView>
 
             </LinearLayout>
             <View
                 android:background="@color/gray_view"
                 android:layout_width="match_parent"
                 android:layout_height="2px"></View>
-
-
-
-
-
-
 
         </LinearLayout>
     </LinearLayout>
