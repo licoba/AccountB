@@ -10,9 +10,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -42,10 +44,12 @@ import com.example.dibage.accountb.utils.UIUtils;
 import com.gjiazhe.wavesidebar.WaveSideBar;
 import com.nanchen.compresshelper.CompressHelper;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,8 +57,10 @@ import es.dmoral.toasty.Toasty;
 
 public class AddPhotoActivity extends AppCompatActivity implements View.OnClickListener {
 
-    //调用系统相册-选择图片
-    private static final int IMAGE = 1;
+
+    private static final int IMAGE = 1; //调用系统相册-选择图片
+    private static final int CAMERA = 2;//调用系统相机
+    private final String TAG = "AddPhotoActivity";
     String fromAty = "";
 
     private Context context;
@@ -80,10 +86,11 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
     DaoSession daoSession;
     private PhotoDao photoDao;
     private CardDao cardDao;
+    private File cameraFile;
 
     int count_photo = 0;//计数、总照片数
     List<String> photoPathList = new ArrayList<>(4);//选择的照片的绝对路径
-    List<String> privatePathList = new ArrayList<>();
+    List<String> privatePathList = new ArrayList<>();//私有路径
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,10 +185,11 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
         switch (view.getId()) {
             case R.id.btn_from_album:
                 mPopWindow.dismiss();
-                checkPermission();
+                checkPermission(IMAGE);
                 break;
             case R.id.btn_from_camera:
-                Toasty.success(context, "点击了Btn相机").show();
+                mPopWindow.dismiss();
+                checkPermission(CAMERA);
                 break;
             case R.id.btn_commit:
 
@@ -212,9 +220,9 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
             }
         }
 
-        if(fromAty.equals("MainActivity")) {
+        if (fromAty.equals("MainActivity")) {
             Toasty.success(context, "保存成功，请前往证件夹查看").show();
-        }else if(fromAty.equals("CardActivity")){
+        } else if (fromAty.equals("CardActivity")) {
             Toasty.success(context, "保存成功").show();
         }
         CardActivity.isUpdate = true;
@@ -236,21 +244,21 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
         return true;
     }
 
-    //保存照片到程序的私有目录
+    //保存照片到程序的私有目录（根据绝对路径，然后保存到私有目录）
     private void savePhoto(List<String> photoPathList) {
         for (int i = 0; i < count_photo; i++) {
             try {
                 //得到File对象后压缩File
                 File file = new File(photoPathList.get(i));
-                file = CompressHelper.getDefault(this).compressToFile(file);
+                //file = CompressHelper.getDefault(this).compressToFile(file);
                 byte[] bytes = PhotoUtils.File2Bytes(file);
                 //文件被存储到/data/data/<package  name>/files/目录下，只允许本程序访问，其它程序没有访问权限
                 //随机生成一个文件名
                 String filename = SimpleUtils.getRandomFileName();
 //                String ssss = getApplicationContext().getFilesDir().getAbsolutePath();
 //                Log.e("私有文件存储的绝对路径：",ssss);
-                privatePathList.add(getFilesDir()+"/" + filename + ".jpg");
-                FileOutputStream fos = context.openFileOutput(filename+".jpg", MODE_PRIVATE);
+                privatePathList.add(getFilesDir() + "/" + filename + ".jpg");
+                FileOutputStream fos = context.openFileOutput(filename + ".jpg", MODE_PRIVATE);
                 //写入文件
                 fos.write(bytes);
                 //关闭输出流
@@ -261,37 +269,93 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    //检查用户是否给予了权限，如果给予了，打开系统相册；如果没有给予权限，则向用户申请授权
-    private void checkPermission() {
-        if (!(ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED)) { //权限没有被授予
+    /*
+        动态申请权限
+        condition：为1：申请相册权限；为2：申请拍照权限
+     */
+    private void checkPermission(int condition) {
+        if (condition == IMAGE) {
+            if (!(ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED)) { //权限没有被授予
+                ActivityCompat.requestPermissions(AddPhotoActivity.this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        IMAGE);
 
-            //Toasty.success(context,"权限未拥有，需要申请权限").show();
-            /**3.申请授权
-             * @param
-             *  @param activity The target activity.（Activity|Fragment、）
-             * @param permissions The requested permissions.（权限字符串数组）
-             * @param requestCode Application specific request code to match with a result（int型申请码）
-             *    reported to {@link OnRequestPermissionsResultCallback#onRequestPermissionsResult(
-             *int, String[], int[])}.
-             * */
-            ActivityCompat.requestPermissions(AddPhotoActivity.this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    IMAGE);
+            } else {//权限被授予
+                //Toasty.success(context,"已经拥有权限").show();
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, IMAGE);
+                //直接操作
+            }
+        } else if (condition == CAMERA) {
+            String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+            String[] permission_camera = new String[]{Manifest.permission.CAMERA};
+            String[] permission_storage = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-        } else {//权限被授予
-            //Toasty.success(context,"已经拥有权限").show();
-            Intent intent = new Intent(Intent.ACTION_PICK,
-                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(intent, IMAGE);
-            //直接操作
+            if ((ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+                    == PackageManager.PERMISSION_GRANTED)) {
+                startCamera();
+            } else if (!(ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) && !(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+                    == PackageManager.PERMISSION_GRANTED)) {
+                ActivityCompat.requestPermissions(AddPhotoActivity.this, permissions, CAMERA);
+            } else if ((ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) && !(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+                    == PackageManager.PERMISSION_GRANTED)) {
+                ActivityCompat.requestPermissions(AddPhotoActivity.this, permission_camera, CAMERA);
+            } else {
+                ActivityCompat.requestPermissions(AddPhotoActivity.this, permission_storage, CAMERA);
+            }
         }
+    }
+
+    //拍照并且保存到程序的私有目录
+    private void startCamera() {
+        String filename = SimpleUtils.getRandomFileName();
+        String filepath = getFilesDir()+"/" + filename + ".jpg";
+        cameraFile = new File(filepath);
+        Uri uri = FileProvider.getUriForFile(context, "com.example.dibage.accountb.fileprovider", cameraFile);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        startActivityForResult(intent, CAMERA);//开启相机
+    }
+
+    //权限申请回调
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == IMAGE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, IMAGE);
+            } else {
+                Toasty.info(context, "请授予软件需要的权限").show();
+            }
+            return;
+        } else if (requestCode == CAMERA) {
+            if (permissions.length == 2) {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    startCamera();
+                } else {
+                    Toasty.info(context, "请授予软件需要的权限").show();
+                }
+            } else if (permissions.toString().equals(Manifest.permission.CAMERA)) {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startCamera();
+                } else {
+                    Toasty.info(context, "请授予软件需要的权限").show();
+                }
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     //处理相册回调
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //获取图片路径
         if (requestCode == IMAGE && resultCode == Activity.RESULT_OK && data != null) {
             count_photo++;
             Uri selectedImage = data.getData();
@@ -303,10 +367,15 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
             photoPathList.add(imagePath);
             showImage(imagePath);
             c.close();
+        } else if (requestCode == CAMERA && resultCode == Activity.RESULT_OK ) {
+            count_photo++;
+            photoPathList.add(cameraFile.getAbsolutePath());
+            showImage(cameraFile.getAbsolutePath());
+
         }
     }
 
-    //显示图片
+    //根据相册返回的路径 显示图片
     private void showImage(String imagePath) {
         List<ImageView> ivList = new ArrayList<>();
         ivList.add(imageView1);
@@ -345,30 +414,6 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
             ivList.get(i).setImageBitmap(bm);
             ivList.get(i).setVisibility(View.VISIBLE);
         }
-//        ((ImageView)findViewById(R.id.img_1)).setImageBitmap(bm);
-    }
-
-    //4.处理权限申请回调
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-
-        if (requestCode == IMAGE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                //Toasty.success(context,"权限被授予").show();
-                Intent intent = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, IMAGE);
-
-            } else { // Permission Denied
-
-                Toasty.info(context, "此功能需要访问设备文件权限才能运行哦").show();
-            }
-            return;
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
 

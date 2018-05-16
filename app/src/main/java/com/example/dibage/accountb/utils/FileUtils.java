@@ -188,6 +188,7 @@ public class FileUtils {
         if (null != file && file.exists()) {
             Intent share = new Intent(Intent.ACTION_SEND);
             Uri uri = FileProvider.getUriForFile(context, "com.example.dibage.accountb.fileprovider", file);
+            Log.e("URI字符串",uri.toString());
             share.putExtra(Intent.EXTRA_STREAM, uri);
             share.setType("*/*");//此处可发送多种文件
             share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
