@@ -99,6 +99,7 @@ public abstract class PopWindowTip {
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mPopTip.setOnDismissListener(null);
                 mPopTip.dismiss();
                 clickCancel();
             }
@@ -108,6 +109,7 @@ public abstract class PopWindowTip {
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mPopTip.setOnDismissListener(null);
                 mPopTip.dismiss();//这句话一定要放在前面，不然会造成PopWindow不及时变色
                 clickConfirm();
 

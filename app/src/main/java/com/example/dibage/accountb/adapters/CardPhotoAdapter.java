@@ -14,6 +14,7 @@ import com.example.dibage.accountb.R;
 import com.example.dibage.accountb.entitys.Card;
 import com.example.dibage.accountb.entitys.Photo;
 import com.example.dibage.accountb.utils.PhotoUtils;
+import com.github.chrisbanes.photoview.PhotoView;
 
 import java.io.File;
 import java.util.List;
@@ -35,7 +36,7 @@ public class CardPhotoAdapter extends BaseQuickAdapter<Photo, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, Photo item) {
-        ImageView imageView = helper.getView(R.id.img_card);
+        ImageView imageView = (ImageView) helper.getView(R.id.img_card);
         File file = new File(item.getPhoto_path());
         Glide.with(context).load(file).into(imageView);
     }

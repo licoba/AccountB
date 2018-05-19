@@ -1,5 +1,6 @@
 package com.example.dibage.accountb.activitys;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,9 +10,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.dibage.accountb.R;
 import com.example.dibage.accountb.adapters.CardPhotoAdapter;
 import com.example.dibage.accountb.applications.MyApplication;
@@ -20,6 +25,8 @@ import com.example.dibage.accountb.dao.DaoSession;
 import com.example.dibage.accountb.dao.PhotoDao;
 import com.example.dibage.accountb.entitys.Card;
 import com.example.dibage.accountb.entitys.Photo;
+import com.github.chrisbanes.photoview.OnPhotoTapListener;
+import com.github.chrisbanes.photoview.PhotoView;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -45,6 +52,13 @@ public class CardDetailActivity extends AppCompatActivity {
     private DaoSession daoSession;
     private CardDao cardDao;
     private List<Photo> photoList = new ArrayList<>();
+    private CardPhotoAdapter mAdapter;
+    private FrameLayout fl_bigimage;
+    private ImageView iv_exit;
+    private PhotoView big_image;
+    private LinearLayout ll_detail;
+    Context context;
+    int flag = 0;//用来判断大图是否显示
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +72,26 @@ public class CardDetailActivity extends AppCompatActivity {
     }
 
     private void initEvent() {
+        //点击查看大图
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                flag =1;
+                ll_detail.setVisibility(View.GONE);
+                fl_bigimage.setVisibility(View.VISIBLE);
+                Glide.with(context).load(photoList.get(position).getPhoto_path()).into(big_image);
+            }
+        });
 
+
+        big_image.setOnPhotoTapListener(new OnPhotoTapListener() {
+            @Override
+            public void onPhotoTap(ImageView view, float x, float y) {
+                flag = 0;
+                ll_detail.setVisibility(View.VISIBLE);
+                fl_bigimage.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void initView() {
@@ -78,7 +111,7 @@ public class CardDetailActivity extends AppCompatActivity {
         tv_cardnumber.setText(card.getCard_number());
         tv_remark.setText(card.getRemark());
 
-        CardPhotoAdapter mAdapter = new CardPhotoAdapter(R.layout.item_cardphoto, photoList);
+        mAdapter = new CardPhotoAdapter(R.layout.item_cardphoto, photoList);
         mAdapter.setContext(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(HORIZONTAL);
@@ -88,6 +121,7 @@ public class CardDetailActivity extends AppCompatActivity {
     }
 
     private void initData() {
+        context = this;
         intent  =getIntent();
         daoSession = ((MyApplication) getApplication()).getDaoSession();
         PhotoDao photoDao = daoSession.getPhotoDao();
@@ -106,5 +140,25 @@ public class CardDetailActivity extends AppCompatActivity {
         tv_cardnumber = findViewById(R.id.tv_cardnumber);
         tv_remark = findViewById(R.id.tv_remark);
         recyclerView = findViewById(R.id.recyclerView);
+        fl_bigimage = findViewById(R.id.fl_bigimage);
+        big_image = fl_bigimage.findViewById(R.id.big_image);
+        ll_detail = findViewById(R.id.ll_detail);
+    }
+
+
+    //设置图片全屏显示，隐藏状态栏
+    public void setAllWindow(){
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(flag==1) {
+            ll_detail.setVisibility(View.VISIBLE);
+            fl_bigimage.setVisibility(View.GONE);
+            flag=0;
+        }else{
+            super.onBackPressed();
+        }
     }
 }

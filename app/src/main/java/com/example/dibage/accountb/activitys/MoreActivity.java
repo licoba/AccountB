@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -74,6 +75,8 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout ll_recovery;
     private LinearLayout ll_course;
     private LinearLayout ll_support;
+    private LinearLayout ll_openource;
+    private LinearLayout ll_project_location;
 
 
     @Override
@@ -88,40 +91,49 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
     public class MyCheckListener implements CompoundButton.OnCheckedChangeListener {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if (isChecked) {
+            if (isChecked) {//从关到开
+//                Toasty.success(context,"开").show();
                 if (!mFingerprintIdentify.isHardwareEnable()) {
                     Toasty.info(MoreActivity.this, "您的设备不支持指纹识别，无法使用此功能").show();
                 } else if (!mFingerprintIdentify.isRegisteredFingerprint()) {
                     Toasty.info(MoreActivity.this, "请在您的设备中录入指纹后再使用此功能").show();
                 } else {
-                    Toasty.success(MoreActivity.this, "指纹解锁已启用").show();
+                    Toasty.success(MoreActivity.this, "指纹解锁已启用", Toast.LENGTH_SHORT, false).show();
                     SPUtils.put(MoreActivity.this, "finger_state", true);
                 }
-            } else if (!isChecked) {
+            } else if (!isChecked) {//从开到关
+                //Toasty.success(context,"关").show();
                 popWindowTip = new PopWindowTip(MoreActivity.this) {
                     @Override
                     protected void clickCancel() {
                         switch_finger.setOnCheckedChangeListener(null);
                         switch_finger.setChecked(true);
                         switch_finger.setOnCheckedChangeListener(new MyCheckListener());
-
                     }
 
                     @Override
                     protected void dismissTodo() {
-                        switch_finger.setOnCheckedChangeListener(null);
-                        switch_finger.setChecked(true);
-                        switch_finger.setOnCheckedChangeListener(new MyCheckListener());
+                        if ((Boolean) SPUtils.get(MoreActivity.this, "finger_state", false)) {
+                            switch_finger.setOnCheckedChangeListener(null);
+                            switch_finger.setChecked(true);
+                            switch_finger.setOnCheckedChangeListener(new MyCheckListener());
+                        }
                     }
 
                     @Override
                     public void clickConfirm() {
+
                         if ((Boolean) SPUtils.get(MoreActivity.this, "finger_state", false)) {
-                            Toasty.info(MoreActivity.this, "指纹解锁已关闭").show();
+                            Toasty.success(MoreActivity.this, "指纹解锁已关闭", Toast.LENGTH_SHORT, false).show();
                             SPUtils.put(MoreActivity.this, "finger_state", false);
+//                            switch_finger.setOnCheckedChangeListener(null);
+//                            switch_finger.setChecked(false);
+//                            switch_finger.setOnCheckedChangeListener(new MyCheckListener());
+
                         }
                     }
                 };
@@ -140,6 +152,7 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
         if (is_setting_pwd) {
             tv_set_pwd.setText("修改保护密码");
         }
+        //在这里还没给switch注册监听
         if (is_setting_finger)
             switch_finger.setChecked(true);
         else
@@ -167,6 +180,8 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
         switch_finger.setOnCheckedChangeListener(new MyCheckListener());
         ll_course.setOnClickListener(this);
         ll_support.setOnClickListener(this);
+        ll_openource.setOnClickListener(this);
+        ll_project_location.setOnClickListener(this);
     }
 
     private void initFBI() {
@@ -180,6 +195,8 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
         ll_recovery = findViewById(R.id.ll_recovery);
         ll_course = findViewById(R.id.ll_course);
         ll_support = findViewById(R.id.ll_support);
+        ll_openource = findViewById(R.id.ll_opensource);
+        ll_project_location = findViewById(R.id.ll_project_location);
 
 
     }
@@ -212,13 +229,13 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.ll_developing:
 //                intent = new Intent(MoreActivity.this, ModifyPasswordActivity.class);
 //                startActivity(intent);
-                Toasty.success(context,"后续会增加文件导出txt,文件导出excel等功能，敬请期待。",Toast.LENGTH_SHORT,false).show();
+                Toasty.success(context, "导出txt、excel功能正在开发中。", Toast.LENGTH_SHORT, false).show();
                 break;
             case R.id.ll_course:
-                Toasty.success(context,"教程还没写。",Toast.LENGTH_SHORT,false).show();
+                Toasty.success(context, "教程还没写。", Toast.LENGTH_SHORT, false).show();
                 break;
             case R.id.ll_support:
-                Toasty.success(context,"谢谢你的支持。",Toast.LENGTH_SHORT,false).show();
+                Toasty.success(context, "谢谢你的支持。", Toast.LENGTH_SHORT, false).show();
                 break;
 
 
@@ -255,6 +272,17 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
                     intent = new Intent(MoreActivity.this, RecorveyActivity.class);
                     startActivityForResult(intent, RECORVRY_DATA);
                 }
+                break;
+            case R.id.ll_opensource: //开源感谢
+                intent = new Intent(MoreActivity.this, OpenSourceActivity.class);
+                startActivityForResult(intent, RECORVRY_DATA);
+                break;
+            case R.id.ll_project_location: //项目地址
+                String webSite = "https://github.com/SilenceStar/AccountB";
+                Uri uri= Uri.parse(webSite);   //指定网址
+                intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(uri);
+                startActivity(intent);
                 break;
         }
     }
@@ -334,12 +362,6 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
         } else
             Toasty.warning(MoreActivity.this, "存入失败").show();
 
-
-//        Log.e(TAG,"备份文件内容：（AES加密）"+backupString);
-//        String backupString1 = AESUtil.aes(backupString,key, Cipher.DECRYPT_MODE);
-//        Log.e(TAG,"解密出来的内容："+backupString1);
-
-
     }
 
 
@@ -351,7 +373,7 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
                 case SETTING_PASSWORD:
                     is_setting_pwd = true;
                     tv_set_pwd.setText("修改保护密码");
-                break;
+                    break;
                 case RECORVRY_DATA://备份文件导入完成
                     this.finish();
                     break;

@@ -135,7 +135,6 @@
             android:orientation="horizontal">
 
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -143,9 +142,6 @@
                 android:text="备份文件恢复"
                 android:textSize="16dp"
                 />
-
-
-
 
         </LinearLayout>
 
@@ -187,8 +183,50 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="新手指引教程"
+                android:text="使用疑问解答"
                 android:textSize="16dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_opensource"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="50dp"
+            android:background="@color/WhiteText"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textSize="16dp"
+                android:text="开源感谢"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/background_gray"></LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_project_location"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/WhiteText"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textSize="16dp"
+                android:text="项目地址"
                 />
 
         </LinearLayout>
@@ -207,7 +245,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:textSize="16dp"
-                android:text="评分/捐助"
+                android:text="评分/支持"
                 />
 
         </LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@android:color/black"
+    android:layout_height="match_parent">
+
+    <!--<ImageView-->
+        <!--android:layout_marginTop="12dp"-->
+        <!--android:layout_marginLeft="12dp"-->
+        <!--android:padding="5dp"-->
+        <!--android:id="@+id/iv_exit"-->
+        <!--android:layout_width="28dp"-->
+        <!--android:layout_height="28dp"-->
+        <!--android:background="@mipmap/cross"-->
+        <!--/>-->
+
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/big_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/ic_launcher"
+        />
+
+</FrameLayout>

@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activitys.CardDetailActivity">
 
+    <include
+        android:id="@+id/fl_bigimage"
+        layout="@layout/big_image"
+        android:visibility="gone"></include>
 
     <LinearLayout
+        android:id="@+id/ll_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_gray"
         android:orientation="vertical">
 
         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -22,127 +26,132 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/toolbar_theme">
-            </android.support.v7.widget.Toolbar>
+                android:theme="@style/toolbar_theme"></android.support.v7.widget.Toolbar>
 
             <ImageView
                 android:id="@+id/btn_edit"
-                android:clickable="true"
-                android:layout_marginRight="13dp"
-                android:layout_gravity="right|center_vertical"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@mipmap/edit"
-                />
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="13dp"
+                android:clickable="true"
+                android:src="@mipmap/edit" />
         </FrameLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="50dp"
+            android:gravity="center_vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:gravity="center_vertical"
-                android:layout_height="50dp">
-                <TextView
-                    android:text="名称"
-                    style="@style/detail_lefttext" />
+            <TextView
+                style="@style/detail_lefttext"
+                android:text="证件名称" />
 
-                <TextView
-                    android:text="名称"
-                    android:id="@+id/tv_cardname"
-                    style="@style/detail_righttext" />
-
-            </LinearLayout>
-            <View
-                android:background="@color/gray_view"
-                android:layout_width="match_parent"
-                android:layout_height="2px"></View>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:gravity="center_vertical"
-                android:layout_height="50dp">
-                <TextView
-                    android:text="姓名"
-                    style="@style/detail_lefttext" />
-
-                <TextView
-                    android:text="姓名"
-                    android:id="@+id/tv_username"
-                    style="@style/detail_righttext" />
-
-            </LinearLayout>
-            <View
-                android:background="@color/gray_view"
-                android:layout_width="match_parent"
-                android:layout_height="2px"></View>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:gravity="center_vertical"
-                android:layout_height="50dp">
-                <TextView
-                    android:text="证号"
-                    style="@style/detail_lefttext" />
-
-                <TextView
-                    android:text="名称"
-                    android:id="@+id/tv_cardnumber"
-                    style="@style/detail_righttext" />
-
-            </LinearLayout>
-            <View
-                android:background="@color/gray_view"
-                android:layout_width="match_parent"
-                android:layout_height="2px"></View>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:gravity="center_vertical"
-                android:layout_height="50dp">
-                <TextView
-                    android:text="备注"
-                    style="@style/detail_lefttext" />
-
-                <TextView
-                    android:text="名称"
-                    android:id="@+id/tv_remark"
-                    style="@style/detail_righttext" />
-
-            </LinearLayout>
-            <View
-                android:background="@color/gray_view"
-                android:layout_width="match_parent"
-                android:layout_height="2px"></View>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:text="证件照片"
-                    style="@style/detail_lefttext" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_marginTop="@dimen/sp_16"
-                    android:layout_marginLeft="@dimen/sp_16"
-                    android:layout_marginRight="@dimen/sp_16"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </android.support.v7.widget.RecyclerView>
-
-            </LinearLayout>
-            <View
-                android:background="@color/gray_view"
-                android:layout_width="match_parent"
-                android:layout_height="2px"></View>
+            <TextView
+                android:id="@+id/tv_cardname"
+                style="@style/detail_righttext"
+                android:text="名称" />
 
         </LinearLayout>
-    </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_view"></View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                style="@style/detail_lefttext"
+                android:text="持有人姓名" />
+
+            <TextView
+                android:id="@+id/tv_username"
+                style="@style/detail_righttext"
+                android:text="姓名" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_view"></View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                style="@style/detail_lefttext"
+                android:text="证号" />
+
+            <TextView
+                android:id="@+id/tv_cardnumber"
+                style="@style/detail_righttext"
+                android:text="名称" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_view"></View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                style="@style/detail_lefttext"
+                android:text="备注" />
+
+            <TextView
+                android:id="@+id/tv_remark"
+                style="@style/detail_righttext"
+                android:text="名称" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_view"></View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_marginTop="15dp"
+                style="@style/detail_lefttext"
+                android:text="证件照片（点击查看大图）" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="@dimen/sp_16"
+                android:layout_marginBottom="@dimen/sp_14"
+                android:layout_marginTop="@dimen/sp_16">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_view"></View>
+
+    </LinearLayout>
+</FrameLayout>
