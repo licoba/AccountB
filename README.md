@@ -24,7 +24,7 @@
 ### 2018/04/15
 随机密码布局的编写
 
-### 待实现的功能：
+### 已实现的功能：
 
 - [编辑和删除]
 - [账号的导出]
@@ -32,5 +32,6 @@
 - [照片的添加]
 
 
-### 扫码下载test版本（2018/04/12更新）
-![](https://qr.api.cli.im/qr?data=https%253A%252F%252Fvip.d0.baidupan.com%252Ffile%252F%253FBGIHOVloU2IIAQc%252FBjMHawY5Bz9X4FbgAqNTsFOAU%252BUE4QDRAdAHtlKpBMJRcwEwWi4GNgBxBmUFcgBtUykBZgRtBzxZYVNYCDcHNQZvBzUGbQcwVzxWYQIxU2VTKVM0BHcAagFvB2BSPARhUTEBOVo1BiUALwZ0BT8ANFM%252FATEEPAd%252FWTRTMwhxB2AGYAcpBmwHYFc6VmMCY1NkUz9TNgQ9ADEBPgdqUjUEYVExAWJaMgY2AGkGNAUwADFTOQEzBGcHYFk9U2UIOAdhBmcHMQZyB2NXeFY%252FAiNTIFN%252FUyYEOQBmAWkHYVI3BGdRMQE0WjMGNwBoBiIFdgBvU2IBZQRiB21ZNVMyCGwHYgZnBzIGaQcxVzBWYQIrU3tTKVMnBHQAagFt&level=H&transparent=true&bgcolor=%23ffffff&forecolor=%230c004b&blockpixel=12&marginblock=1&logourl=http%3A&size=280&kid=cliim&key=d46a79e80060db0969a027ef6d79389a)
+### 扫码下载test版本（2018/05/17更新）
+![](http://wx4.sinaimg.cn/mw690/0060lm7Tly1frdmjz6zltj305a05ajr7.jpg)
+### 或点击链接https://pan.lanzou.com/i11g9uh
