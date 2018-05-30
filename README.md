@@ -33,5 +33,5 @@
 
 
 ### 扫码下载test版本（2018/05/17更新）
-![](http://wx4.sinaimg.cn/mw690/0060lm7Tly1frdmjz6zltj305a05ajr7.jpg)
+![](http://p7bxmqr98.bkt.clouddn.com/1527692381.png)
 ### 或点击链接https://pan.lanzou.com/i11g9uh
