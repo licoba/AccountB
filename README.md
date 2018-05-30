@@ -33,5 +33,5 @@
 
 
 ### 扫码下载test版本（2018/05/17更新）
-![](http://p7bxmqr98.bkt.clouddn.com/1527692381.png)
+![](https://s1.ax2x.com/2018/05/30/7M9mA.png)
 ### 或点击链接https://pan.lanzou.com/i11g9uh
