@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -12,12 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.dibage.accountb.R;
+import com.example.dibage.accountb.utils.EncryUtils;
 import com.example.dibage.accountb.utils.SPUtils;
-import com.gcssloop.encrypt.symmetric.AESUtil;
+
+
 import com.wei.android.lib.fingerprintidentify.FingerprintIdentify;
 import com.wei.android.lib.fingerprintidentify.base.BaseFingerprint;
-
-import javax.crypto.Cipher;
 
 import es.dmoral.toasty.Toasty;
 
@@ -138,7 +137,8 @@ public class ValidateActivity extends AppCompatActivity implements View.OnClickL
             String pwd_from_sp = "";
             pwd_from_sp = (String) SPUtils.get(context, "pwd_encrypt", "默认值");
             //Toasty.info(context,"解密后的数据："+AESUtil.aes(pwd_from_sp,"dibage", Cipher.DECRYPT_MODE)).show();
-            if (sBuffer.toString().equals(AESUtil.aes(pwd_from_sp, "dibage", Cipher.DECRYPT_MODE))) {
+//            if (sBuffer.toString().equals(AESUtil.aes(pwd_from_sp, "dibage", Cipher.DECRYPT_MODE))) {
+            if (sBuffer.toString().equals(EncryUtils.getInstance().decryptString(pwd_from_sp,"dibage"))) {
                 Toasty.success(context, "验证成功").show();
                 Intent intent = new Intent(ValidateActivity.this, MainActivity.class);
                 startActivity(intent);

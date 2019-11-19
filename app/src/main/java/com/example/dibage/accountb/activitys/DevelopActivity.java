@@ -140,7 +140,6 @@ public class DevelopActivity extends AppCompatActivity implements View.OnClickLi
                     startActivity(intent);
                 } else {//没有设置过密码则跳转到设置密码页面
                     byte[] bs= new  byte[10000];
-                    //String aesStr = AESUtil.aes(bs, "dibage", Cipher.ENCRYPT_MODE);
                     intent = new Intent(DevelopActivity.this, SettingPasswordActivity.class);
                     startActivityForResult(intent,SETTING_PASSWORD);
                 }

@@ -1,7 +1,6 @@
 package com.example.dibage.accountb.activitys;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -10,11 +9,9 @@ import android.widget.EditText;
 
 import com.example.dibage.accountb.R;
 import com.example.dibage.accountb.base.BaseActivity;
+import com.example.dibage.accountb.utils.EncryUtils;
 import com.example.dibage.accountb.utils.SPUtils;
 import com.example.dibage.accountb.utils.SimpleUtils;
-import com.gcssloop.encrypt.symmetric.AESUtil;
-
-import javax.crypto.Cipher;
 
 import es.dmoral.toasty.Toasty;
 
@@ -83,9 +80,12 @@ public class ModifyPasswordActivity extends BaseActivity {
     //检查旧密码是否正确
     private void checkOldpwd(String password,String newPassword) {
         String pwd = (String) SPUtils.get(context, "pwd_encrypt", "");
-        String pwd_from_storage = AESUtil.aes(pwd, SimpleUtils.DEFAULT_KEY, Cipher.DECRYPT_MODE);
+        String pwd_from_storage = EncryUtils.getInstance().decryptString(pwd,SimpleUtils.DEFAULT_KEY);
+//        String pwd_from_storage = AESUtil.aes(pwd, SimpleUtils.DEFAULT_KEY, Cipher.DECRYPT_MODE);
         if (password.equals(pwd_from_storage)){
-            String pwd_encrypt = AESUtil.aes(newPassword,SimpleUtils.DEFAULT_KEY, Cipher.ENCRYPT_MODE);
+//            String pwd_encrypt = AESUtil.aes(newPassword,SimpleUtils.DEFAULT_KEY, Cipher.ENCRYPT_MODE);
+            String pwd_encrypt = EncryUtils.getInstance().encryptString(newPassword,SimpleUtils.DEFAULT_KEY);
+
             SPUtils.put(context,"pwd_encrypt",pwd_encrypt);
             Toasty.success(context,"修改成功").show();
             this.finish();

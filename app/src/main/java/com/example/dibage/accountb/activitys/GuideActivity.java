@@ -11,10 +11,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.example.dibage.accountb.R;
+import com.example.dibage.accountb.utils.EncryUtils;
 import com.example.dibage.accountb.utils.SPUtils;
-import com.gcssloop.encrypt.symmetric.AESUtil;
+import com.example.dibage.accountb.utils.SimpleUtils;
 
-import javax.crypto.Cipher;
 
 import es.dmoral.toasty.Toasty;
 
@@ -62,8 +62,8 @@ public class GuideActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(checkPassword()) {
                     Toasty.success(context, "设置成功").show();
-                    String key = "dibage";//密钥，进行解密和加密
-                    String pwd_encrypt = AESUtil.aes(et_pwd.getText().toString().trim(),key, Cipher.ENCRYPT_MODE);
+//                    String pwd_encrypt = AESUtil.aes(et_pwd.getText().toString().trim(),key, Cipher.ENCRYPT_MODE);
+                    String pwd_encrypt = EncryUtils.getInstance().encryptString(et_pwd.getText().toString().trim(), SimpleUtils.DEFAULT_KEY);
                     SPUtils.put(context,"already_guide",true);
                     SPUtils.put(context,"pwd_encrypt",pwd_encrypt);
                     SPUtils.put(context,"is_setting_pwd",true);

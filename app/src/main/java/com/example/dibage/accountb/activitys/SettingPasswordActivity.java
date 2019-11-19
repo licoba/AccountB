@@ -1,7 +1,6 @@
 package com.example.dibage.accountb.activitys;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -10,10 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.dibage.accountb.R;
+import com.example.dibage.accountb.utils.EncryUtils;
 import com.example.dibage.accountb.utils.SPUtils;
-import com.gcssloop.encrypt.symmetric.AESUtil;
+import com.example.dibage.accountb.utils.SimpleUtils;
 
-import javax.crypto.Cipher;
 
 import es.dmoral.toasty.Toasty;
 
@@ -51,8 +50,7 @@ public class SettingPasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(checkPassword()) {
-                    String key = "dibage";//密钥，进行解密和加密
-                    String pwd_encrypt = AESUtil.aes(et_pwd.getText().toString().trim(),key, Cipher.ENCRYPT_MODE);
+                    String pwd_encrypt =  EncryUtils.getInstance().encryptString(et_pwd.getText().toString().trim(), SimpleUtils.DEFAULT_KEY);
                     SPUtils.put(context,"pwd_encrypt",pwd_encrypt);
                     SPUtils.put(context,"is_setting_pwd",true);
                     Toasty.success(context, "设置成功").show();

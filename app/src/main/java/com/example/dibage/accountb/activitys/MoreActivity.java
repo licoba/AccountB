@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -17,7 +16,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -30,22 +28,19 @@ import com.example.dibage.accountb.dao.AccountDao;
 import com.example.dibage.accountb.dao.DaoSession;
 import com.example.dibage.accountb.entitys.Account;
 import com.example.dibage.accountb.utils.AccountUtils;
+import com.example.dibage.accountb.utils.EncryUtils;
 import com.example.dibage.accountb.utils.FileUtils;
 import com.example.dibage.accountb.utils.SPUtils;
 import com.example.dibage.accountb.utils.SimpleUtils;
 import com.example.dibage.accountb.utils.UIUtils;
-import com.gcssloop.encrypt.symmetric.AESUtil;
+
 import com.google.gson.Gson;
-import com.nanchen.compresshelper.FileUtil;
 import com.wei.android.lib.fingerprintidentify.FingerprintIdentify;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.crypto.Cipher;
 
 import es.dmoral.toasty.Toasty;
 
@@ -335,9 +330,11 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
         String jsonString = gson.toJson(accountsList);
 //        Log.e(TAG,"json格式的List："+jsonString);
         String pwd = (String) SPUtils.get(context, "pwd_encrypt", "diabge");
-        String key = AESUtil.aes(pwd, SimpleUtils.DEFAULT_KEY, Cipher.DECRYPT_MODE);
+        String key = EncryUtils.getInstance().decryptString(pwd, SimpleUtils.DEFAULT_KEY);
+//        String key = AESUtil.aes(pwd, SimpleUtils.DEFAULT_KEY, Cipher.DECRYPT_MODE);
 //        Log.e(TAG,"加密用的key："+key);
-        String backupString = AESUtil.aes(jsonString, key, Cipher.ENCRYPT_MODE);
+//        String backupString = AESUtil.aes(jsonString, key, Cipher.ENCRYPT_MODE);
+        String backupString = EncryUtils.getInstance().decryptString(jsonString, SimpleUtils.DEFAULT_KEY);
         String dir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/账号册子/";
         String path = dir + SimpleUtils.getNameByDate() + ".bkp";
         Log.e(TAG, "目录：" + dir);

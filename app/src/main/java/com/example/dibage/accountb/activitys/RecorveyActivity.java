@@ -1,20 +1,14 @@
 package com.example.dibage.accountb.activitys;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.nfc.Tag;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ItemDecoration;
-import android.text.Layout;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +18,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.example.dibage.accountb.R;
 import com.example.dibage.accountb.adapters.RecordAdapter;
@@ -33,11 +26,13 @@ import com.example.dibage.accountb.dao.AccountDao;
 import com.example.dibage.accountb.dao.DaoSession;
 import com.example.dibage.accountb.entitys.Account;
 import com.example.dibage.accountb.entitys.Record;
+import com.example.dibage.accountb.utils.EncryUtils;
 import com.example.dibage.accountb.utils.FileUtils;
 import com.example.dibage.accountb.utils.SPUtils;
 import com.example.dibage.accountb.utils.SimpleUtils;
 import com.example.dibage.accountb.utils.UIUtils;
-import com.gcssloop.encrypt.symmetric.AESUtil;
+
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yanzhenjie.recyclerview.swipe.SwipeItemClickListener;
@@ -54,11 +49,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.crypto.Cipher;
-
 import es.dmoral.toasty.Toasty;
 
-import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 /*
@@ -259,7 +251,8 @@ public class RecorveyActivity extends AppCompatActivity {
             return;
         }
         String key = et_pwd.getText().toString().trim();
-        String jiemi = AESUtil.aes(content, key, Cipher.DECRYPT_MODE);
+//        String jiemi = AESUtil.aes(content, key, Cipher.DECRYPT_MODE);
+        String jiemi = EncryUtils.getInstance().decryptString(content,key);
         if (jiemi == null) {
             Toasty.warning(context, "不是这个密码，再想想？").show();
             et_pwd.setText("");
@@ -374,8 +367,10 @@ public class RecorveyActivity extends AppCompatActivity {
             File file = new File(backups_paths.get(i));
             String s = FileUtils.readString(backups_paths.get(i), "utf-8");
             String pwd = (String) SPUtils.get(context, "pwd_encrypt", "diabge");
-            String key = AESUtil.aes(pwd, SimpleUtils.DEFAULT_KEY, Cipher.DECRYPT_MODE);
-            String jiemi = AESUtil.aes(s, key, Cipher.DECRYPT_MODE);
+            String key = EncryUtils.getInstance().encryptString(pwd,SimpleUtils.DEFAULT_KEY);
+//            String key = AESUtil.aes(pwd, SimpleUtils.DEFAULT_KEY, Cipher.DECRYPT_MODE);
+            String jiemi =  EncryUtils.getInstance().decryptString(s, key);
+//            String jiemi = AESUtil.aes(s, key, Cipher.DECRYPT_MODE);
             List<Account> accountsList = new ArrayList<>();
             Gson gson = new Gson();
             accountsList = gson.fromJson(jiemi, new TypeToken<List<Account>>() {
