@@ -11,6 +11,8 @@
 * 支持保存以及查看证件照
 * 密码采用AES对称加密
 
+## 软件截图
+![](https://raw.githubusercontent.com/licoba/AccountB/master/apk/run.gif)
 ## 开发流程
 
 ### 2018/04/06
@@ -54,6 +56,6 @@
 
 
 
-### [点击链接](https://raw.githubusercontent.com/licoba/AccountB/master/install_package/%E8%B4%A6%E5%8F%B7%E6%9C%AC%E5%AD%90.apk)或扫码下载apk
+### [点击链接](https://github.com/licoba/AccountB/raw/master/apk/%E8%B4%A6%E5%8F%B7%E5%86%8C%E5%AD%90.apk)或扫码下载apk
 
-![](https://raw.githubusercontent.com/licoba/AccountB/master/apk/1542551129.png)
+![](https://raw.githubusercontent.com/licoba/AccountB/master/apk/1574168200.png)
