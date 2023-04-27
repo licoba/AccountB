@@ -68,7 +68,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".activity.OpenSourceActivity"></activity>
+        <activity android:name=".activity.OpenSourceActivity"/>
     </application>
 
 </manifest>

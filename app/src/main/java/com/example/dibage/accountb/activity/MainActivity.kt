@@ -62,8 +62,6 @@ class MainActivity : BaseActivity() {
     var accountAdapter: AccountAdapter? = null
     lateinit var daoSession: DaoSession
     lateinit var mAccountDao: AccountDao
-    private var alpha = 1.0f //初始值设为1，为不变暗
-    private var mHandler: Handler? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
@@ -87,15 +85,6 @@ class MainActivity : BaseActivity() {
         fabAddAccount!!.setOnClickListener(FablickListener)
         fabAddIdCard!!.setOnClickListener(FablickListener)
 
-        //背景变暗的处理
-        mHandler = object : Handler() {
-            override fun handleMessage(msg: Message) {
-                super.handleMessage(msg)
-                when (msg.what) {
-                    1 -> UIUtils.darkenBackgroud(this@MainActivity, msg.obj as Float)
-                }
-            }
-        }
     }
 
     override fun initData() {
@@ -370,22 +359,7 @@ class MainActivity : BaseActivity() {
         return true
     }
 
-    private fun brightWindow() {
-        Thread {
-            while (alpha < 1.0f) {
-                try {
-                    Thread.sleep(3) //每0.004s变暗0.01
-                } catch (e: InterruptedException) {
-                    e.printStackTrace()
-                }
-                val msg = mHandler!!.obtainMessage()
-                msg.what = 1
-                alpha += 0.01f
-                msg.obj = alpha
-                mHandler!!.sendMessage(msg)
-            }
-        }.start()
-    }
+
 
    //    @Override
     //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {

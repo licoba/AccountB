@@ -77,8 +77,8 @@ class AddPhotoActivity() : AppCompatActivity(), View.OnClickListener {
 
     private fun initData() {
         daoSession = (application as MyApplication).daoSession
-        photoDao = daoSession.getPhotoDao()
-        cardDao = daoSession.getCardDao()
+        photoDao = daoSession.photoDao
+        cardDao = daoSession.cardDao
         fromAty = intent.getStringExtra("fromAty").toString()
     }
 
