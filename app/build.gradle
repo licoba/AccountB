@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
+apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
     compileSdkVersion 28
@@ -20,6 +21,10 @@ android {
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
+    }
+
+    viewBinding {
+        enabled = true
     }
 }
 

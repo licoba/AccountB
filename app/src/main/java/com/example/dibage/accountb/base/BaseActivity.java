@@ -13,8 +13,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initFBI();//获取控件实例
-        initData();//初始化数据
         initView();//讲数据显示到控件上
+        initData();//初始化数据
         initEvent();//初始化控件的事件
     }
 
