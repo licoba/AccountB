@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="20dp"
-    android:layout_marginRight="20dp"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="40dp"
+    android:layout_marginRight="40dp"
     android:background="@drawable/popwindow_normal"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_description"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/black"
         android:text="名称"
         android:textSize="20dp" />
 
@@ -35,6 +36,7 @@
             android:layout_marginLeft="8dp"
             android:layout_weight="1"
             android:gravity="center"
+            android:textColor="#8C8C8C"
             android:text="账号："
             android:textSize="18dp" />
 
@@ -45,6 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="1"
+            android:textColor="#262626"
             android:textSize="18dp" />
 
         <ImageView
@@ -76,6 +79,7 @@
             android:layout_marginLeft="8dp"
             android:layout_weight="1"
             android:gravity="center"
+            android:textColor="#8C8C8C"
             android:text="密码："
             android:textSize="18dp" />
 
@@ -86,6 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="1"
+            android:textColor="#262626"
             android:textSize="18dp" />
 
         <ImageView
@@ -117,6 +122,7 @@
             android:layout_marginLeft="8dp"
             android:layout_weight="1"
             android:gravity="center"
+            android:textColor="#8C8C8C"
             android:text="备注："
             android:textSize="18dp" />
 
@@ -127,6 +133,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="1"
+            android:textColor="#262626"
             android:textSize="18dp" />
 
         <ImageView

@@ -75,6 +75,9 @@ dependencies {
     implementation 'com.tencent:mmkv:1.2.16'
     // 对话框组件
     implementation "com.kongzue.dialogx:DialogX:0.0.47"
+    //  工具类
+    implementation 'com.blankj:utilcodex:1.31.1'
+
 
 
 }

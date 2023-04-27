@@ -4,15 +4,14 @@ import android.annotation.SuppressLint
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
-import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.ListView
@@ -20,6 +19,7 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import com.blankj.utilcode.util.ConvertUtils
 import com.example.dibage.accountb.R
 import com.example.dibage.accountb.adapters.AccountAdapter
 import com.example.dibage.accountb.applications.MyApplication
@@ -34,7 +34,10 @@ import com.example.dibage.accountb.utils.UIUtils
 import com.github.clans.fab.FloatingActionButton
 import com.github.clans.fab.FloatingActionMenu
 import com.gjiazhe.wavesidebar.WaveSideBar
+import com.kongzue.dialogx.dialogs.CustomDialog
+import com.kongzue.dialogx.dialogs.MessageDialog
 import com.kongzue.dialogx.dialogs.PopMenu
+import com.kongzue.dialogx.interfaces.OnBindView
 import com.kongzue.dialogx.interfaces.OnIconChangeCallBack
 import com.kongzue.dialogx.interfaces.OnMenuItemClickListener
 import es.dmoral.toasty.Toasty
@@ -202,7 +205,7 @@ class MainActivity : BaseActivity() {
     inner class myItemClickListener : AdapterView.OnItemClickListener {
         override fun onItemClick(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
             val account = adapterView.getItemAtPosition(i) as Account
-            showPopupWindow(account)
+            showPopupDetail(account)
         }
     }
 
@@ -218,54 +221,42 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun showPopupWindow(account: Account) {
+    // 账号详情弹窗
+    private fun showPopupDetail(account: Account) {
+        CustomDialog.build().setCustomView(
+            object : OnBindView<CustomDialog>(R.layout.pop_detail) {
+                override fun onBind(dialog: CustomDialog, contentView: View) {
+
+                    val tv1: TextView = contentView.findViewById(R.id.tv_description)
+                    val tv2: TextView = contentView.findViewById(R.id.tv_username)
+                    val tv3: TextView = contentView.findViewById(R.id.tv_password)
+                    val tv4: TextView = contentView.findViewById(R.id.tv_remarks)
+                    tv1.text = account.description
+                    tv2.text = account.username
+                    tv3.text = account.password
+                    tv4.text = account.remark
+                    val layout1 = contentView.findViewById<LinearLayout>(R.id.layout1)
+                    val layout2 = contentView.findViewById<LinearLayout>(R.id.layout2)
+                    val layout3 = contentView.findViewById<LinearLayout>(R.id.layout3)
+                    layout1.setOnClickListener {
+                        dialog.dismiss();
+                        val cmb = context
+                            .getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                        cmb.text = account.username
+                        Toasty.success(context, "账号已复制", Toast.LENGTH_SHORT, true).show()
+                    }
+                    layout2.setOnClickListener {
+                        dialog.dismiss();
+                        val cmb = context
+                            .getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                        cmb.text = account.password
+                        Toasty.success(context, "密码已复制", Toast.LENGTH_SHORT, true).show()
+                    }
+
+                }
+            }).setMaskColor(Color.parseColor("#4D000000")).show()
 
 
-        PopMenu.show(arrayOf("添加", "编辑", "删除", "分享"))
-
-
-        val tv1: TextView
-        val tv2: TextView
-        val tv3: TextView
-        val tv4: TextView
-        val inflater = layoutInflater
-        val contentView = LayoutInflater.from(this@MainActivity).inflate(R.layout.pop_detail, null)
-        tv1 = contentView.findViewById(R.id.tv_description)
-        tv2 = contentView.findViewById(R.id.tv_username)
-        tv3 = contentView.findViewById(R.id.tv_password)
-        tv4 = contentView.findViewById(R.id.tv_remarks)
-        tv1.text = account.description
-        tv2.text = account.username
-        tv3.text = account.password
-        tv4.text = account.remark
-        mPopWindow = PopupWindow(
-            contentView,
-            windowManager.defaultDisplay.width - 200, WindowManager.LayoutParams.WRAP_CONTENT, true
-        )
-        mPopWindow!!.contentView = contentView
-
-        //显示popupWindow
-        val rootview = LayoutInflater.from(this@MainActivity).inflate(R.layout.activity_main, null)
-        mPopWindow!!.animationStyle = R.style.Popupwindow
-        mPopWindow!!.showAtLocation(rootview, Gravity.CENTER, 0, 0)
-        //UIUtils.darkenBackgroud(MainActivity.this, 0.5f);
-        darkWindow()
-        val layout1 = contentView.findViewById<LinearLayout>(R.id.layout1)
-        val layout2 = contentView.findViewById<LinearLayout>(R.id.layout2)
-        val layout3 = contentView.findViewById<LinearLayout>(R.id.layout3)
-        layout1.setOnClickListener {
-            val cmb = context
-                .getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-            cmb.text = account.username
-            Toasty.success(context, "账号已复制", Toast.LENGTH_SHORT, true).show()
-        }
-        layout2.setOnClickListener {
-            val cmb = context
-                .getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-            cmb.text = account.password
-            Toasty.success(context, "密码已复制", Toast.LENGTH_SHORT, true).show()
-        }
-        mPopWindow!!.setOnDismissListener { brightWindow() }
     }
 
     private fun showPopupMenu(account: Account) {
@@ -283,7 +274,7 @@ class MainActivity : BaseActivity() {
                 }
 
             onMenuItemClickListener =
-                OnMenuItemClickListener<PopMenu> { dialog, text, index ->
+                OnMenuItemClickListener { dialog, text, index ->
                     when (index) {
                         0 -> {
                             val intent = Intent(this@MainActivity, EditAccountActivity::class.java)
@@ -291,16 +282,19 @@ class MainActivity : BaseActivity() {
                             startActivity(intent)
                         }
 
-                        1->{
-                            showDeletePop(account)
+                        1 -> {
+                            MessageDialog.show("标题", "正文内容", "确定", "取消", "其他");
+//                            showDeletePop(account)
                         }
 
-                        2->{
+                        2 -> {
                             Toasty.info(context, "还没做")
                         }
                     }
                     false
                 }
+
+            radius = ConvertUtils.dp2px(8f).toFloat()
         }
 
     }
