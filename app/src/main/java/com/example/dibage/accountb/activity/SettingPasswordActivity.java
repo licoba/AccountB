@@ -20,7 +20,7 @@ public class SettingPasswordActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private EditText et_pwd;
     private EditText et_pwd_again;
-    private Button btn_submit;
+    private Button btn_ok;
     private Context context;
 
     @Override
@@ -31,7 +31,7 @@ public class SettingPasswordActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         et_pwd = findViewById(R.id.et_pwd);
         et_pwd_again = findViewById(R.id.et_pwd_again);
-        btn_submit = findViewById(R.id.btn_submit);
+        btn_ok = findViewById(R.id.btn_ok);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -46,7 +46,7 @@ public class SettingPasswordActivity extends AppCompatActivity {
             }
         });
 
-        btn_submit.setOnClickListener(new View.OnClickListener() {
+        btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(checkPassword()) {

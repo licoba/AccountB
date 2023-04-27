@@ -88,5 +88,8 @@ dependencies {
     // Pop弹窗
     implementation 'io.github.razerdp:BasePopup:3.2.1'
 
-
+    // 基础依赖包，必须要依赖
+    implementation 'com.geyifeng.immersionbar:immersionbar:3.2.2'
+    // kotlin扩展（可选）
+    implementation 'com.geyifeng.immersionbar:immersionbar-ktx:3.2.2'
 }

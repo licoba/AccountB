@@ -23,11 +23,37 @@ import razerdp.basepopup.BasePopupWindow
 class CommPopTip(context: Context) : BasePopupWindow(context) {
 
     private val mBinding = PopTipBinding.inflate(LayoutInflater.from(context))
-
+    private var mOkToDo: (()->Unit)? = null
+    private var mCancelToDo: (()->Unit)? = null
     init {
-        contentView = mBinding.root;
+        contentView = mBinding.root
+        mBinding.btnOk.setOnClickListener {
+
+            mOkToDo?.invoke()
+            dismiss()
+        }
+        mBinding.btnCancel.setOnClickListener {
+            mCancelToDo?.invoke()
+            dismiss()
+        }
     }
 
-    
+    fun setContent(text:String){
+        mBinding.popMessage.text = text
+    }
 
+    fun  setTitle(text: String){
+        mBinding.popTitle.text = text
+    }
+
+
+    fun setOkToDo(toDo:(()->Unit)?){
+        mOkToDo = toDo
+    }
+
+
+
+    fun setCancelToDo(toDo:(()->Unit)?){
+        mCancelToDo = toDo
+    }
 }

@@ -56,14 +56,14 @@ abstract class PopWindowTip {
         val pop_title = contentView!!.findViewById<TextView>(R.id.pop_title)
         val pop_message = contentView!!.findViewById<TextView>(R.id.pop_message)
         val btn_cancel = contentView!!.findViewById<Button>(R.id.btn_cancel)
-        val btn_submit = contentView!!.findViewById<Button>(R.id.btn_submit)
+        val btn_ok = contentView!!.findViewById<Button>(R.id.btn_ok)
         pop_title.text = title
         pop_message.text = content
         btn_cancel.setOnClickListener { v: View? ->
             mPopTip.dismiss()
             clickCancel()
         }
-        btn_submit.setOnClickListener { v: View? ->
+        btn_ok.setOnClickListener { v: View? ->
             clickConfirm()
             mPopTip.dismiss()
         }
@@ -77,16 +77,16 @@ abstract class PopWindowTip {
         val pop_title = contentView!!.findViewById<TextView>(R.id.pop_title)
         val pop_message = contentView!!.findViewById<TextView>(R.id.pop_message)
         val btn_cancel = contentView!!.findViewById<Button>(R.id.btn_cancel)
-        val btn_submit = contentView!!.findViewById<Button>(R.id.btn_submit)
+        val btn_ok = contentView!!.findViewById<Button>(R.id.btn_ok)
         pop_title.text = title
         pop_message.text = content
-        btn_submit.text = confirmText
+        btn_ok.text = confirmText
         btn_cancel.setOnClickListener {
             mPopTip.setOnDismissListener(null)
             mPopTip.dismiss()
             clickCancel()
         }
-        btn_submit.setOnClickListener {
+        btn_ok.setOnClickListener {
             mPopTip.setOnDismissListener(null)
             mPopTip.dismiss() //这句话一定要放在前面，不然会造成PopWindow不及时变色
             clickConfirm()

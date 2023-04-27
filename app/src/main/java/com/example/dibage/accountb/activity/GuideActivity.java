@@ -23,7 +23,7 @@ import es.dmoral.toasty.Toasty;
  */
 public class GuideActivity extends AppCompatActivity {
     private Button btn_ignore;
-    private Button btn_submit;
+    private Button btn_ok;
     private Context context;
     private EditText et_pwd;
     private EditText et_pwd_again;
@@ -57,7 +57,7 @@ public class GuideActivity extends AppCompatActivity {
 
         });
 
-        btn_submit.setOnClickListener(new View.OnClickListener() {
+        btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(checkPassword()) {
@@ -105,7 +105,7 @@ public class GuideActivity extends AppCompatActivity {
         et_pwd = findViewById(R.id.et_pwd);
         et_pwd_again = findViewById(R.id.et_pwd_again);
         btn_ignore = findViewById(R.id.btn_ignore);
-        btn_submit = findViewById(R.id.btn_submit);
+        btn_ok = findViewById(R.id.btn_ok);
     }
 
     private boolean checkPassword() {

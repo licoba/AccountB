@@ -21,7 +21,7 @@ public class ModifyPasswordActivity extends BaseActivity {
     private EditText et_pwd_old;
     private EditText et_pwd_new;
     private EditText et_pwd_again;
-    private Button btn_submit;
+    private Button btn_ok;
     private Context context;
 
     @Override
@@ -38,7 +38,7 @@ public class ModifyPasswordActivity extends BaseActivity {
         et_pwd_old = findViewById(R.id.et_pwd_old);
         et_pwd_new = findViewById(R.id.et_pwd_new);
         et_pwd_again = findViewById(R.id.et_pwd_again);
-        btn_submit = findViewById(R.id.btn_submit);
+        btn_ok = findViewById(R.id.btn_ok);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -54,7 +54,7 @@ public class ModifyPasswordActivity extends BaseActivity {
 
     @Override
     protected void initEvent() {
-            btn_submit.setOnClickListener(new View.OnClickListener() {
+            btn_ok.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     String pwd1 = et_pwd_old.getText().toString().trim();

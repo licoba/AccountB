@@ -31,11 +31,13 @@ import com.example.dibage.accountb.dao.AccountDao
 import com.example.dibage.accountb.dao.DaoSession
 import com.example.dibage.accountb.databinding.ActivityMainBinding
 import com.example.dibage.accountb.entitys.Account
+import com.example.dibage.accountb.popwindow.PopAccountDetail
 import com.example.dibage.accountb.utils.AccountUtils
 import com.example.dibage.accountb.utils.UIUtils
 import com.github.clans.fab.FloatingActionButton
 import com.github.clans.fab.FloatingActionMenu
 import com.gjiazhe.wavesidebar.WaveSideBar
+import com.gyf.immersionbar.ImmersionBar
 import com.kongzue.dialogx.dialogs.CustomDialog
 import com.kongzue.dialogx.dialogs.MessageDialog
 import com.kongzue.dialogx.dialogs.PopMenu
@@ -117,6 +119,8 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initView() {
+        ImmersionBar.with(this).transparentBar().titleBar(binding.toolbar).init();
+
         if (accountsList!!.size > 0) {
             llEmpty!!.visibility = View.GONE
             sideBar!!.visibility = View.VISIBLE
@@ -197,7 +201,7 @@ class MainActivity : BaseActivity() {
     inner class myItemClickListener : AdapterView.OnItemClickListener {
         override fun onItemClick(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
             val account = adapterView.getItemAtPosition(i) as Account
-            showPopupDetail(account)
+            PopAccountDetail(this@MainActivity,account).showPopupWindow()
         }
     }
 
@@ -213,47 +217,6 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    // 账号详情弹窗
-    private fun showPopupDetail(account: Account) {
-
-        CommPopTip(context).apply {
-            popupGravity = Gravity.CENTER
-        }.showPopupWindow()
-//        CustomDialog.build().setCustomView(
-//            object : OnBindView<CustomDialog>(R.layout.pop_detail) {
-//                override fun onBind(dialog: CustomDialog, contentView: View) {
-//
-//                    val tv1: TextView = contentView.findViewById(R.id.tv_description)
-//                    val tv2: TextView = contentView.findViewById(R.id.tv_username)
-//                    val tv3: TextView = contentView.findViewById(R.id.tv_password)
-//                    val tv4: TextView = contentView.findViewById(R.id.tv_remarks)
-//                    tv1.text = account.description
-//                    tv2.text = account.username
-//                    tv3.text = account.password
-//                    tv4.text = account.remark
-//                    val layout1 = contentView.findViewById<LinearLayout>(R.id.layout1)
-//                    val layout2 = contentView.findViewById<LinearLayout>(R.id.layout2)
-//                    val layout3 = contentView.findViewById<LinearLayout>(R.id.layout3)
-//                    layout1.setOnClickListener {
-//                        dialog.dismiss();
-//                        val cmb = context
-//                            .getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-//                        cmb.text = account.username
-//                        Toasty.success(context, "账号已复制", Toast.LENGTH_SHORT, true).show()
-//                    }
-//                    layout2.setOnClickListener {
-//                        dialog.dismiss();
-//                        val cmb = context
-//                            .getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-//                        cmb.text = account.password
-//                        Toasty.success(context, "密码已复制", Toast.LENGTH_SHORT, true).show()
-//                    }
-//
-//                }
-//            }).setMaskColor(Color.parseColor("#4D000000")).show()
-
-
-    }
 
     private fun showPopupMenu(account: Account) {
         PopMenu.show(arrayOf("修改", "删除", "复制并新建")).apply {
@@ -296,10 +259,10 @@ class MainActivity : BaseActivity() {
 
     //删除提示框
     private fun showDeletePop(account: Account) {
-        val popTip: PopWindowTip = object : PopWindowTip(this@MainActivity) {
-            override fun clickCancel() {}
-            override fun dismissTodo() {}
-            override fun clickConfirm() {
+        CommPopTip(this).apply {
+            setTitle("删除警告")
+            setContent("账号被删除之后将无法被找回，确定删除该账号？")
+            setOkToDo {
                 mAccountDao!!.delete(account)
                 accountsList!!.clear()
                 accountsList!!.addAll(qb!!.list())
@@ -314,8 +277,29 @@ class MainActivity : BaseActivity() {
                 }
                 Toasty.success(context, "删除成功", Toast.LENGTH_SHORT, false).show()
             }
-        }
-        popTip.setTitleAndContent("删除警告", "账号被删除之后将无法被找回，确定删除该账号？")
+            popupGravity = Gravity.CENTER
+        }.showPopupWindow()
+
+//        val popTip: PopWindowTip = object : PopWindowTip(this@MainActivity) {
+//            override fun clickCancel() {}
+//            override fun dismissTodo() {}
+//            override fun clickConfirm() {
+//                mAccountDao!!.delete(account)
+//                accountsList!!.clear()
+//                accountsList!!.addAll(qb!!.list())
+//                accountsList = AccountUtils.orderListAccount(accountsList)
+//                accountAdapter!!.notifyDataSetChanged()
+//                if (accountsList.size > 0) {
+//                    llEmpty!!.visibility = View.INVISIBLE
+//                    sideBar!!.visibility = View.VISIBLE
+//                } else {
+//                    llEmpty!!.visibility = View.VISIBLE
+//                    sideBar!!.visibility = View.INVISIBLE
+//                }
+//                Toasty.success(context, "删除成功", Toast.LENGTH_SHORT, false).show()
+//            }
+//        }
+//        popTip.setTitleAndContent("删除警告", "账号被删除之后将无法被找回，确定删除该账号？")
     }
 
     //浮动添加按钮的监听器
