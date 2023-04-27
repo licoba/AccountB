@@ -9,9 +9,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.example.dibage.accountb.R
@@ -22,9 +22,19 @@ import com.example.dibage.accountb.dao.DaoSession
 import com.example.dibage.accountb.dao.PhotoDao
 import com.example.dibage.accountb.entitys.Card
 import com.example.dibage.accountb.entitys.Photo
+import com.flyjingfish.openimagelib.OpenImage
+import com.flyjingfish.openimagelib.beans.OpenImageUrl
+import com.flyjingfish.openimagelib.enums.MediaType
+import com.flyjingfish.openimagelib.listener.SourceImageViewIdGet
 import com.github.chrisbanes.photoview.PhotoView
-import com.kongzue.dialogx.dialogs.FullScreenDialog
-import com.kongzue.dialogx.interfaces.OnBindView
+//import com.luck.picture.lib.basic.IBridgeViewLifecycle
+//import com.luck.picture.lib.basic.PictureSelector
+//import com.luck.picture.lib.config.InjectResourceSource
+//import com.luck.picture.lib.config.PictureConfig
+//import com.luck.picture.lib.config.SelectMimeType
+//import com.luck.picture.lib.entity.LocalMedia
+//import com.luck.picture.lib.interfaces.OnInjectActivityPreviewListener
+//import com.luck.picture.lib.interfaces.OnInjectLayoutResourceListener
 import org.greenrobot.greendao.query.QueryBuilder
 
 
@@ -42,7 +52,7 @@ class CardDetailActivity : AppCompatActivity() {
     private var recyclerView: RecyclerView? = null
     private var daoSession: DaoSession? = null
     private val cardDao: CardDao? = null
-    private val photoList: MutableList<Photo> = mutableListOf()
+    private var photoList: MutableList<Photo> = mutableListOf()
     private var mAdapter: CardPhotoAdapter? = null
     private var fl_bigimage: FrameLayout? = null
     private val iv_exit: ImageView? = null
@@ -68,7 +78,7 @@ class CardDetailActivity : AppCompatActivity() {
 //                fl_bigimage!!.visibility = View.VISIBLE
 //                Glide.with(context!!).load(photoList[position].photo_path).into(big_image!!)
 //
-                showBigPhoto(photoList[position])
+                showBigPhoto(photoList[position], view, position)
             }
         })
         big_image!!.setOnPhotoTapListener { view, x, y ->
@@ -76,16 +86,37 @@ class CardDetailActivity : AppCompatActivity() {
             ll_detail!!.visibility = View.VISIBLE
             fl_bigimage!!.visibility = View.GONE
         }
+
+
     }
 
-    private fun showBigPhoto(photo: Photo) {
-        FullScreenDialog.show(object : OnBindView<FullScreenDialog>(R.layout.big_image) {
-            override fun onBind(dialog: FullScreenDialog?, v: View) {
-                val imageView = v.findViewById<ImageView>(R.id.big_image)
-                Glide.with(context!!).load(photo.photo_path).into(imageView)
-                //View childView = v.findViewById(resId)...
-            }
-        })
+    private fun showBigPhoto(photo: Photo, view: View, position: Int) {
+
+        //在点击时调用（以下以RecyclerView为例介绍）
+        OpenImage.with(this) //点击ImageView所在的RecyclerView（也支持设置setClickViewPager2，setClickViewPager，setClickGridView，setClickListView，setClickImageView，setNoneClickView）
+            .setClickRecyclerView(recyclerView, object : SourceImageViewIdGet<OpenImageUrl> {
+                override fun getImageViewId(data: OpenImageUrl, position: Int): Int {
+                    return R.id.img_card //点击的ImageView的Id
+                }
+            }) //点击的ImageView的ScaleType类型（如果设置不对，打开的动画效果将是错误的）
+            .setSrcImageViewScaleType(ImageView.ScaleType.CENTER_CROP, true) //RecyclerView的数据
+            .setImageUrlList(photoList.map { it.photo_path }, MediaType.IMAGE) //点击的ImageView所在数据的位置
+            .setClickPosition(position) //开始展示大图
+            .show()
+
+//        val mediaList = photoList.map {
+//            LocalMedia().apply { path = it.photo_path }
+//        }
+
+//        // 预览图片、视频、音频
+//        PictureSelector.create(this)
+//            .openPreview()
+//            .startActivityPreview(
+//                position,
+//                false,
+//                ArrayList(mediaList)
+//            )
+
     }
 
     private fun initView() {
