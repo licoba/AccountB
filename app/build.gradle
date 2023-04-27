@@ -73,6 +73,8 @@ dependencies {
     implementation 'com.github.getActivity:XXPermissions:18.0'
     // MMKV
     implementation 'com.tencent:mmkv:1.2.16'
+    // 对话框组件
+    implementation "com.kongzue.dialogx:DialogX:0.0.47"
 
 
 }

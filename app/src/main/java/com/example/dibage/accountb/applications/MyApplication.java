@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.example.dibage.accountb.dao.DaoMaster;
 import com.example.dibage.accountb.dao.DaoSession;
+import com.kongzue.dialogx.DialogX;
 import com.tencent.mmkv.MMKV;
 
 import org.greenrobot.greendao.database.Database;
@@ -40,6 +41,7 @@ public class MyApplication extends Application {
         daoSession = new DaoMaster(db).newSession();
         String rootDir = MMKV.initialize(this);
         System.out.println("mmkv root: " + rootDir);
+        DialogX.init(this);
 
     }
 

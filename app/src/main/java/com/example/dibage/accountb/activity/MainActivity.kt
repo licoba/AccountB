@@ -19,7 +19,6 @@ import android.widget.ListView
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.dibage.accountb.R
 import com.example.dibage.accountb.adapters.AccountAdapter
@@ -35,8 +34,12 @@ import com.example.dibage.accountb.utils.UIUtils
 import com.github.clans.fab.FloatingActionButton
 import com.github.clans.fab.FloatingActionMenu
 import com.gjiazhe.wavesidebar.WaveSideBar
+import com.kongzue.dialogx.dialogs.PopMenu
+import com.kongzue.dialogx.interfaces.OnIconChangeCallBack
+import com.kongzue.dialogx.interfaces.OnMenuItemClickListener
 import es.dmoral.toasty.Toasty
 import org.greenrobot.greendao.query.QueryBuilder
+
 
 class MainActivity : BaseActivity() {
     var context: Context = this@MainActivity
@@ -50,7 +53,7 @@ class MainActivity : BaseActivity() {
     private var toolbar: Toolbar? = null
     private var mPopWindow: PopupWindow? = null
     private val mPopTip: PopupWindow? = null
-    private var ll_empty: LinearLayout? = null
+    private var llEmpty: LinearLayout? = null
     var accountsList: MutableList<Account> = mutableListOf()
     lateinit var qb: QueryBuilder<Account>
     var accountAdapter: AccountAdapter? = null
@@ -114,13 +117,13 @@ class MainActivity : BaseActivity() {
         fabAddIdCard = findViewById(R.id.fabAddIdCard)
         sideBar = binding.sideBar
         listView = findViewById(R.id.listview)
-        ll_empty = findViewById(R.id.ll_empty)
+        llEmpty = binding.llEmpty
         toolbar = findViewById(R.id.toolbar)
     }
 
     override fun initView() {
         if (accountsList!!.size > 0) {
-            ll_empty!!.visibility = View.GONE
+            llEmpty!!.visibility = View.GONE
             sideBar!!.visibility = View.VISIBLE
         } else {
             sideBar!!.visibility = View.INVISIBLE
@@ -188,7 +191,7 @@ class MainActivity : BaseActivity() {
             isPause = false
             initData()
             if (accountsList!!.size > 0) {
-                ll_empty!!.visibility = View.GONE
+                llEmpty!!.visibility = View.GONE
                 sideBar!!.visibility = View.VISIBLE
             } else {
                 sideBar!!.visibility = View.INVISIBLE
@@ -216,6 +219,11 @@ class MainActivity : BaseActivity() {
     }
 
     private fun showPopupWindow(account: Account) {
+
+
+        PopMenu.show(arrayOf("添加", "编辑", "删除", "分享"))
+
+
         val tv1: TextView
         val tv2: TextView
         val tv3: TextView
@@ -261,41 +269,44 @@ class MainActivity : BaseActivity() {
     }
 
     private fun showPopupMenu(account: Account) {
-        val inflater = layoutInflater
-        val contentView = LayoutInflater.from(this@MainActivity).inflate(R.layout.pop_menu, null)
-        mPopWindow = PopupWindow(
-            contentView,
-            windowManager.defaultDisplay.width - 250, WindowManager.LayoutParams.WRAP_CONTENT, true
-        )
-        mPopWindow!!.contentView = contentView
+        PopMenu.show(arrayOf("修改", "删除", "复制并新建")).apply {
+            onIconChangeCallBack =
+                object : OnIconChangeCallBack<PopMenu?>(true) {
+                    override fun getIcon(dialog: PopMenu?, index: Int, menuText: String): Int {
+                        return when (index) {
+                            0 -> R.mipmap.img_dialogx_demo_edit
+                            1 -> R.mipmap.img_dialogx_demo_delete
+                            2 -> R.mipmap.img_dialogx_demo_add
+                            else -> 0
+                        }
+                    }
+                }
 
-        //显示popupWindow
-        val rootview = LayoutInflater.from(this@MainActivity).inflate(R.layout.activity_main, null)
-        mPopWindow!!.showAtLocation(rootview, Gravity.CENTER, 0, 0)
-        UIUtils.darkenBackgroud(this@MainActivity, 0.5f)
-        val layout1 = contentView.findViewById<LinearLayout>(R.id.layout1)
-        val layout2 = contentView.findViewById<LinearLayout>(R.id.layout2)
-        val layout3 = contentView.findViewById<LinearLayout>(R.id.layout3)
+            onMenuItemClickListener =
+                OnMenuItemClickListener<PopMenu> { dialog, text, index ->
+                    when (index) {
+                        0 -> {
+                            val intent = Intent(this@MainActivity, EditAccountActivity::class.java)
+                            intent.putExtra("account_data", account)
+                            startActivity(intent)
+                        }
 
-        //修改账号
-        layout1.setOnClickListener {
-            val intent = Intent(this@MainActivity, EditAccountActivity::class.java)
-            intent.putExtra("account_data", account)
-            startActivity(intent)
-            mPopWindow!!.dismiss()
+                        1->{
+                            showDeletePop(account)
+                        }
+
+                        2->{
+                            Toasty.info(context, "还没做")
+                        }
+                    }
+                    false
+                }
         }
 
-        //删除账号
-        layout2.setOnClickListener { //                mAccountDao.delete(account);
-            mPopWindow!!.dismiss()
-            showPopTip(account)
-        }
-        layout3.setOnClickListener { UIUtils.toast(context, "点击了layout3") }
-        mPopWindow!!.setOnDismissListener { UIUtils.darkenBackgroud(this@MainActivity, 1f) }
     }
 
     //删除提示框
-    private fun showPopTip(account: Account) {
+    private fun showDeletePop(account: Account) {
         val popTip: PopWindowTip = object : PopWindowTip(this@MainActivity) {
             override fun clickCancel() {}
             override fun dismissTodo() {}
@@ -306,10 +317,10 @@ class MainActivity : BaseActivity() {
                 accountsList = AccountUtils.orderListAccount(accountsList)
                 accountAdapter!!.notifyDataSetChanged()
                 if (accountsList.size > 0) {
-                    ll_empty!!.visibility = View.INVISIBLE
+                    llEmpty!!.visibility = View.INVISIBLE
                     sideBar!!.visibility = View.VISIBLE
                 } else {
-                    ll_empty!!.visibility = View.VISIBLE
+                    llEmpty!!.visibility = View.VISIBLE
                     sideBar!!.visibility = View.INVISIBLE
                 }
                 Toasty.success(context, "删除成功", Toast.LENGTH_SHORT, false).show()
