@@ -6,7 +6,7 @@
         android:id="@+id/action_card"
         android:icon="@mipmap/card"
         android:orderInCategory="1"
-        android:title="卡包"
+        android:title="证件夹"
         app:showAsAction="ifRoom" />
 
     <item
