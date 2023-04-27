@@ -102,12 +102,12 @@ class CardActivity : AppCompatActivity() {
         if (dialog == null)
             dialog = builder.create()
         dialog!!.show()
-        dialog!!.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val windowManager = windowManager
         val display = windowManager.defaultDisplay
-        val lp = dialog!!.window.attributes
+        val lp = dialog!!.window!!.attributes
         lp.width = (display.width * 0.75).toInt() //设置宽度
-        dialog!!.window.attributes = lp
+        dialog!!.window!!.attributes = lp
         startValidate(position)
     }
 

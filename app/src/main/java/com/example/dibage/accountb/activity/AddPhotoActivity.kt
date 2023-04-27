@@ -79,7 +79,7 @@ class AddPhotoActivity() : AppCompatActivity(), View.OnClickListener {
         daoSession = (application as MyApplication).daoSession
         photoDao = daoSession.getPhotoDao()
         cardDao = daoSession.getCardDao()
-        fromAty = intent.getStringExtra("fromAty")
+        fromAty = intent.getStringExtra("fromAty").toString()
     }
 
     private fun initEvent() {
@@ -310,9 +310,9 @@ class AddPhotoActivity() : AppCompatActivity(), View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data)
         if ((requestCode == IMAGE) && (resultCode == RESULT_OK) && (data != null)) {
             count_photo++
-            val selectedImage = data.data
+            val selectedImage = data.data!!
             val filePathColumns = arrayOf(MediaStore.Images.Media.DATA)
-            val c = contentResolver.query(selectedImage, filePathColumns, null, null, null)
+            val c = contentResolver.query(selectedImage, filePathColumns, null, null, null)!!
             c.moveToFirst()
             val columnIndex = c.getColumnIndex(filePathColumns[0])
             val imagePath = c.getString(columnIndex)

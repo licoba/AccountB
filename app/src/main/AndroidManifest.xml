@@ -46,7 +46,7 @@
         <activity android:name=".activity.SettingPasswordActivity" />
         <activity android:name=".activity.AddPhotoActivity" />
         <activity android:name=".activity.ModifyPasswordActivity" />
-        <activity android:name=".activity.GuideActivity">
+        <activity android:name=".activity.GuideActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
