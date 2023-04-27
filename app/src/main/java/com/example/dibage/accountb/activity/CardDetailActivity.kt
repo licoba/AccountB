@@ -1,17 +1,23 @@
 package com.example.dibage.accountb.activity
 
+import android.app.Activity
+import android.app.PendingIntent.getActivity
+import android.content.ClipboardManager
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.blankj.utilcode.util.ActivityUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.example.dibage.accountb.R
@@ -22,19 +28,21 @@ import com.example.dibage.accountb.dao.DaoSession
 import com.example.dibage.accountb.dao.PhotoDao
 import com.example.dibage.accountb.entitys.Card
 import com.example.dibage.accountb.entitys.Photo
-import com.flyjingfish.openimagelib.OpenImage
-import com.flyjingfish.openimagelib.beans.OpenImageUrl
-import com.flyjingfish.openimagelib.enums.MediaType
-import com.flyjingfish.openimagelib.listener.SourceImageViewIdGet
+import com.example.dibage.accountb.tools.GlideEngine
 import com.github.chrisbanes.photoview.PhotoView
-//import com.luck.picture.lib.basic.IBridgeViewLifecycle
-//import com.luck.picture.lib.basic.PictureSelector
-//import com.luck.picture.lib.config.InjectResourceSource
-//import com.luck.picture.lib.config.PictureConfig
-//import com.luck.picture.lib.config.SelectMimeType
-//import com.luck.picture.lib.entity.LocalMedia
-//import com.luck.picture.lib.interfaces.OnInjectActivityPreviewListener
-//import com.luck.picture.lib.interfaces.OnInjectLayoutResourceListener
+import com.kongzue.dialogx.dialogs.CustomDialog
+import com.kongzue.dialogx.dialogs.MessageDialog
+import com.kongzue.dialogx.dialogs.PopTip
+import com.kongzue.dialogx.interfaces.OnBindView
+import com.kongzue.dialogx.interfaces.OnDialogButtonClickListener
+import com.luck.picture.lib.basic.PictureMediaScannerConnection
+import com.luck.picture.lib.basic.PictureSelector
+import com.luck.picture.lib.config.PictureMimeType
+import com.luck.picture.lib.entity.LocalMedia
+import com.luck.picture.lib.interfaces.OnExternalPreviewEventListener
+import com.luck.picture.lib.utils.DownloadFileUtils
+import com.luck.picture.lib.utils.ToastUtils
+import es.dmoral.toasty.Toasty
 import org.greenrobot.greendao.query.QueryBuilder
 
 
@@ -91,31 +99,20 @@ class CardDetailActivity : AppCompatActivity() {
     }
 
     private fun showBigPhoto(photo: Photo, view: View, position: Int) {
+        val mediaList = photoList.map {
+            LocalMedia().apply { path = it.photo_path }
+        }
+        // 预览图片、视频、音频
+        PictureSelector.create(this)
+            .openPreview()
+            .setImageEngine(GlideEngine.createGlideEngine())
+            .setExternalPreviewEventListener(MyExternalPreviewEventListener())
+            .startActivityPreview(
+                position,
+                false,
+                ArrayList(mediaList)
+            )
 
-        //在点击时调用（以下以RecyclerView为例介绍）
-        OpenImage.with(this) //点击ImageView所在的RecyclerView（也支持设置setClickViewPager2，setClickViewPager，setClickGridView，setClickListView，setClickImageView，setNoneClickView）
-            .setClickRecyclerView(recyclerView, object : SourceImageViewIdGet<OpenImageUrl> {
-                override fun getImageViewId(data: OpenImageUrl, position: Int): Int {
-                    return R.id.img_card //点击的ImageView的Id
-                }
-            }) //点击的ImageView的ScaleType类型（如果设置不对，打开的动画效果将是错误的）
-            .setSrcImageViewScaleType(ImageView.ScaleType.CENTER_CROP, true) //RecyclerView的数据
-            .setImageUrlList(photoList.map { it.photo_path }, MediaType.IMAGE) //点击的ImageView所在数据的位置
-            .setClickPosition(position) //开始展示大图
-            .show()
-
-//        val mediaList = photoList.map {
-//            LocalMedia().apply { path = it.photo_path }
-//        }
-
-//        // 预览图片、视频、音频
-//        PictureSelector.create(this)
-//            .openPreview()
-//            .startActivityPreview(
-//                position,
-//                false,
-//                ArrayList(mediaList)
-//            )
 
     }
 
@@ -165,15 +162,40 @@ class CardDetailActivity : AppCompatActivity() {
         ll_detail = findViewById(R.id.ll_detail)
     }
 
-    //设置图片全屏显示，隐藏状态栏
-    fun setAllWindow() {}
-    override fun onBackPressed() {
-        if (flag == 1) {
-            ll_detail!!.visibility = View.VISIBLE
-            fl_bigimage!!.visibility = View.GONE
-            flag = 0
-        } else {
-            super.onBackPressed()
+
+    inner class MyExternalPreviewEventListener : OnExternalPreviewEventListener {
+        override fun onPreviewDelete(position: Int) {
+
         }
+
+        override fun onLongPressDownload(context: Context, media: LocalMedia?): Boolean {
+            
+            MessageDialog.build()
+                .setTitle("提示")
+                .setMessage("是否保存图片到手机？")
+                .setCancelButton("取消")
+                .setOkButton("确定")
+                .setOkButton { dialog, _ ->
+                    dialog.dismiss()
+                    val path = media!!.availablePath
+                    DownloadFileUtils.saveLocalFile(context, path, media!!.mimeType) { realPath ->
+                        if (TextUtils.isEmpty(realPath)) {
+                            val errorMsg = getString(R.string.ps_save_image_error)
+                            ToastUtils.showToast(context, errorMsg)
+                        } else {
+                            PictureMediaScannerConnection(this@CardDetailActivity, realPath)
+                            PopTip.show(R.mipmap.common_success, "图片已保存")
+
+                        }
+                    }
+                    false  // 点击后自动关闭对话框。
+                }
+                .show(context as Activity)
+
+            return true  // 表示自己处理长按的逻辑
+        }
+
     }
+
+
 }

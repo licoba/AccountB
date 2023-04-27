@@ -77,13 +77,12 @@ dependencies {
     implementation "com.kongzue.dialogx:DialogX:0.0.47"
     //  工具类
     implementation 'com.blankj:utilcodex:1.31.1'
-    // 查看大图
-    implementation 'io.github.FlyJingFish.OpenImage:OpenImageGlideLib:1.7.5'
     // PictureSelector 基础 (必须)
-//    implementation 'io.github.lucksiege:pictureselector:v3.11.1'
-//    // 图片压缩 (按需引入)
-//    implementation 'io.github.lucksiege:compress:v3.11.1'
-//    // 图片裁剪 (按需引入)
-//    implementation 'io.github.lucksiege:ucrop:v3.11.1'
+    implementation 'io.github.lucksiege:pictureselector:v3.11.1'
+    // 图片压缩 (按需引入)
+    implementation 'io.github.lucksiege:compress:v3.11.1'
+    // 图片裁剪 (按需引入)
+    implementation 'io.github.lucksiege:ucrop:v3.11.1'
+    implementation 'io.github.jeremyliao:live-event-bus-x:1.8.0'
 
 }
