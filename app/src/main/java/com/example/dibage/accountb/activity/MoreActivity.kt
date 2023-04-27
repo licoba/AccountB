@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -16,9 +17,13 @@ import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.SkinAppCompatDelegateImpl
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import com.example.dibage.accountb.R
 import com.example.dibage.accountb.applications.MyApplication
 import com.example.dibage.accountb.commonView.PopWindowTip
@@ -37,6 +42,7 @@ import com.google.gson.Gson
 import com.wei.android.lib.fingerprintidentify.FingerprintIdentify
 import es.dmoral.toasty.Toasty
 import org.greenrobot.greendao.query.QueryBuilder
+import skin.support.SkinCompatManager
 
 class MoreActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityMoreBinding
@@ -162,7 +168,20 @@ class MoreActivity : AppCompatActivity(), View.OnClickListener {
         ll_support!!.setOnClickListener(this)
         ll_openource!!.setOnClickListener(this)
         ll_project_location!!.setOnClickListener(this)
-        binding.llSkin.setOnClickListener(this)
+        binding.llSkin.setOnClickListener {
+            Toasty.info(this, "替换皮肤").show()
+            SkinCompatManager.getInstance()
+                .loadSkin("night", SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN); // 后缀加载
+//            SkinCompatManager.getInstance().loadSkin("", SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN); // 后缀加载
+        }
+        binding.toolbar.navigationIcon?.colorFilter =
+            BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+                ContextCompat.getColor(
+                    this,
+                    R.color.WhiteText
+                ), BlendModeCompat.SRC_ATOP
+            )
+
     }
 
     private fun initFBI() {
@@ -259,9 +278,7 @@ class MoreActivity : AppCompatActivity(), View.OnClickListener {
                 startActivity(intent)
             }
 
-            R.id.ll_skin -> {
-                Toasty.info(this, "替换皮肤").show()
-            }
+
         }
     }
 
@@ -352,6 +369,11 @@ class MoreActivity : AppCompatActivity(), View.OnClickListener {
                 RECORVRY_DATA -> finish()
             }
         }
+    }
+
+
+    override fun getDelegate(): AppCompatDelegate {
+        return SkinAppCompatDelegateImpl.get(this, this);
     }
 
     companion object {

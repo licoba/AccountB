@@ -26,6 +26,13 @@ android {
     viewBinding {
         enabled = true
     }
+    sourceSets {
+        main {
+            res {
+                srcDirs 'src\\main\\res', 'src\\main\\res-night'
+            }
+        }
+    }
 }
 
 
@@ -93,9 +100,11 @@ dependencies {
     // kotlin扩展（可选）
     implementation 'com.geyifeng.immersionbar:immersionbar-ktx:3.2.2'
     // 换肤框架
-    implementation 'skin.support:skin-support:4.0.5'                // skin-support
-    implementation 'skin.support:skin-support-appcompat:4.0.5'       // skin-support 基础控件支持
-    implementation 'skin.support:skin-support-design:4.0.5'            // skin-support-design material design 控件支持[可选]
-    implementation 'skin.support:skin-support-cardview:4.0.5'          // skin-support-cardview CardView 控件支持[可选]
-    implementation 'skin.support:skin-support-constraint-layout:4.0.5' // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
+//    implementation 'skin.support:skin-support:4.0.5'                // skin-support
+//    implementation 'skin.support:skin-support-appcompat:4.0.5'       // skin-support 基础控件支持
+//    implementation 'skin.support:skin-support-design:4.0.5'            // skin-support-design material design 控件支持[可选]
+//    implementation 'skin.support:skin-support-cardview:4.0.5'          // skin-support-cardview CardView 控件支持[可选]
+//    implementation 'skin.support:skin-support-constraint-layout:4.0.5' // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
+    implementation 'com.github.littlefogcat:skin-support:4.0.7'  // 官方停止维护了，只能用这个
+
 }
