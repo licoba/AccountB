@@ -48,6 +48,8 @@ public class MyApplication extends Application {
         MessageDialog.overrideEnterAnimRes = R.anim.anim_dialogx_default_enter;
         //设置全局 MessageDialog 出场动画
         MessageDialog.overrideExitAnimRes = R.anim.anim_dialogx_default_exit;
+        DialogX.implIMPLMode = DialogX.IMPL_MODE.WINDOW;
+
     }
 
     public DaoSession getDaoSession() {

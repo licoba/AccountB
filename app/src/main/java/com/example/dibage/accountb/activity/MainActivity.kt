@@ -283,8 +283,7 @@ class MainActivity : BaseActivity() {
                         }
 
                         1 -> {
-                            MessageDialog.show("标题", "正文内容", "确定", "取消", "其他");
-//                            showDeletePop(account)
+                            showDeletePop(account)
                         }
 
                         2 -> {

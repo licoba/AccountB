@@ -169,7 +169,7 @@ class CardDetailActivity : AppCompatActivity() {
         }
 
         override fun onLongPressDownload(context: Context, media: LocalMedia?): Boolean {
-            
+
             MessageDialog.build()
                 .setTitle("提示")
                 .setMessage("是否保存图片到手机？")
