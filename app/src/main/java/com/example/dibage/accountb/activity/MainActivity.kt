@@ -388,23 +388,7 @@ class MainActivity : BaseActivity() {
         }.start()
     }
 
-    private fun darkWindow() {
-        Thread {
-            while (alpha > 0.5f) {
-                try {
-                    Thread.sleep(3) //每0.004s变暗0.01
-                } catch (e: InterruptedException) {
-                    e.printStackTrace()
-                }
-                val msg = mHandler!!.obtainMessage()
-                msg.what = 1
-                alpha -= 0.01f
-                msg.obj = alpha
-                mHandler!!.sendMessage(msg)
-            }
-        }.start()
-    } //    @Override
-
+   //    @Override
     //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     //        super.onActivityResult(requestCode, resultCode, data);
     //        if (resultCode == RESULT_OK) {
