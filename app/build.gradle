@@ -66,6 +66,8 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     // 权限请求框架
     implementation 'com.github.getActivity:XXPermissions:18.0'
+    // MMKV
+    implementation 'com.tencent:mmkv:1.2.16'
 
 
 }

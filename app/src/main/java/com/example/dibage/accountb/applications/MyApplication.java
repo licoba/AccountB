@@ -5,11 +5,12 @@ import android.content.Context;
 
 import com.example.dibage.accountb.dao.DaoMaster;
 import com.example.dibage.accountb.dao.DaoSession;
+import com.tencent.mmkv.MMKV;
 
 import org.greenrobot.greendao.database.Database;
 
 /**
- * Created by dibage on 2018/3/27.
+ * Created by licoba on 2018/3/27.
  */
 
 //初始化数据库和greenDAO核心类
@@ -37,6 +38,9 @@ public class MyApplication extends Application {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "account-db");
         Database db =  helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
+        String rootDir = MMKV.initialize(this);
+        System.out.println("mmkv root: " + rootDir);
+
     }
 
     public DaoSession getDaoSession() {
