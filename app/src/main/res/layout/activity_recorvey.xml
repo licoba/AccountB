@@ -20,13 +20,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/swipeMenuRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="15dp">
 
-        </com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
 
         <LinearLayout
             android:id="@+id/ll_empty"

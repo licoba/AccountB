@@ -4,12 +4,12 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Environment;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.Display;
@@ -38,13 +38,6 @@ import com.example.dibage.accountb.utils.UIUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.yanzhenjie.recyclerview.swipe.SwipeItemClickListener;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -62,12 +55,10 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 public class RecorveyActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private SwipeMenuRecyclerView swipeMenuRecyclerView;//recycleview
+    private RecyclerView swipeMenuRecyclerView;//recycleview
     Context context;
     String TAG = "RecorveyActivity";
     List<Record> recordList = new ArrayList<>();
-    SwipeMenuCreator mSwipeMenuCreator;
-    SwipeMenuItemClickListener mSwipeMenuItemClickListener;
     private RecordAdapter mAdapter;
     LinearLayout ll_empty;
     private View.OnClickListener mLayoutListener;
@@ -228,10 +219,11 @@ public class RecorveyActivity extends AppCompatActivity {
         Button btn_cancel = view.findViewById(R.id.btn_cancel);
         Button btn_confirm = view.findViewById(R.id.btn_confirm);
         TextView tv_warning = view.findViewById(R.id.tv_warning);
-        if(opration.equals("merge"))
+        if(opration.equals("merge")) {
             tv_warning.setVisibility(View.GONE);
-        else if(opration.equals("cover"))
+        } else if(opration.equals("cover")) {
             tv_warning.setVisibility(View.VISIBLE);
+        }
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -260,10 +252,11 @@ public class RecorveyActivity extends AppCompatActivity {
             Toasty.warning(context, "不是这个密码，再想想？").show();
             et_pwd.setText("");
         } else {
-            if (opration.equals("cover"))
+            if (opration.equals("cover")) {
                 fugai(jiemi);
-            else if (opration.equals("merge"))
+            } else if (opration.equals("merge")) {
                 hebing(jiemi);
+            }
             Toasty.success(context, "恢复成功").show();
             setResult(RESULT_OK);
             finish();
@@ -321,8 +314,9 @@ public class RecorveyActivity extends AppCompatActivity {
         daoSession = ((MyApplication) getApplication()).getDaoSession();
         mAccountDao = daoSession.getAccountDao();
         mAccountDao.deleteAll();//删除所有数据
-        for (Account account : accountList)
+        for (Account account : accountList) {
             mAccountDao.insert(account);
+        }
     }
 
     //显示类似popwindow的dialog
@@ -400,52 +394,50 @@ public class RecorveyActivity extends AppCompatActivity {
         UIUtils.setToolbar(RecorveyActivity.this, toolbar, "备份文件恢复");
         mAdapter = new RecordAdapter(R.layout.item_record, recordList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mSwipeMenuCreator = new SwipeMenuCreator() {
-            @Override
-            public void onCreateMenu(SwipeMenu swipeLeftMenu, SwipeMenu swipeRightMenu, int viewType) {
-                SwipeMenuItem deleteItem = new SwipeMenuItem(context);
-                deleteItem.setWidth(200);
-                deleteItem.setText("删除");
-                deleteItem.setTextSize(16);
-                deleteItem.setTextColor(getResources().getColor(R.color.WhiteText));
-                deleteItem.setHeight(MATCH_PARENT);
-                deleteItem.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                swipeRightMenu.addMenuItem(deleteItem); // 在Item右侧添加一个菜单。
-            }
-        };
-
-        mSwipeMenuItemClickListener = new SwipeMenuItemClickListener() {
-            @Override
-            public void onItemClick(SwipeMenuBridge menuBridge) {
-                // 任何操作必须先关闭菜单，否则可能出现Item菜单打开状态错乱。03.85/*-+2
-                menuBridge.closeMenu();
-                int direction = menuBridge.getDirection(); // 左侧还是右侧菜单。
-                int adapterPosition = menuBridge.getAdapterPosition(); // RecyclerView的Item的position。
-                int menuPosition = menuBridge.getPosition(); // 菜单在RecyclerView的Item中的Position。
-                if (FileUtils.deleteFile(recordList.get(adapterPosition).getLocation())) {
-                    recordList.remove(adapterPosition);
-                    mAdapter.notifyDataSetChanged();
-                } else {
-                    Toasty.info(context, "删除失败").show();
-                }
-                updateUI();
-
-            }
-        };
-
-        //revyvleView单个点击监听
-        swipeMenuRecyclerView.setSwipeItemClickListener(new SwipeItemClickListener() {
-            @Override
-            public void onItemClick(View itemView, int position) {
-                op_filepath = recordList.get(position).getLocation();
-                showDialog();
-            }
-        });
+//        mSwipeMenuCreator = new SwipeMenuCreator() {
+//            @Override
+//            public void onCreateMenu(SwipeMenu swipeLeftMenu, SwipeMenu swipeRightMenu, int viewType) {
+//                SwipeMenuItem deleteItem = new SwipeMenuItem(context);
+//                deleteItem.setWidth(200);
+//                deleteItem.setText("删除");
+//                deleteItem.setTextSize(16);
+//                deleteItem.setTextColor(getResources().getColor(R.color.WhiteText));
+//                deleteItem.setHeight(MATCH_PARENT);
+//                deleteItem.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+//                swipeRightMenu.addMenuItem(deleteItem); // 在Item右侧添加一个菜单。
+//            }
+//        };
+//
+//        mSwipeMenuItemClickListener = new SwipeMenuItemClickListener() {
+//            @Override
+//            public void onItemClick(SwipeMenuBridge menuBridge) {
+//                // 任何操作必须先关闭菜单，否则可能出现Item菜单打开状态错乱。03.85/*-+2
+//                menuBridge.closeMenu();
+//                int direction = menuBridge.getDirection(); // 左侧还是右侧菜单。
+//                int adapterPosition = menuBridge.getAdapterPosition(); // RecyclerView的Item的position。
+//                int menuPosition = menuBridge.getPosition(); // 菜单在RecyclerView的Item中的Position。
+//                if (FileUtils.deleteFile(recordList.get(adapterPosition).getLocation())) {
+//                    recordList.remove(adapterPosition);
+//                    mAdapter.notifyDataSetChanged();
+//                } else {
+//                    Toasty.info(context, "删除失败").show();
+//                }
+//                updateUI();
+//
+//            }
+//        };
+//
+//        //revyvleView单个点击监听
+//        swipeMenuRecyclerView.setSwipeItemClickListener(new SwipeItemClickListener() {
+//            @Override
+//            public void onItemClick(View itemView, int position) {
+//                op_filepath = recordList.get(position).getLocation();
+//                showDialog();
+//            }
+//        });
 
         swipeMenuRecyclerView.setLayoutManager(layoutManager);
         swipeMenuRecyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
-        swipeMenuRecyclerView.setSwipeMenuCreator(mSwipeMenuCreator);
-        swipeMenuRecyclerView.setSwipeMenuItemClickListener(mSwipeMenuItemClickListener);
         swipeMenuRecyclerView.setAdapter(mAdapter);
         updateUI();
     }
