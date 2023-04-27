@@ -1,43 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
 
     <LinearLayout
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="28dp"
+        android:layout_marginHorizontal="40dp"
         android:background="@drawable/popwindow_normal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/tv_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="16dp"
-            android:textColor="@color/black"
+            android:layout_marginTop="14dp"
             android:text="名称"
+            android:textColor="@color/black"
             android:textSize="20dp" />
 
         <LinearLayout
-            android:layout_marginTop="2dp"
             android:id="@+id/layout1"
-            android:clickable="true"
-            android:paddingVertical="5dp"
-
-            android:background="@drawable/touch_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
             android:layout_marginRight="10dp"
+            android:background="@drawable/touch_layout"
+            android:clickable="true"
             android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingVertical="5dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -45,8 +44,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="#8C8C8C"
                 android:text="账号："
+                android:textColor="#8C8C8C"
                 android:textSize="18dp" />
 
 
@@ -67,18 +66,19 @@
                 android:src="@mipmap/copy" />
 
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/layout2"
-            android:clickable="true"
-            android:background="@drawable/touch_layout"
-            android:paddingVertical="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_marginTop="1dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/touch_layout"
+            android:clickable="true"
             android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingVertical="5dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -86,8 +86,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="#8C8C8C"
                 android:text="密码："
+                android:textColor="#8C8C8C"
                 android:textSize="18dp" />
 
 
@@ -108,19 +108,20 @@
                 android:src="@mipmap/copy" />
 
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/layout3"
-            android:clickable="true"
-            android:background="@drawable/touch_layout"
-            android:paddingVertical="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
-
+            android:background="@drawable/touch_layout"
+            android:clickable="true"
             android:gravity="center_horizontal"
-            android:orientation="horizontal">
+
+            android:orientation="horizontal"
+            android:paddingVertical="5dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -128,8 +129,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="#8C8C8C"
                 android:text="备注："
+                android:textColor="#8C8C8C"
                 android:textSize="18dp" />
 
 
@@ -146,8 +147,7 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_marginTop="3dp"
-                android:layout_weight="0.5"
-                />
+                android:layout_weight="0.5" />
 
         </LinearLayout>
     </LinearLayout>

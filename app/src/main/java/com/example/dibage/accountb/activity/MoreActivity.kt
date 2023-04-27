@@ -24,6 +24,8 @@ import com.example.dibage.accountb.applications.MyApplication
 import com.example.dibage.accountb.commonView.PopWindowTip
 import com.example.dibage.accountb.dao.AccountDao
 import com.example.dibage.accountb.dao.DaoSession
+import com.example.dibage.accountb.databinding.ActivityMainBinding
+import com.example.dibage.accountb.databinding.ActivityMoreBinding
 import com.example.dibage.accountb.entitys.Account
 import com.example.dibage.accountb.utils.AccountUtils
 import com.example.dibage.accountb.utils.EncryUtils
@@ -37,6 +39,8 @@ import es.dmoral.toasty.Toasty
 import org.greenrobot.greendao.query.QueryBuilder
 
 class MoreActivity : AppCompatActivity(), View.OnClickListener {
+    private lateinit var binding: ActivityMoreBinding
+
     private var toolbar: Toolbar? = null
     private var switch_finger: Switch? = null
     private var mFingerprintIdentify: FingerprintIdentify? = null
@@ -64,7 +68,8 @@ class MoreActivity : AppCompatActivity(), View.OnClickListener {
     private var ll_project_location: LinearLayout? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_more)
+        binding = ActivityMoreBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initFBI()
         iniData()
         initView()
@@ -157,6 +162,7 @@ class MoreActivity : AppCompatActivity(), View.OnClickListener {
         ll_support!!.setOnClickListener(this)
         ll_openource!!.setOnClickListener(this)
         ll_project_location!!.setOnClickListener(this)
+        binding.llSkin.setOnClickListener(this)
     }
 
     private fun initFBI() {
@@ -251,6 +257,10 @@ class MoreActivity : AppCompatActivity(), View.OnClickListener {
                 intent = Intent(Intent.ACTION_VIEW)
                 intent.data = uri
                 startActivity(intent)
+            }
+
+            R.id.ll_skin -> {
+                Toasty.info(this, "替换皮肤").show()
             }
         }
     }

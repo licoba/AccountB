@@ -9,6 +9,12 @@ import com.example.dibage.accountb.dao.DaoSession
 import com.kongzue.dialogx.DialogX
 import com.kongzue.dialogx.dialogs.MessageDialog
 import com.tencent.mmkv.MMKV
+import skin.support.SkinCompatManager
+import skin.support.app.SkinAppCompatViewInflater
+import skin.support.app.SkinCardViewInflater
+import skin.support.constraint.app.SkinConstraintViewInflater
+import skin.support.design.app.SkinMaterialViewInflater
+
 
 /**
  * Created by licoba on 2018/3/27.
@@ -32,6 +38,15 @@ class MyApplication : Application() {
         //设置全局 MessageDialog 出场动画
         MessageDialog.overrideExitAnimRes = R.anim.anim_dialogx_default_exit
         DialogX.implIMPLMode = DialogX.IMPL_MODE.WINDOW
+
+        SkinCompatManager.withoutActivity(this)
+            .addInflater(SkinAppCompatViewInflater()) // 基础控件换肤初始化
+            .addInflater(SkinMaterialViewInflater()) // material design 控件换肤初始化[可选]
+            .addInflater(SkinConstraintViewInflater()) // ConstraintLayout 控件换肤初始化[可选]
+            .addInflater(SkinCardViewInflater()) // CardView v7 控件换肤初始化[可选]
+            .setSkinStatusBarColorEnable(false) // 关闭状态栏换肤，默认打开[可选]
+            .setSkinWindowBackgroundEnable(false) // 关闭windowBackground换肤，默认打开[可选]
+            .loadSkin()
     }
 
     companion object {
@@ -41,4 +56,7 @@ class MyApplication : Application() {
         var context: Context? = null
             private set
     }
+
+
+
 }

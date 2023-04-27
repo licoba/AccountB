@@ -38,6 +38,7 @@ import com.github.clans.fab.FloatingActionButton
 import com.github.clans.fab.FloatingActionMenu
 import com.gjiazhe.wavesidebar.WaveSideBar
 import com.gyf.immersionbar.ImmersionBar
+import com.gyf.immersionbar.ktx.immersionBar
 import com.kongzue.dialogx.dialogs.CustomDialog
 import com.kongzue.dialogx.dialogs.MessageDialog
 import com.kongzue.dialogx.dialogs.PopMenu
@@ -70,6 +71,10 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
+        immersionBar {
+            transparentBar()
+            titleBar(binding.toolbar) //支持ActionBar使用
+        }
         setContentView(view)
         super.onCreate(savedInstanceState)
 
@@ -119,7 +124,6 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initView() {
-        ImmersionBar.with(this).transparentBar().titleBar(binding.toolbar).init();
 
         if (accountsList!!.size > 0) {
             llEmpty!!.visibility = View.GONE
@@ -246,7 +250,7 @@ class MainActivity : BaseActivity() {
                         }
 
                         2 -> {
-                            Toasty.info(context, "还没做")
+                            Toasty.info(context, "还没做").show()
                         }
                     }
                     false

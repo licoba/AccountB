@@ -63,13 +63,14 @@ class PopAccountDetail(context: Context, account: Account) : BasePopupWindow(con
     }
 
 
-    override fun onCreateShowAnimation(): Animation {
-        return AnimationHelper.asAnimation()
-            .withScale(
-                ScaleConfig()
-                    .scale(0.95F, 1.0F)
-            )
-            .toShow()
+    override fun onCreateShowAnimator(): Animator {
+        val animator = ValueAnimator.ofFloat(0.0f, 1.0f)
+        animator.duration = 200 // 设置动画时间为 100 毫秒
+        animator.addUpdateListener {
+            val value = it.animatedValue as Float
+            displayAnimateView.alpha = value
+        }
+        return animator
     }
 
 
