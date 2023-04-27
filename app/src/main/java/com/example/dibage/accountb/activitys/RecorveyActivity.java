@@ -4,11 +4,14 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Environment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +61,7 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
  */
 public class RecorveyActivity extends AppCompatActivity {
 
-    private android.support.v7.widget.Toolbar toolbar;
+    private Toolbar toolbar;
     private SwipeMenuRecyclerView swipeMenuRecyclerView;//recycleview
     Context context;
     String TAG = "RecorveyActivity";

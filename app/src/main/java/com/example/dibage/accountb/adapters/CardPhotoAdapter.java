@@ -3,9 +3,10 @@ package com.example.dibage.accountb.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+
+import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;

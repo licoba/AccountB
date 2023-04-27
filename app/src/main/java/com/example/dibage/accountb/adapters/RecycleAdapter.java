@@ -1,7 +1,5 @@
 package com.example.dibage.accountb.adapters;
 
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;

@@ -2,14 +2,13 @@ package com.example.dibage.accountb.activitys;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.widget.LinearLayout.HORIZONTAL;
+
 
 /**
  * 证件详情
@@ -114,7 +114,7 @@ public class CardDetailActivity extends AppCompatActivity {
         mAdapter = new CardPhotoAdapter(R.layout.item_cardphoto, photoList);
         mAdapter.setContext(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(HORIZONTAL);
+        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mAdapter);
 

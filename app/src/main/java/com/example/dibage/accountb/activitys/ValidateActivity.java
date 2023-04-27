@@ -2,13 +2,14 @@ package com.example.dibage.accountb.activitys;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dibage.accountb.R;
 import com.example.dibage.accountb.utils.EncryUtils;
@@ -70,8 +71,9 @@ public class ValidateActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onRestart() {
         super.onRestart();
-        if (finger_state)
+        if (finger_state) {
             mFingerprintIdentify.startIdentify(3, new mFingerprintIdentifyListener());// 开始验证指纹识别
+        }
     }
 
     @Override
@@ -148,7 +150,7 @@ public class ValidateActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
-    public class mFingerprintIdentifyListener implements BaseFingerprint.FingerprintIdentifyListener {
+    public class mFingerprintIdentifyListener implements  BaseFingerprint.IdentifyListener {
 
         @Override
         public void onSucceed() {

@@ -5,11 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.util.Log;
 import android.view.Gravity;
@@ -229,8 +227,8 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
     private void showPopRandom() {
         mPopupWindow = new PopupWindow();
         LayoutInflater inflater = getLayoutInflater();
-        View contentView = inflater.from(AddAccountActivity.this).inflate(R.layout.pop_random, null);
-        View rootview = inflater.from(AddAccountActivity.this). inflate(R.layout.activity_add_account, null);
+        View contentView = LayoutInflater.from(AddAccountActivity.this).inflate(R.layout.pop_random, null);
+        View rootview = LayoutInflater.from(AddAccountActivity.this). inflate(R.layout.activity_add_account, null);
         mPopupWindow = new PopupWindow(contentView,
                 getWindowManager().getDefaultDisplay().getWidth() - 200, WindowManager.LayoutParams.WRAP_CONTENT, true);
         mPopupWindow.showAtLocation(rootview, Gravity.CENTER, 0, 0);

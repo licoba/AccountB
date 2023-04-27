@@ -6,21 +6,22 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.support.v7.widget.Toolbar;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.dibage.accountb.R;
@@ -139,7 +140,7 @@ public class CardActivity extends AppCompatActivity {
 
     }
 
-    public class mFingerprintIdentifyListener implements BaseFingerprint.FingerprintIdentifyListener {
+    public class mFingerprintIdentifyListener implements BaseFingerprint.IdentifyListener {
 
         int position = 0;
         void  setPosition(int position){

@@ -22,11 +22,11 @@
             android:layout_height="wrap_content"
             android:background="@color/ToolBar">
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/toolbar_theme"></android.support.v7.widget.Toolbar>
+                android:theme="@style/toolbar_theme"></androidx.appcompat.widget.Toolbar>
 
             <ImageView
                 android:id="@+id/btn_edit"
@@ -135,7 +135,7 @@
                 android:text="证件照片（点击查看大图）" />
 
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -144,7 +144,7 @@
                 android:layout_marginBottom="@dimen/sp_14"
                 android:layout_marginTop="@dimen/sp_16">
 
-            </android.support.v7.widget.RecyclerView>
+            </androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>
 

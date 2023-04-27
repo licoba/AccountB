@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:background="@color/ToolBar">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
                 android:text="跳过"
                 android:textSize="16dp" />
 
-        </android.support.v7.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
     </FrameLayout>
 

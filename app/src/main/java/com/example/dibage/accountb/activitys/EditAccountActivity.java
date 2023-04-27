@@ -3,11 +3,7 @@ package com.example.dibage.accountb.activitys;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.util.Log;
 import android.view.Gravity;
@@ -29,6 +25,9 @@ import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.dibage.accountb.R;
 import com.example.dibage.accountb.applications.MyApplication;
@@ -214,8 +213,8 @@ public class EditAccountActivity extends AppCompatActivity implements View.OnCli
     private void showPopRandom() {
         mPopupWindow = new PopupWindow();
         LayoutInflater inflater = getLayoutInflater();
-        View contentView = inflater.from(EditAccountActivity.this).inflate(R.layout.pop_random, null);
-        View rootview = inflater.from(EditAccountActivity.this). inflate(R.layout.activity_add_account, null);
+        View contentView = LayoutInflater.from(EditAccountActivity.this).inflate(R.layout.pop_random, null);
+        View rootview = LayoutInflater.from(EditAccountActivity.this). inflate(R.layout.activity_add_account, null);
         mPopupWindow = new PopupWindow(contentView,
                 getWindowManager().getDefaultDisplay().getWidth() - 200, WindowManager.LayoutParams.WRAP_CONTENT, true);
         mPopupWindow.showAtLocation(rootview, Gravity.CENTER, 0, 0);
