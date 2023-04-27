@@ -1,70 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@drawable/bg_poptip"
-    android:padding="15dp"
-    android:orientation="vertical"
     android:layout_height="wrap_content">
-
-    <TextView
-        android:id="@+id/pop_title"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="@dimen/dp_10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="弹窗标题"
-        android:textSize="18sp"
-        android:textColor="@android:color/black"
-        />
-
-    <TextView
-
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="18dp"
-        android:id="@+id/pop_message"
-        android:layout_marginTop="12dp"
-        android:gravity="left"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="删除账号后将无法找回，确定删除该账号？"
-        android:textSize="16sp"
-
-        />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:gravity="right"
-        android:layout_marginTop="12dp"
-        android:layout_marginRight="5dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:background="@drawable/bg_poptip"
+        android:orientation="vertical"
+        android:padding="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/btn_cancel"
-            android:layout_marginRight="20dp"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/pop_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="5dp"
+            android:text="弹窗标题"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+
+            android:id="@+id/pop_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="18dp"
+            android:gravity="left"
+            android:text="删除账号后将无法找回，确定删除该账号？"
             android:textSize="16sp"
-            android:text="取消"
-            android:textColor="@android:color/darker_gray"
-            android:background="@null"
-            android:minHeight="26dp"
-            android:minWidth="@dimen/dp_40"
+
             />
 
-
-        <Button
-
-            android:id="@+id/btn_submit"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="确定"
-            android:textColor="@color/colorPrimary"
-            android:background="@null"
-            android:minHeight="26dp"
-            android:minWidth="@dimen/dp_40"
-            />
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="5dp"
+            android:gravity="right">
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:background="@null"
+                android:minWidth="@dimen/dp_40"
+                android:minHeight="26dp"
+                android:text="取消"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="16sp" />
+
+
+            <Button
+
+                android:id="@+id/btn_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:minWidth="@dimen/dp_40"
+                android:minHeight="26dp"
+                android:text="确定"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
@@ -24,6 +25,7 @@ import com.example.dibage.accountb.R
 import com.example.dibage.accountb.adapters.AccountAdapter
 import com.example.dibage.accountb.applications.MyApplication
 import com.example.dibage.accountb.base.BaseActivity
+import com.example.dibage.accountb.commonView.CommPopTip
 import com.example.dibage.accountb.commonView.PopWindowTip
 import com.example.dibage.accountb.dao.AccountDao
 import com.example.dibage.accountb.dao.DaoSession
@@ -42,6 +44,7 @@ import com.kongzue.dialogx.interfaces.OnIconChangeCallBack
 import com.kongzue.dialogx.interfaces.OnMenuItemClickListener
 import es.dmoral.toasty.Toasty
 import org.greenrobot.greendao.query.QueryBuilder
+import razerdp.basepopup.BasePopupWindow
 
 
 class MainActivity : BaseActivity() {
@@ -212,38 +215,42 @@ class MainActivity : BaseActivity() {
 
     // 账号详情弹窗
     private fun showPopupDetail(account: Account) {
-        CustomDialog.build().setCustomView(
-            object : OnBindView<CustomDialog>(R.layout.pop_detail) {
-                override fun onBind(dialog: CustomDialog, contentView: View) {
 
-                    val tv1: TextView = contentView.findViewById(R.id.tv_description)
-                    val tv2: TextView = contentView.findViewById(R.id.tv_username)
-                    val tv3: TextView = contentView.findViewById(R.id.tv_password)
-                    val tv4: TextView = contentView.findViewById(R.id.tv_remarks)
-                    tv1.text = account.description
-                    tv2.text = account.username
-                    tv3.text = account.password
-                    tv4.text = account.remark
-                    val layout1 = contentView.findViewById<LinearLayout>(R.id.layout1)
-                    val layout2 = contentView.findViewById<LinearLayout>(R.id.layout2)
-                    val layout3 = contentView.findViewById<LinearLayout>(R.id.layout3)
-                    layout1.setOnClickListener {
-                        dialog.dismiss();
-                        val cmb = context
-                            .getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                        cmb.text = account.username
-                        Toasty.success(context, "账号已复制", Toast.LENGTH_SHORT, true).show()
-                    }
-                    layout2.setOnClickListener {
-                        dialog.dismiss();
-                        val cmb = context
-                            .getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                        cmb.text = account.password
-                        Toasty.success(context, "密码已复制", Toast.LENGTH_SHORT, true).show()
-                    }
-
-                }
-            }).setMaskColor(Color.parseColor("#4D000000")).show()
+        CommPopTip(context).apply {
+            popupGravity = Gravity.CENTER
+        }.showPopupWindow()
+//        CustomDialog.build().setCustomView(
+//            object : OnBindView<CustomDialog>(R.layout.pop_detail) {
+//                override fun onBind(dialog: CustomDialog, contentView: View) {
+//
+//                    val tv1: TextView = contentView.findViewById(R.id.tv_description)
+//                    val tv2: TextView = contentView.findViewById(R.id.tv_username)
+//                    val tv3: TextView = contentView.findViewById(R.id.tv_password)
+//                    val tv4: TextView = contentView.findViewById(R.id.tv_remarks)
+//                    tv1.text = account.description
+//                    tv2.text = account.username
+//                    tv3.text = account.password
+//                    tv4.text = account.remark
+//                    val layout1 = contentView.findViewById<LinearLayout>(R.id.layout1)
+//                    val layout2 = contentView.findViewById<LinearLayout>(R.id.layout2)
+//                    val layout3 = contentView.findViewById<LinearLayout>(R.id.layout3)
+//                    layout1.setOnClickListener {
+//                        dialog.dismiss();
+//                        val cmb = context
+//                            .getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+//                        cmb.text = account.username
+//                        Toasty.success(context, "账号已复制", Toast.LENGTH_SHORT, true).show()
+//                    }
+//                    layout2.setOnClickListener {
+//                        dialog.dismiss();
+//                        val cmb = context
+//                            .getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+//                        cmb.text = account.password
+//                        Toasty.success(context, "密码已复制", Toast.LENGTH_SHORT, true).show()
+//                    }
+//
+//                }
+//            }).setMaskColor(Color.parseColor("#4D000000")).show()
 
 
     }
