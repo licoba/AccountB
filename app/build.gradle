@@ -85,5 +85,8 @@ dependencies {
     implementation 'io.github.lucksiege:ucrop:v3.11.1'
     implementation 'io.github.jeremyliao:live-event-bus-x:1.8.0'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
+    // Pop弹窗
+    implementation 'io.github.razerdp:BasePopup:3.2.1'
+
 
 }
