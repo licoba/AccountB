@@ -84,5 +84,6 @@ dependencies {
     // 图片裁剪 (按需引入)
     implementation 'io.github.lucksiege:ucrop:v3.11.1'
     implementation 'io.github.jeremyliao:live-event-bus-x:1.8.0'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 
 }
