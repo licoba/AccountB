@@ -1,4 +1,4 @@
-package com.example.dibage.accountb.activitys;
+package com.example.dibage.accountb.activity;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,10 +26,8 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.example.dibage.accountb.R;
 import com.example.dibage.accountb.adapters.RecycleAdapter;
 import com.example.dibage.accountb.applications.MyApplication;
-import com.example.dibage.accountb.dao.AccountDao;
 import com.example.dibage.accountb.dao.CardDao;
 import com.example.dibage.accountb.dao.DaoSession;
-import com.example.dibage.accountb.entitys.Account;
 import com.example.dibage.accountb.entitys.Card;
 import com.example.dibage.accountb.utils.SPUtils;
 import com.wei.android.lib.fingerprintidentify.FingerprintIdentify;

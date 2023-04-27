@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorPrimary"
-    tools:context=".activitys.ValidateActivity">
+    tools:context=".activity.ValidateActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

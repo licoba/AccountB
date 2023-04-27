@@ -1,4 +1,4 @@
-package com.example.dibage.accountb.activitys;
+package com.example.dibage.accountb.activity;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -46,8 +46,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
-
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 /*
 备份文件恢复

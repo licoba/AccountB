@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.dibage.accountb">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.dibage.accountb"
+    tools:ignore="MissingLeanbackLauncher">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
@@ -15,6 +17,10 @@
     <uses-feature
         android:name="android.software.leanback"
         android:required="true" />
+    <!--意味着该应用程序不需要硬件摄像头功能来支持其基本功能，但是它可能需要使用一些与摄像头相关的其他功能，例如图像处理或视频回放。-->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:name=".applications.MyApplication"
@@ -23,28 +29,28 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activitys.MainActivity" />
+        <activity android:name=".activity.MainActivity" />
         <activity
-            android:name=".activitys.AddAccountActivity"
+            android:name=".activity.AddAccountActivity"
             android:windowSoftInputMode="stateVisible|adjustPan" />
-        <activity android:name=".activitys.MoreActivity" />
-        <activity android:name=".activitys.ValidateActivity" />
+        <activity android:name=".activity.MoreActivity" />
+        <activity android:name=".activity.ValidateActivity" />
         <activity
-            android:name=".activitys.SearchActivity"
+            android:name=".activity.SearchActivity"
             android:windowSoftInputMode="stateVisible|adjustPan" />
-        <activity android:name=".activitys.SettingPasswordActivity" />
-        <activity android:name=".activitys.AddPhotoActivity" />
-        <activity android:name=".activitys.ModifyPasswordActivity" />
-        <activity android:name=".activitys.GuideActivity">
+        <activity android:name=".activity.SettingPasswordActivity" />
+        <activity android:name=".activity.AddPhotoActivity" />
+        <activity android:name=".activity.ModifyPasswordActivity" />
+        <activity android:name=".activity.GuideActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activitys.CardActivity" />
-        <activity android:name=".activitys.EditAccountActivity" />
-        <activity android:name=".activitys.CardDetailActivity" />
-        <activity android:name=".activitys.RecorveyActivity" />
+        <activity android:name=".activity.CardActivity" />
+        <activity android:name=".activity.EditAccountActivity" />
+        <activity android:name=".activity.CardDetailActivity" />
+        <activity android:name=".activity.RecorveyActivity" />
         <activity android:name=".base.BaseActivity" />
 
         <provider
@@ -57,7 +63,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".activitys.OpenSourceActivity"></activity>
+        <activity android:name=".activity.OpenSourceActivity"></activity>
     </application>
 
 </manifest>

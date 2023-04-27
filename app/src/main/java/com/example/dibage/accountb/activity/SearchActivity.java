@@ -1,4 +1,4 @@
-package com.example.dibage.accountb.activitys;
+package com.example.dibage.accountb.activity;
 
 import android.content.Context;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +13,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.dibage.accountb.R;
-import com.example.dibage.accountb.adapters.AccountAdapter;
 import com.example.dibage.accountb.adapters.ChangeColorAdapter;
 import com.example.dibage.accountb.applications.MyApplication;
 import com.example.dibage.accountb.dao.AccountDao;
@@ -26,8 +25,6 @@ import org.greenrobot.greendao.query.WhereCondition;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.view.View.VISIBLE;
 
 public class SearchActivity extends AppCompatActivity {
     private Context context;

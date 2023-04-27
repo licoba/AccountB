@@ -1,4 +1,4 @@
-package com.example.dibage.accountb.activitys;
+package com.example.dibage.accountb.activity;
 
 import android.Manifest;
 import android.app.Activity;
@@ -8,10 +8,10 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.ExifInterface;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -30,7 +30,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.dibage.accountb.R;
 import com.example.dibage.accountb.applications.MyApplication;
@@ -42,15 +41,12 @@ import com.example.dibage.accountb.entitys.Photo;
 import com.example.dibage.accountb.utils.PhotoUtils;
 import com.example.dibage.accountb.utils.SimpleUtils;
 import com.example.dibage.accountb.utils.UIUtils;
-import com.gjiazhe.wavesidebar.WaveSideBar;
-import com.nanchen.compresshelper.CompressHelper;
+import com.hjq.permissions.OnPermissionCallback;
+import com.hjq.permissions.XXPermissions;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -138,7 +134,7 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void initFBI() {
-        context = getApplicationContext();
+        context = this;
         toolbar = findViewById(R.id.toolbar);
         fl_camera = findViewById(R.id.fl_camera);
         btn_commit = findViewById(R.id.btn_commit);
@@ -291,24 +287,26 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
             }
         } else if (condition == CAMERA) {
             String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
-            String[] permission_camera = new String[]{Manifest.permission.CAMERA};
-            String[] permission_storage = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-            if ((ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
-                    == PackageManager.PERMISSION_GRANTED)) {
-                startCamera();
-            } else if (!(ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) && !(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
-                    == PackageManager.PERMISSION_GRANTED)) {
-                ActivityCompat.requestPermissions(AddPhotoActivity.this, permissions, CAMERA);
-            } else if ((ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) && !(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
-                    == PackageManager.PERMISSION_GRANTED)) {
-                ActivityCompat.requestPermissions(AddPhotoActivity.this, permission_camera, CAMERA);
-            } else {
-                ActivityCompat.requestPermissions(AddPhotoActivity.this, permission_storage, CAMERA);
-            }
+            XXPermissions.with(context).permission(permissions).request(new OnPermissionCallback() {
+                @Override
+                public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
+                    if (allGranted == true) {
+                        startCamera();
+                    }
+                }
+                @Override
+                public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
+                    if (doNotAskAgain) {
+                        Toasty.info(context,"被永久拒绝授权，请手动授予权限");
+                        // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                        XXPermissions.startPermissionActivity(context, permissions);
+                    } else {
+                        Toasty.info(context,"获取权限失败");
+                    }
+                }
+            });
+
         }
     }
 
@@ -336,20 +334,6 @@ public class AddPhotoActivity extends AppCompatActivity implements View.OnClickL
                 Toasty.info(context, "请授予软件需要的权限").show();
             }
             return;
-        } else if (requestCode == CAMERA) {
-            if (permissions.length == 2) {
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                    startCamera();
-                } else {
-                    Toasty.info(context, "请授予软件需要的权限").show();
-                }
-            } else if (permissions.toString().equals(Manifest.permission.CAMERA)) {
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startCamera();
-                } else {
-                    Toasty.info(context, "请授予软件需要的权限").show();
-                }
-            }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }

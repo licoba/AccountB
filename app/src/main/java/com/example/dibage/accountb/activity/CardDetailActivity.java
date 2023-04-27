@@ -1,4 +1,4 @@
-package com.example.dibage.accountb.activitys;
+package com.example.dibage.accountb.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -32,8 +32,6 @@ import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.widget.LinearLayout.HORIZONTAL;
 
 
 /**

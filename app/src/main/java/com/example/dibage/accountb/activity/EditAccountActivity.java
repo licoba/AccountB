@@ -1,20 +1,12 @@
-package com.example.dibage.accountb.activitys;
+package com.example.dibage.accountb.activity;
 
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -36,9 +28,6 @@ import com.example.dibage.accountb.dao.DaoSession;
 import com.example.dibage.accountb.entitys.Account;
 import com.example.dibage.accountb.utils.AccountUtils;
 import com.example.dibage.accountb.utils.SimpleUtils;
-import com.example.dibage.accountb.utils.UIUtils;
-
-import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 

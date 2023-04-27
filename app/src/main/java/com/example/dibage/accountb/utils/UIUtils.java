@@ -1,20 +1,15 @@
 package com.example.dibage.accountb.utils;
 
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 
-import android.content.pm.PackageManager;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import com.example.dibage.accountb.activitys.MoreActivity;
 
 
 public class UIUtils {

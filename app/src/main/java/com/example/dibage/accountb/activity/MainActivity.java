@@ -1,4 +1,4 @@
-package com.example.dibage.accountb.activitys;
+package com.example.dibage.accountb.activity;
 
 
 import android.content.ClipboardManager;
@@ -16,11 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -47,7 +44,7 @@ import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
-import static com.example.dibage.accountb.activitys.MoreActivity.RECORVRY_DATA;
+import static com.example.dibage.accountb.activity.MoreActivity.RECORVRY_DATA;
 
 public class MainActivity extends AppCompatActivity {
     final String TAG = "MainActivity";

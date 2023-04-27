@@ -13,7 +13,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.example.dibage.accountb.R;
-import com.example.dibage.accountb.activitys.MainActivity;
 import com.example.dibage.accountb.applications.MyApplication;
 import com.example.dibage.accountb.utils.UIUtils;
 

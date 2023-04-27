@@ -10,6 +10,9 @@ import com.example.dibage.accountb.entitys.OpenSource;
 
 import java.util.List;
 
+/**
+ * @author licoba
+ */
 public class OpenSourceAdapter extends BaseQuickAdapter<OpenSource, BaseViewHolder> {
     public OpenSourceAdapter(int layoutResId, @Nullable List<OpenSource> data) {
         super(layoutResId, data);
