@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.example.dibage.accountb.R;
 import com.example.dibage.accountb.adapters.CardPhotoAdapter;
 import com.example.dibage.accountb.applications.MyApplication;
@@ -73,7 +74,7 @@ public class CardDetailActivity extends AppCompatActivity {
 
     private void initEvent() {
         //点击查看大图
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 flag =1;

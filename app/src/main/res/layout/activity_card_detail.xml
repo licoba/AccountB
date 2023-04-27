@@ -140,9 +140,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
-                android:layout_marginRight="@dimen/sp_16"
+                android:layout_marginRight="16sp"
                 android:layout_marginBottom="@dimen/sp_14"
-                android:layout_marginTop="@dimen/sp_16">
+                android:layout_marginTop="16sp">
 
             </androidx.recyclerview.widget.RecyclerView>
 

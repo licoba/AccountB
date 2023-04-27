@@ -2,7 +2,7 @@ package com.example.dibage.accountb.adapters;
 
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.example.dibage.accountb.R;
 import com.example.dibage.accountb.entitys.Card;
 

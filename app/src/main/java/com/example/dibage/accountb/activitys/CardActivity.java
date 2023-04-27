@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.example.dibage.accountb.R;
 import com.example.dibage.accountb.adapters.RecycleAdapter;
 import com.example.dibage.accountb.applications.MyApplication;
@@ -93,7 +94,7 @@ public class CardActivity extends AppCompatActivity {
             }
         });
 
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (finger_state && is_setting_pwd) {

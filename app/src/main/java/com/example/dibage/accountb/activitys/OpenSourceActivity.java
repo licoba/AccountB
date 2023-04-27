@@ -6,19 +6,12 @@ import android.net.Uri;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.RecyclerView;
-
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
-import android.view.View;
-
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.dibage.accountb.R;
 import com.example.dibage.accountb.adapters.OpenSourceAdapter;
 import com.example.dibage.accountb.entitys.OpenSource;
 import com.example.dibage.accountb.utils.UIUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,15 +34,12 @@ public class OpenSourceActivity extends AppCompatActivity {
     }
 
     private void initEvent() {
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                String webSite = dataList.get(position).getWebsite();
-                Uri uri= Uri.parse(webSite);   //指定网址
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(uri);
-                startActivity(intent);
-            }
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            String webSite = dataList.get(position).getWebsite();
+            Uri uri= Uri.parse(webSite);   //指定网址
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(uri);
+            startActivity(intent);
         });
     }
 
