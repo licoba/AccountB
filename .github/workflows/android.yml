@@ -1,4 +1,6 @@
 name: Android CI
+# 参考链接： https://github.com/marketplace/actions/gh-release
+# 此配置文件来自Github官方的Android模板+三方的Action：gh-release
 
 on:
   push:
@@ -23,4 +25,17 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew build
+      run: |
+        echo "==> 开始进行release构建" 
+        ./gradlew assembleRelease
+        echo "==> release构建执行完毕"
+    - name: Release to Github Page
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/') # 只有tag推送时才走
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        files: app/build/outputs/apk/release/app-release.apk
+
+
+
