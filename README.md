@@ -63,6 +63,4 @@
 
 
 
-### [点击链接](https://github.com/licoba/AccountB/raw/master/apk/%E8%B4%A6%E5%8F%B7%E5%86%8C%E5%AD%90.apk)或扫码下载apk
-
-![](https://raw.githubusercontent.com/licoba/AccountB/master/apk/1574168200.png)
+### [点击链接下载](https://github.com/licoba/AccountB/releases)
