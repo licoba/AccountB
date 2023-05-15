@@ -12,8 +12,7 @@
 * 密码采用AES对称加密
 
 ## 软件截图
-![](https://raw.githubusercontent.com/licoba/AccountB/master/apk/run.gif)
-<img src="https://raw.githubusercontent.com/licoba/AccountB/master/apk/run.gif" alt="Image Description" width="500px">
+<img src="https://raw.githubusercontent.com/licoba/AccountB/master/apk/run.gif" alt="Image Description" width="330px">
 
 ## 开发流程
 
