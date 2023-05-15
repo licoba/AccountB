@@ -63,4 +63,4 @@
 
 
 
-### [点击链接下载](https://github.com/licoba/AccountB/releases)
+### [点击链接下载APK](https://github.com/licoba/AccountB/releases)

@@ -29,13 +29,21 @@ jobs:
         ./gradlew assembleRelease
         echo "==> release构建执行完毕"
 
+    - name: Rename Release File
+      run: |
+        # 获取新标签名称
+        TAG_NAME=${GITHUB_REF#refs/tags/}
+        # 将 README.md 文件重命名为标签名称
+        mv README.md $TAG_NAME.md
+        mv "app/build/outputs/apk/release/app-release.apk" "app/build/outputs/apk/release/账号册子${{ github.ref }}.apk"
+
     - name: Release to Github Page
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/') # 只有tag推送时才走
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        files: app/build/outputs/apk/release/app-release.apk
+        files: app/build/outputs/apk/release/账号册子${{ github.ref }}.apk
         generate_release_notes: true
 
 
