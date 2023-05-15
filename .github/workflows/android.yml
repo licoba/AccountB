@@ -4,7 +4,6 @@ name: Android CI
 
 on:
   push:
-    branches: [ "master" ]
     tags:
       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
@@ -32,7 +31,7 @@ jobs:
     - name: Rename Release File
       run: |
         echo "==> 重命名APK" 
-        mv "app/build/outputs/apk/release/app-release.apk" "app/build/outputs/apk/release/账号册子${{ github.ref }}.apk"
+        mv "app/build/outputs/apk/release/app-release.apk" "app/build/outputs/apk/release/账号册子${{ steps.tag_name.outputs.tag }}.apk"
 
     - name: Release to Github Page
       uses: softprops/action-gh-release@v1
@@ -40,7 +39,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        files: app/build/outputs/apk/release/账号册子${{ github.ref }}.apk
+        files: app/build/outputs/apk/release/账号册子${{ steps.tag_name.outputs.tag }}.apk
         generate_release_notes: true
 
 
