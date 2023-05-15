@@ -33,7 +33,7 @@ jobs:
         echo "==> 重命名APK" 
         apk_name="app/build/outputs/apk/release/app-release.apk"
         tag_name="$(echo "${{ github.ref }}" | sed 's|refs/tags/||')"
-        mv "$apk_name" "app/build/outputs/apk/release/app-${tag_name}.apk"
+        mv "$apk_name" "app/build/outputs/apk/release/账号册子${tag_name}.apk"
 
     - name: Release to Github Page
       uses: softprops/action-gh-release@v1
