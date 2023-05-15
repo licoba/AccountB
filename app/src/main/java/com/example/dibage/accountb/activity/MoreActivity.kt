@@ -169,6 +169,9 @@ class MoreActivity : AppCompatActivity(), View.OnClickListener {
         ll_openource!!.setOnClickListener(this)
         ll_project_location!!.setOnClickListener(this)
         binding.llSkin.setOnClickListener {
+            Toasty.info(this, "功能未完善").show()
+            return@setOnClickListener
+
             Toasty.info(this, "替换皮肤").show()
             SkinCompatManager.getInstance()
                 .loadSkin("night", SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN); // 后缀加载
