@@ -13,6 +13,8 @@
 
 ## 软件截图
 ![](https://raw.githubusercontent.com/licoba/AccountB/master/apk/run.gif)
+<img src="https://raw.githubusercontent.com/licoba/AccountB/master/apk/run.gif" alt="Image Description" width="500px">
+
 ## 开发流程
 
 ### 2023/05/01
