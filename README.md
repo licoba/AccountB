@@ -1,10 +1,10 @@
 # AccountBook：《账号册子》
-> 一个在本地记录、保存账号密码以及证件照的App，支持指纹解锁。
-> 欢迎各位Fork以及提交MR
-> 如果对此App有好的idea，欢迎提issue 😁
+> 一个在本地记录、保存账号密码以及证件照的App，支持指纹解锁。<br>
+> 欢迎各位Fork以及提交MR<br>
+> 如果对此App有好的idea，欢迎提issue 😁<br>
 
 
-（App最近更新时间：2019/11/19）/ Android Studio 3.5.2 /
+（App最近更新时间：2023/05/01）/ Android Studio Flamingo | 2022.2.1 Patch 1 / Kotlin+Java
 
 * 支持随机密码生成、
 * 支持账号密码的备份和导入
@@ -14,6 +14,10 @@
 ## 软件截图
 ![](https://raw.githubusercontent.com/licoba/AccountB/master/apk/run.gif)
 ## 开发流程
+
+### 2023/05/01
+* 迁移到Kotlin
+* 解决一部分崩溃问题
 
 ### 2018/04/06
 * 指纹识别解锁
