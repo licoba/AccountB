@@ -31,10 +31,7 @@ jobs:
 
     - name: Rename Release File
       run: |
-        # 获取新标签名称
-        TAG_NAME=${GITHUB_REF#refs/tags/}
-        # 将 README.md 文件重命名为标签名称
-        mv README.md $TAG_NAME.md
+        echo "==> 重命名APK" 
         mv "app/build/outputs/apk/release/app-release.apk" "app/build/outputs/apk/release/账号册子${{ github.ref }}.apk"
 
     - name: Release to Github Page
