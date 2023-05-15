@@ -31,7 +31,9 @@ jobs:
     - name: Rename Release File
       run: |
         echo "==> 重命名APK" 
-        mv "app/build/outputs/apk/release/app-release.apk" "app/build/outputs/apk/release/账号册子${{ steps.tag_name.outputs.tag }}.apk"
+        apk_name="app/build/outputs/apk/release/app-release.apk"
+        tag_name="$(echo "${{ github.ref }}" | sed 's|refs/tags/||')"
+        mv "$apk_name" "app/build/outputs/apk/release/app-${tag_name}.apk"
 
     - name: Release to Github Page
       uses: softprops/action-gh-release@v1
@@ -39,7 +41,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        files: app/build/outputs/apk/release/账号册子${{ steps.tag_name.outputs.tag }}.apk
+        files: app/build/outputs/apk/release/*.apk
         generate_release_notes: true
 
 
