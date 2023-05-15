@@ -11,12 +11,23 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    // 签名文件信息
+    signingConfigs {
+        releaseConfig {
+            storeFile file("../apk/licoba.keystore")
+            storePassword "123456"
+            keyAlias "key0"
+            keyPassword "123456"
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseConfig
         }
     }
+
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
