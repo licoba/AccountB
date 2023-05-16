@@ -11,9 +11,9 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        app:titleTextColor="@color/WhiteText"
-        android:layout_height="wrap_content">
+        app:titleTextColor="@color/WhiteText">
 
         <Button
             android:id="@+id/btnShare"
@@ -24,15 +24,15 @@
             android:background="@drawable/corners_bg"
             android:minWidth="68dp"
             android:minHeight="34dp"
-
-            android:textColor="@color/WhiteText"
             android:text="分享"
+            android:textColor="@color/WhiteText"
             android:textSize="16dp" />
 
     </androidx.appcompat.widget.Toolbar>
 
 
     <LinearLayout
+        android:id="@+id/parentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_gray"
@@ -40,10 +40,13 @@
 
 
         <LinearLayout
+            android:id="@+id/ll_finger"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/WhiteText"
             android:gravity="center_vertical"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:orientation="horizontal">
 
 
@@ -59,6 +62,7 @@
                 android:id="@+id/switch_finger"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:clickable="false"
                 android:layout_marginRight="12dp"
                 android:layout_weight="1"
                 android:checked="false" />
@@ -76,6 +80,8 @@
             android:id="@+id/ll_settingpassword"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:foreground="?attr/selectableItemBackground"
+
             android:background="@color/WhiteText"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -96,6 +102,8 @@
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:background="@color/WhiteText"
+            android:foreground="?attr/selectableItemBackground"
+
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -119,6 +127,8 @@
             android:id="@+id/ll_recovery"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:foreground="?attr/selectableItemBackground"
+
             android:background="@color/WhiteText"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -139,6 +149,8 @@
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:background="@color/WhiteText"
+
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -163,7 +175,9 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/WhiteText"
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center_vertical"
+
             android:orientation="horizontal">
 
 
@@ -182,6 +196,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:background="@color/WhiteText"
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -206,7 +221,9 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/WhiteText"
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center_vertical"
+
             android:orientation="horizontal">
 
             <TextView
@@ -224,7 +241,9 @@
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:background="@color/WhiteText"
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center_vertical"
+
             android:orientation="horizontal">
 
             <TextView
@@ -243,7 +262,8 @@
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:background="@color/WhiteText"
-            android:clickable="true">
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground">
 
             <TextView
                 android:layout_width="wrap_content"

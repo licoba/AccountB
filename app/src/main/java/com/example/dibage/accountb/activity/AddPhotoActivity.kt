@@ -31,6 +31,7 @@ import com.example.dibage.accountb.entitys.Photo
 import com.example.dibage.accountb.utils.PhotoUtils
 import com.example.dibage.accountb.utils.SimpleUtils
 import com.hjq.permissions.OnPermissionCallback
+import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.kongzue.dialogx.dialogs.PopMenu
 import com.kongzue.dialogx.interfaces.OnIconChangeCallBack
@@ -130,8 +131,13 @@ class AddPhotoActivity() : AppCompatActivity(), View.OnClickListener {
             onMenuItemClickListener =
                 OnMenuItemClickListener { dialog, text, index ->
                     when (index) {
-                        0 -> { checkPermission(IMAGE) }
-                        1 -> { checkPermission(CAMERA) }
+                        0 -> {
+                            checkPermission(IMAGE)
+                        }
+
+                        1 -> {
+                            checkPermission(CAMERA)
+                        }
 
                     }
                     false
@@ -226,43 +232,34 @@ class AddPhotoActivity() : AppCompatActivity(), View.OnClickListener {
      */
     private fun checkPermission(condition: Int) {
         if (condition == IMAGE) {
-            if (ContextCompat.checkSelfPermission(
-                    (context)!!,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ) != PackageManager.PERMISSION_GRANTED
-            ) { //权限没有被授予
-                ActivityCompat.requestPermissions(
-                    this@AddPhotoActivity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                    IMAGE
-                )
-            } else { //权限被授予
-                //Toasty.success(context,"已经拥有权限").show();
-                val intent = Intent(
-                    Intent.ACTION_PICK,
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                )
-                startActivityForResult(intent, IMAGE)
-                //直接操作
-            }
-        } else if (condition == CAMERA) {
-            val permissions =
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
-            XXPermissions.with((context)!!).permission(*permissions)
+            val permissions = arrayOf(Permission.READ_MEDIA_IMAGES)
+            XXPermissions.with((context)!!).permission(permissions)
                 .request(object : OnPermissionCallback {
                     override fun onGranted(permissions: List<String>, allGranted: Boolean) {
-                        if (allGranted == true) {
-                            startCamera()
-                        }
+                        if (allGranted) openGallery()
+
                     }
 
                     override fun onDenied(permissions: List<String>, doNotAskAgain: Boolean) {
-                        if (doNotAskAgain) {
-                            Toasty.info((context)!!, "被永久拒绝授权，请手动授予权限")
-                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                            XXPermissions.startPermissionActivity((context)!!, permissions)
-                        } else {
-                            Toasty.info((context)!!, "获取权限失败")
-                        }
+                        Toasty.info((context)!!, "获取权限失败，请授予相册访问权限")
+                        XXPermissions.startPermissionActivity((context)!!, permissions)
+                    }
+                })
+
+        } else if (condition == CAMERA) {
+            val permissions =
+                arrayOf( Manifest.permission.CAMERA)
+            XXPermissions.with((context)!!).permission(*permissions)
+                .request(object : OnPermissionCallback {
+                    override fun onGranted(permissions: List<String>, allGranted: Boolean) {
+                        if (allGranted) startCamera()
+
+                    }
+
+                    override fun onDenied(permissions: List<String>, doNotAskAgain: Boolean) {
+                        Toasty.info((context)!!, "获取权限失败，请手动授予权限")
+                        // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                        XXPermissions.startPermissionActivity((context)!!, permissions)
                     }
                 })
         }
@@ -282,6 +279,16 @@ class AddPhotoActivity() : AppCompatActivity(), View.OnClickListener {
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1)
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
         startActivityForResult(intent, CAMERA) //开启相机
+    }
+
+
+    private fun openGallery() {
+        Toasty.info(context!!, "打开相册").show()
+        val intent = Intent(
+            Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        )
+        startActivityForResult(intent, IMAGE)
     }
 
     //权限申请回调
@@ -304,6 +311,7 @@ class AddPhotoActivity() : AppCompatActivity(), View.OnClickListener {
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
+
 
     //处理相册回调
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

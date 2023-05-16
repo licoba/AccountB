@@ -49,7 +49,7 @@ class MoreActivity : AppCompatActivity(), View.OnClickListener {
 
     private var toolbar: Toolbar? = null
     private var switch_finger: Switch? = null
-    private var mFingerprintIdentify: FingerprintIdentify? = null
+    lateinit var mFingerprintIdentify: FingerprintIdentify
     private var ll_settingpassword: LinearLayout? = null
     private var ll_developing: LinearLayout? = null
     private var ll_create_backup: LinearLayout? = null
@@ -76,62 +76,13 @@ class MoreActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityMoreBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        mFingerprintIdentify = FingerprintIdentify(this)
+        mFingerprintIdentify.setSupportAndroidL(true);              // support android L
+        mFingerprintIdentify.init();                                // init
         initFBI()
         iniData()
         initView()
         initEvent()
-    }
-
-    inner class MyCheckListener : CompoundButton.OnCheckedChangeListener {
-        override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
-            if (isChecked) { //从关到开
-//                Toasty.success(context,"开").show();
-                if (!mFingerprintIdentify!!.isHardwareEnable) {
-                    Toasty.info(this@MoreActivity, "您的设备不支持指纹识别，无法使用此功能").show()
-                } else if (!mFingerprintIdentify!!.isRegisteredFingerprint) {
-                    Toasty.info(this@MoreActivity, "请在您的设备中录入指纹后再使用此功能").show()
-                } else {
-                    Toasty.success(this@MoreActivity, "指纹解锁已启用", Toast.LENGTH_SHORT, false)
-                        .show()
-                    SPUtils.put(this@MoreActivity, "finger_state", true)
-                }
-            } else if (!isChecked) { //从开到关
-                //Toasty.success(context,"关").show();
-                popWindowTip = object : PopWindowTip(this@MoreActivity) {
-                    override fun clickCancel() {
-                        switch_finger!!.setOnCheckedChangeListener(null)
-                        switch_finger!!.isChecked = true
-                        switch_finger!!.setOnCheckedChangeListener(MyCheckListener())
-                    }
-
-                    override fun dismissTodo() {
-                        if (SPUtils.get(this@MoreActivity, "finger_state", false) as Boolean) {
-                            switch_finger!!.setOnCheckedChangeListener(null)
-                            switch_finger!!.isChecked = true
-                            switch_finger!!.setOnCheckedChangeListener(MyCheckListener())
-                        }
-                    }
-
-                    override fun clickConfirm() {
-                        if (SPUtils.get(this@MoreActivity, "finger_state", false) as Boolean) {
-                            Toasty.success(
-                                this@MoreActivity,
-                                "指纹解锁已关闭",
-                                Toast.LENGTH_SHORT,
-                                false
-                            ).show()
-                            SPUtils.put(this@MoreActivity, "finger_state", false)
-                            //                            switch_finger.setOnCheckedChangeListener(null);
-//                            switch_finger.setChecked(false);
-//                            switch_finger.setOnCheckedChangeListener(new MyCheckListener());
-                        }
-                    }
-                }
-                popWindowTip!!.setTitleAndContent("指纹解锁", "确定关闭指纹解锁功能？")
-                popWindowTip!!.setOutside(false)
-                popWindowTip!!.update()
-            }
-        }
     }
 
     private fun initView() {
@@ -162,8 +113,6 @@ class MoreActivity : AppCompatActivity(), View.OnClickListener {
         ll_developing!!.setOnClickListener(this)
         ll_create_backup!!.setOnClickListener(this)
         ll_recovery!!.setOnClickListener(this)
-        mFingerprintIdentify = FingerprintIdentify(this)
-        switch_finger!!.setOnCheckedChangeListener(MyCheckListener())
         ll_course!!.setOnClickListener(this)
         ll_support!!.setOnClickListener(this)
         ll_openource!!.setOnClickListener(this)
@@ -185,11 +134,56 @@ class MoreActivity : AppCompatActivity(), View.OnClickListener {
                 ), BlendModeCompat.SRC_ATOP
             )
 
+        binding.llFinger.setOnClickListener {
+            val isChecked = binding.switchFinger.isChecked
+            if (!isChecked) { //从关到开
+                if (!mFingerprintIdentify.isHardwareEnable) {
+                    Toasty.info(this@MoreActivity, "您的设备不支持指纹识别，无法使用此功能").show()
+                } else if (!mFingerprintIdentify.isRegisteredFingerprint) {
+                    Toasty.info(this@MoreActivity, "请在您的设备中录入指纹后再使用此功能").show()
+                } else {
+                    Toasty.success(this@MoreActivity, "指纹解锁已启用", Toast.LENGTH_SHORT, false)
+                        .show()
+                    SPUtils.put(this@MoreActivity, "finger_state", true)
+                    binding.switchFinger.isChecked = true
+                }
+            } else { //从开到关
+                popWindowTip = object : PopWindowTip(this@MoreActivity) {
+                    override fun clickCancel() {
+                        switch_finger!!.isChecked = true
+                    }
+
+                    override fun dismissTodo() {
+                        if (SPUtils.get(this@MoreActivity, "finger_state", false) as Boolean) {
+                            switch_finger!!.isChecked = true
+                        }
+                    }
+
+                    override fun clickConfirm() {
+                        if (SPUtils.get(this@MoreActivity, "finger_state", false) as Boolean) {
+                            Toasty.success(
+                                this@MoreActivity,
+                                "指纹解锁已关闭",
+                                Toast.LENGTH_SHORT,
+                                false
+                            ).show()
+                            SPUtils.put(this@MoreActivity, "finger_state", false)
+                            switch_finger!!.isChecked = false;
+                        }
+                    }
+                }
+                popWindowTip!!.setTitleAndContent("指纹解锁", "确定关闭指纹解锁功能？")
+                popWindowTip!!.setOutside(false)
+                popWindowTip!!.update()
+            }
+        }
+
+
     }
 
     private fun initFBI() {
         toolbar = findViewById(R.id.toolbar)
-        switch_finger = findViewById(R.id.switch_finger)
+        switch_finger = binding.switchFinger
         ll_settingpassword = findViewById(R.id.ll_settingpassword)
         tv_set_pwd = findViewById(R.id.tv_set_pwd)
         btnShare = findViewById(R.id.btnShare)

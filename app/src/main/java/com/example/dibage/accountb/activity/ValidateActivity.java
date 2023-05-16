@@ -54,6 +54,7 @@ public class ValidateActivity extends AppCompatActivity implements View.OnClickL
         if (finger_state && is_setting_pwd) {
             tv_tip.setText("请验证指纹或输入密码");
             mFingerprintIdentify = new FingerprintIdentify(this);                // 构造对象
+            mFingerprintIdentify.init();
             mFingerprintIdentify.startIdentify(3, new mFingerprintIdentifyListener());// 开始验证指纹识别
         } else if ((!finger_state) && is_setting_pwd) {
             tv_tip.setText("请输入密码解锁");
