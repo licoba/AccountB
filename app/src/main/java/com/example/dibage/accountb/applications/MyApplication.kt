@@ -9,6 +9,7 @@ import com.example.dibage.accountb.dao.DaoSession
 import com.kongzue.dialogx.DialogX
 import com.kongzue.dialogx.dialogs.MessageDialog
 import com.tencent.mmkv.MMKV
+import es.dmoral.toasty.Toasty
 import skin.support.SkinCompatManager
 import skin.support.app.SkinAppCompatViewInflater
 import skin.support.app.SkinCardViewInflater
@@ -46,6 +47,10 @@ class MyApplication : Application() {
 //            .addInflater(SkinCardViewInflater()) // CardView v7 控件换肤初始化[可选]
 //            .setSkinWindowBackgroundEnable(false) // 关闭windowBackground换肤，默认打开[可选]
 //            .loadSkin()
+
+        Toasty.Config.getInstance()
+            .allowQueue(false)
+            .apply()
     }
 
 

@@ -61,7 +61,6 @@ class MainActivity : BaseActivity() {
     private var listView: ListView? = null
     private var toolbar: Toolbar? = null
     private var mPopWindow: PopupWindow? = null
-    private val mPopTip: PopupWindow? = null
     private var llEmpty: LinearLayout? = null
     var accountsList: MutableList<Account> = mutableListOf()
     lateinit var qb: QueryBuilder<Account>
@@ -205,7 +204,8 @@ class MainActivity : BaseActivity() {
     inner class myItemClickListener : AdapterView.OnItemClickListener {
         override fun onItemClick(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
             val account = adapterView.getItemAtPosition(i) as Account
-            PopAccountDetail(this@MainActivity,account).showPopupWindow()
+            PopAccountDetail(this@MainActivity, account)
+                .showPopupWindow()
         }
     }
 
@@ -355,8 +355,7 @@ class MainActivity : BaseActivity() {
     }
 
 
-
-   //    @Override
+    //    @Override
     //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     //        super.onActivityResult(requestCode, resultCode, data);
     //        if (resultCode == RESULT_OK) {

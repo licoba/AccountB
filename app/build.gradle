@@ -52,7 +52,7 @@ dependencies {
     //自定义FAB控件
     implementation 'com.github.clans:fab:1.6.4'
     //自定义Toast控件
-    implementation 'com.github.hss01248:Toasty:2.0.4'
+    implementation 'com.github.GrenderG:Toasty:1.5.2'
     //数据库框架GreenDao
     implementation 'org.greenrobot:greendao:3.3.0'
     // add library

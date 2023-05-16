@@ -2,14 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="40dp"
-        android:background="@drawable/popwindow_normal"
+        android:background="@drawable/popwindow_bottom"
         android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -19,137 +19,179 @@
             android:id="@+id/tv_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="14dp"
+            android:paddingBottom="12dp"
             android:text="名称"
             android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/touch_layout"
             android:clickable="true"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:paddingVertical="5dp">
+            android:focusable="true"
+            android:paddingVertical="4dp"
+            android:foreground="?attr/selectableItemBackground">
 
-            <TextView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="账号："
-                android:textColor="#8C8C8C"
-                android:textSize="18dp" />
+                android:layout_marginHorizontal="16dp"
+                android:clickable="true"
+                android:gravity="left"
+                android:orientation="vertical"
+                android:paddingVertical="4dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
 
-            <TextView
-                android:id="@+id/tv_username"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="1"
-                android:textColor="#262626"
-                android:textSize="18dp" />
+                    android:text="账号"
+                    android:textColor="#8C8C8C"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="1"
+                    android:textColor="#262626"
+                    android:textSize="18dp" />
+
+            </LinearLayout>
 
             <ImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:layout_marginTop="3dp"
-                android:layout_weight="0.5"
-                android:src="@mipmap/copy" />
+                android:layout_marginRight="16dp"
+                android:src="@mipmap/copy"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </LinearLayout>
+            </ImageView>
 
-        <LinearLayout
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/touch_layout"
             android:clickable="true"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:paddingVertical="5dp">
+            android:focusable="true"
+            android:paddingVertical="4dp"
 
-            <TextView
-                android:layout_width="0dp"
+            android:foreground="?attr/selectableItemBackground">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="密码："
-                android:textColor="#8C8C8C"
-                android:textSize="18dp" />
+                android:layout_marginHorizontal="16dp"
+                android:clickable="true"
+                android:gravity="left"
+                android:orientation="vertical"
+                android:paddingVertical="4dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="密码"
+                    android:textColor="#8C8C8C"
+                    android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/tv_password"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="1"
-                android:textColor="#262626"
-                android:textSize="18dp" />
+                <TextView
+                    android:id="@+id/tv_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="1"
+                    android:textColor="#262626"
+                    android:textSize="18dp" />
+
+            </LinearLayout>
 
             <ImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:layout_marginTop="3dp"
-                android:layout_weight="0.5"
-                android:src="@mipmap/copy" />
+                android:layout_marginRight="16dp"
+                android:src="@mipmap/copy"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </LinearLayout>
+            </ImageView>
 
-        <LinearLayout
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/touch_layout"
             android:clickable="true"
-            android:gravity="center_horizontal"
+            android:paddingVertical="4dp"
 
-            android:orientation="horizontal"
-            android:paddingVertical="5dp">
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground">
 
-            <TextView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="备注："
-                android:textColor="#8C8C8C"
-                android:textSize="18dp" />
+                android:layout_marginHorizontal="16dp"
+                android:clickable="true"
+                android:gravity="left"
+                android:orientation="vertical"
+                android:paddingVertical="4dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="备注"
+                    android:textColor="#8C8C8C"
+                    android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/tv_remarks"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="1"
-                android:textColor="#262626"
-                android:textSize="18dp" />
+                <TextView
+                    android:id="@+id/tv_remarks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="1"
+                    android:textColor="#262626"
+                    android:textSize="18dp" />
+
+            </LinearLayout>
 
             <ImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:layout_marginTop="3dp"
-                android:layout_weight="0.5" />
+                android:layout_marginRight="16dp"
+                android:src="@mipmap/copy"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </LinearLayout>
+            </ImageView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <View android:layout_height="16dp"  android:layout_width="match_parent" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
